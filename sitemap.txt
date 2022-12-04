@@ -1,5 +1,5 @@
-https://github.com/ProgrammerCharlie/link/index.html
-https://github.com/ProgrammerCharlie/categories/index.html
-https://github.com/ProgrammerCharlie/tags/index.html
-https://github.com/ProgrammerCharlie/2022/12/04/hello-world/
-https://github.com/ProgrammerCharlie
+https://programmercharlie.github.io/link/index.html
+https://programmercharlie.github.io/categories/index.html
+https://programmercharlie.github.io/tags/index.html
+https://programmercharlie.github.io/2022/12/04/hello-world/
+https://programmercharlie.github.io/

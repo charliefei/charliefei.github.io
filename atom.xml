@@ -3,11 +3,11 @@
   <title>Coder CharlieFei</title>
   <icon>https://www.gravatar.com/avatar/4ea5976933a4b1f32353c06539a13a96</icon>
   <subtitle>Here is the blog of CharlieFei</subtitle>
-  <link href="https://github.com/ProgrammerCharlie/atom.xml" rel="self"/>
+  <link href="https://programmercharlie.github.io/atom.xml" rel="self"/>
   
-  <link href="https://github.com/ProgrammerCharlie/"/>
+  <link href="https://programmercharlie.github.io/"/>
   <updated>2022-12-04T07:12:15.867Z</updated>
-  <id>https://github.com/ProgrammerCharlie/</id>
+  <id>https://programmercharlie.github.io/</id>
   
   <author>
     <name>Charlie Fei</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://github.com/ProgrammerCharlie/2022/12/04/hello-world/"/>
-    <id>https://github.com/ProgrammerCharlie/2022/12/04/hello-world/</id>
+    <link href="https://programmercharlie.github.io/2022/12/04/hello-world/"/>
+    <id>https://programmercharlie.github.io/2022/12/04/hello-world/</id>
     <published>2022-12-04T07:29:39.111Z</published>
     <updated>2022-12-04T07:12:15.867Z</updated>
     
