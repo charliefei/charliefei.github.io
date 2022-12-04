@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Coder CharlieFei</title>
+  <icon>https://www.gravatar.com/avatar/4ea5976933a4b1f32353c06539a13a96</icon>
+  <subtitle>Here is the blog of CharlieFei</subtitle>
+  <link href="https://github.com/ProgrammerCharlie/atom.xml" rel="self"/>
   
-  
-  <link href="http://example.com/atom.xml" rel="self"/>
-  
-  <link href="http://example.com/"/>
+  <link href="https://github.com/ProgrammerCharlie/"/>
   <updated>2022-12-04T07:12:15.867Z</updated>
-  <id>http://example.com/</id>
+  <id>https://github.com/ProgrammerCharlie/</id>
   
   <author>
-    <name>John Doe</name>
-    
+    <name>Charlie Fei</name>
+    <email>charliefei@outlook.com</email>
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
     <title>Hello World</title>
-    <link href="http://example.com/2022/12/04/hello-world/"/>
-    <id>http://example.com/2022/12/04/hello-world/</id>
+    <link href="https://github.com/ProgrammerCharlie/2022/12/04/hello-world/"/>
+    <id>https://github.com/ProgrammerCharlie/2022/12/04/hello-world/</id>
     <published>2022-12-04T07:29:39.111Z</published>
     <updated>2022-12-04T07:12:15.867Z</updated>
     

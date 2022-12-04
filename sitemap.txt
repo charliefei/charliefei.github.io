@@ -1,2 +1,5 @@
-http://example.com/2022/12/04/hello-world/
-http://example.com/
+https://github.com/ProgrammerCharlie/link/index.html
+https://github.com/ProgrammerCharlie/categories/index.html
+https://github.com/ProgrammerCharlie/tags/index.html
+https://github.com/ProgrammerCharlie/2022/12/04/hello-world/
+https://github.com/ProgrammerCharlie
