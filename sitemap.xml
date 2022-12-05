@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://programmercharlie.github.io/link/index.html</loc>
+    <loc>https://programmercharlie.github.io/categories/index.html</loc>
     
     <lastmod>2022-12-05</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/categories/index.html</loc>
+    <loc>https://programmercharlie.github.io/link/index.html</loc>
     
     <lastmod>2022-12-05</lastmod>
     
@@ -56,14 +56,14 @@
 
   
   <url>
-    <loc>https://programmercharlie.github.io/tags/NodeJS/</loc>
+    <loc>https://programmercharlie.github.io/tags/Linux/</loc>
     <lastmod>2022-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/tags/Linux/</loc>
+    <loc>https://programmercharlie.github.io/tags/NodeJS/</loc>
     <lastmod>2022-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -72,14 +72,14 @@
 
   
   <url>
-    <loc>https://programmercharlie.github.io/categories/Frontend-Develop/</loc>
+    <loc>https://programmercharlie.github.io/categories/Server/</loc>
     <lastmod>2022-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/categories/Server/</loc>
+    <loc>https://programmercharlie.github.io/categories/Frontend-Develop/</loc>
     <lastmod>2022-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
