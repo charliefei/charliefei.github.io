@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>CharlieFei&#39;s Blog ~ ❥(^_-)</title>
+  <title>🚀 Charlie Fei&#39;s Blog ~ ❥(^_-)</title>
   
-  
+  <subtitle>🚀 Charlie Fei</subtitle>
   <link href="https://programmercharlie.github.io/atom.xml" rel="self"/>
   
   <link href="https://programmercharlie.github.io/"/>
@@ -30,7 +30,7 @@
     
     
     
-    <category term="Frontend Develop" scheme="https://programmercharlie.github.io/categories/Frontend-Develop/"/>
+    <category term="前端开发" scheme="https://programmercharlie.github.io/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
     
     
     <category term="NodeJS" scheme="https://programmercharlie.github.io/tags/NodeJS/"/>
@@ -51,7 +51,7 @@
     
     
     
-    <category term="Server" scheme="https://programmercharlie.github.io/categories/Server/"/>
+    <category term="操作系统" scheme="https://programmercharlie.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
     
     <category term="Linux" scheme="https://programmercharlie.github.io/tags/Linux/"/>
