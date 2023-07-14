@@ -4,7 +4,7 @@ https://programmercharlie.github.io/categories/index.html
 https://programmercharlie.github.io/2022/12/05/Nodejs/
 https://programmercharlie.github.io/2022/12/05/oh-my-zsh/
 https://programmercharlie.github.io/
-https://programmercharlie.github.io/tags/NodeJS/
 https://programmercharlie.github.io/tags/Mac-Terminal-Zsh/
-https://programmercharlie.github.io/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/
+https://programmercharlie.github.io/tags/NodeJS/
 https://programmercharlie.github.io/categories/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6/
+https://programmercharlie.github.io/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/
