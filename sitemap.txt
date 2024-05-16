@@ -1,10 +1,11 @@
+https://programmercharlie.github.io/2024/05/16/mysql-index/
 https://programmercharlie.github.io/link/index.html
-https://programmercharlie.github.io/tags/index.html
 https://programmercharlie.github.io/categories/index.html
+https://programmercharlie.github.io/tags/index.html
 https://programmercharlie.github.io/2022/12/05/mysql-linux/
 https://programmercharlie.github.io/2022/12/05/oh-my-zsh/
 https://programmercharlie.github.io/
 https://programmercharlie.github.io/tags/mysql/
-https://programmercharlie.github.io/tags/Mac-Terminal-Zsh/
-https://programmercharlie.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%9C%8D%E5%8A%A1%E5%99%A8/
+https://programmercharlie.github.io/tags/oh-my-zsh/
+https://programmercharlie.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/
 https://programmercharlie.github.io/categories/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6/
