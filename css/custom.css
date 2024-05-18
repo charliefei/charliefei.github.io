@@ -1,21 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
 
-.layout_post>#post {
-    background-color: rgba(255, 255, 255, .5);
-}
-
-#aside-content .card-widget #recent-posts>.recent-post-item,.layout_page>div:first-child:not(.recent-posts),.layout_post>#page,.layout_post>#post,.read-mode .layout_post>#post{
-    background-color: rgba(255, 255, 255, .5);
-}
-
-:root{
-    --card-bg: rgba(255,255,255,.5);
-}
-
-#footer {
-    background-color: rgba(255,255,255,.5);
-}
-
-figure.highlight table {
-    font-family: 'JetBrains Mono', monospace !important;
+#article-container figure.highlight table pre {
+  font-family: "JetBrains Mono", monospace !important;
 }
