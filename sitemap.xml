@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://programmercharlie.github.io/2024/05/16/mysql-index/</loc>
+    <loc>https://charliefei.github.io/2024/05/16/mysql-index/</loc>
     
     <lastmod>2024-05-16</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/link/index.html</loc>
+    <loc>https://charliefei.github.io/link/index.html</loc>
     
     <lastmod>2023-07-11</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/categories/index.html</loc>
+    <loc>https://charliefei.github.io/categories/index.html</loc>
     
     <lastmod>2023-07-11</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/tags/index.html</loc>
+    <loc>https://charliefei.github.io/tags/index.html</loc>
     
     <lastmod>2023-07-11</lastmod>
     
@@ -38,7 +38,7 @@
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/2022/12/05/mysql-linux/</loc>
+    <loc>https://charliefei.github.io/2022/12/05/mysql-linux/</loc>
     
     <lastmod>2022-12-05</lastmod>
     
@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/2022/12/05/oh-my-zsh/</loc>
+    <loc>https://charliefei.github.io/2022/12/05/oh-my-zsh/</loc>
     
     <lastmod>2022-12-04</lastmod>
     
@@ -57,23 +57,23 @@
   
 
   <url>
-    <loc>https://programmercharlie.github.io/</loc>
-    <lastmod>2024-05-16</lastmod>
+    <loc>https://charliefei.github.io/</loc>
+    <lastmod>2024-05-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://programmercharlie.github.io/tags/mysql/</loc>
-    <lastmod>2024-05-16</lastmod>
+    <loc>https://charliefei.github.io/tags/mysql/</loc>
+    <lastmod>2024-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/tags/oh-my-zsh/</loc>
-    <lastmod>2024-05-16</lastmod>
+    <loc>https://charliefei.github.io/tags/oh-my-zsh/</loc>
+    <lastmod>2024-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -81,15 +81,15 @@
 
   
   <url>
-    <loc>https://programmercharlie.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2024-05-16</lastmod>
+    <loc>https://charliefei.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <lastmod>2024-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://programmercharlie.github.io/categories/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6/</loc>
-    <lastmod>2024-05-16</lastmod>
+    <loc>https://charliefei.github.io/categories/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6/</loc>
+    <lastmod>2024-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
