@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://charliefei.github.io/2024/10/28/from-7-to-old/</loc>
+    
+    <lastmod>2024-10-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://charliefei.github.io/2024/05/16/mysql-index/</loc>
     
     <lastmod>2024-05-16</lastmod>
@@ -58,22 +67,29 @@
 
   <url>
     <loc>https://charliefei.github.io/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-10-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
+    <loc>https://charliefei.github.io/tags/essay/</loc>
+    <lastmod>2024-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://charliefei.github.io/tags/mysql/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://charliefei.github.io/tags/oh-my-zsh/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -81,15 +97,22 @@
 
   
   <url>
+    <loc>https://charliefei.github.io/categories/%E9%9A%8F%E7%AC%94/</loc>
+    <lastmod>2024-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://charliefei.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://charliefei.github.io/categories/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6/</loc>
-    <lastmod>2024-05-18</lastmod>
+    <lastmod>2024-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

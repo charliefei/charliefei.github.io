@@ -1,3 +1,4 @@
+https://charliefei.github.io/2024/10/28/from-7-to-old/
 https://charliefei.github.io/2024/05/16/mysql-index/
 https://charliefei.github.io/link/index.html
 https://charliefei.github.io/categories/index.html
@@ -5,7 +6,9 @@ https://charliefei.github.io/tags/index.html
 https://charliefei.github.io/2022/12/05/mysql-linux/
 https://charliefei.github.io/2022/12/05/oh-my-zsh/
 https://charliefei.github.io/
+https://charliefei.github.io/tags/essay/
 https://charliefei.github.io/tags/mysql/
 https://charliefei.github.io/tags/oh-my-zsh/
+https://charliefei.github.io/categories/%E9%9A%8F%E7%AC%94/
 https://charliefei.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/
 https://charliefei.github.io/categories/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6/
