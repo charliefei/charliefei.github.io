@@ -1,0 +1,345 @@
+1:"$Sreact.fragment"
+3:I[60380,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/0gb5w2ednu-sk.js","/_next/static/chunks/0c7rf5it7~8a~.js","/_next/static/chunks/00.-_10l3y85z.js"],"BlogContent"]
+12:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"OutletBoundary"]
+13:"$Sreact.suspense"
+:HL["/_next/static/chunks/003uh0yflnc6i.css","style"]
+2:T687,[{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://charliefei.github.io/en/blog/spec-coding/#article","headline":"Spec Coding (SDD — Spec-Driven Development)","description":"A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.","mainEntityOfPage":{"@type":"WebPage","@id":"https://charliefei.github.io/en/blog/spec-coding/"},"image":["https://charliefei.github.io/images/posts/spec-coding-cover.png"],"datePublished":"2026-04-26T00:00:00.000Z","dateModified":"2026-04-26T00:00:00.000Z","author":{"@id":"https://charliefei.github.io/#person"},"publisher":{"@type":"Person","@id":"https://charliefei.github.io/#person","name":"Charlie Fei","url":"https://charliefei.github.io/","image":"https://charliefei.github.io/images/avatar.png","jobTitle":"Full Stack Developer","address":{"@type":"PostalAddress","addressLocality":"Nanjing, China"},"email":"charliefei839@qq.com","sameAs":["https://github.com/charliefei","https://x.com/charliefei_","https://www.youtube.com/@charliefei839","https://space.bilibili.com/352442220"]},"articleSection":"Tutorials","keywords":"AICoding","url":"https://charliefei.github.io/en/blog/spec-coding/","isPartOf":{"@id":"https://charliefei.github.io/#website"},"inLanguage":"en-US"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://charliefei.github.io/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://charliefei.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Spec Coding (SDD — Spec-Driven Development)","item":"https://charliefei.github.io/en/blog/spec-coding/"}]}]4:T20d2,
+## spec-kit
+
+- [spec-kit Official Repository](https://github.com/github/spec-kit)
+- [SDD — Spec-Driven Development](https://github.com/github/spec-kit/blob/main/spec-driven.md)
+- [spec-kit Detailed Process](https://github.com/github/spec-kit#-detailed-process)
+
+### Quick Start
+
+#### Installing spec-kit
+
+```bash
+# Install a specific stable version (recommended — replace vX.Y.Z with the latest tag)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+
+# Or install the latest from the main branch (may include unreleased changes)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Upgrade spec-kit
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+```
+
+#### Initializing a Project
+
+```bash
+# Create a new project
+specify init <PROJECT_NAME>
+
+# Or initialize in an existing project
+specify init . --ai claude
+
+# Specify AI coding agent and use skills
+specify init . --ai claude --ai-skills
+
+# Or
+specify init --here --ai claude
+
+# Check installed tools
+specify check
+```
+
+#### Setting Project Constitution
+
+Launch the AI assistant in your project directory. Most agents expose spec-kit as `/speckit.*` slash commands; Codex CLI uses `$speckit-*` in skill mode.
+
+Use the `/speckit.constitution` command to create project governance principles and development guidelines:
+
+```bash
+/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+```
+
+#### Creating Specifications
+
+Use the `/speckit.specify` command to describe what you want to build. Focus on **the "what" and "why"**, not the tech stack.
+
+```bash
+/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+```
+
+#### Creating a Technical Implementation Plan
+
+Use the `/speckit.plan` command to provide tech stack and architectural choices:
+
+```bash
+/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+```
+
+#### Breaking Down Tasks
+
+Use `/speckit.tasks` to generate an actionable task list based on the implementation plan:
+
+```bash
+/speckit.tasks
+```
+
+#### Executing Tasks
+
+Use `/speckit.implement` to execute all tasks and build your feature according to the plan:
+
+```bash
+/speckit.implement
+```
+
+### Slash Command Reference
+
+**Core Commands**
+
+| Command | Agent Skill | Description |
+| --- | --- | --- |
+| `/speckit.constitution` | speckit-constitution | Create or update project governance principles and development guidelines |
+| `/speckit.specify` | speckit-specify | Define build goals (requirements and user stories) |
+| `/speckit.plan` | speckit-plan | Create implementation plan based on selected tech stack |
+| `/speckit.tasks` | speckit-tasks | Generate an actionable task list |
+| `/speckit.taskstoissues` | speckit-taskstoissues | Convert task list to GitHub Issues for tracking and execution |
+| `/speckit.implement` | speckit-implement | Execute all tasks per the plan to build the feature |
+
+**Optional Commands**
+
+| Command | Agent Skill | Description |
+| --- | --- | --- |
+| `/speckit.clarify` | speckit-clarify | Clarify ambiguous requirements (recommended before `/speckit.plan`, formerly `/quizme`) |
+| `/speckit.analyze` | speckit-analyze | Cross-artifact completeness and coverage analysis (run after `/speckit.tasks`, before `/speckit.implement`) |
+| `/speckit.checklist` | speckit-checklist | Generate custom quality checklists to verify requirements completeness, clarity, and consistency |
+
+### spec-kit Command Reference
+
+```bash
+# Basic project initialization
+specify init my-project
+
+# Specify AI assistant
+specify init my-project --ai claude
+
+# Initialize with Cursor support
+specify init my-project --ai cursor-agent
+
+# Initialize with Qoder support
+specify init my-project --ai qodercli
+
+# Initialize with Windsurf support
+specify init my-project --ai windsurf
+
+# Initialize with Kiro CLI support
+specify init my-project --ai kiro-cli
+
+# Initialize with Amp support
+specify init my-project --ai amp
+
+# Initialize with SHAI support
+specify init my-project --ai shai
+
+# Initialize with Mistral Vibe support
+specify init my-project --ai vibe
+
+# Initialize with IBM Bob support
+specify init my-project --ai bob
+
+# Initialize with Pi Coding Agent support
+specify init my-project --ai pi
+
+# Initialize with Codex CLI support
+specify init my-project --ai codex --ai-skills
+
+# Initialize with Antigravity support
+specify init my-project --ai agy --ai-skills
+
+# Initialize with Forge support
+specify init my-project --ai forge
+
+# Initialize with generic support for unsupported agents
+specify init my-project --ai generic --ai-commands-dir .myagent/commands/
+
+# Initialize with PowerShell script support (Windows/cross-platform)
+specify init my-project --ai copilot --script ps
+
+# Initialize in current directory
+specify init . --ai copilot
+# Or use the --here flag
+specify init --here --ai copilot
+
+# Force merge into current (non-empty) directory without confirmation
+specify init . --force --ai copilot
+# Or
+specify init --here --force --ai copilot
+
+# Skip Git initialization
+specify init my-project --ai gemini --no-git
+
+# Enable debug output
+specify init my-project --ai claude --debug
+
+# Use GitHub Token for API requests (suitable for enterprise environments)
+specify init my-project --ai claude --github-token ghp_your_token_here
+
+# By default, Claude Code installs skills in the project
+specify init my-project --ai claude
+
+# Initialize in current directory and use agent skills
+specify init --here --ai gemini --ai-skills
+
+# Use timestamp branch numbering (suitable for distributed teams)
+specify init my-project --ai claude --branch-numbering timestamp
+
+# Check system requirements
+specify check
+```
+
+### Extensions & Presets
+
+```plain
+.specify/templates/overrides/         # Local project overrides (highest priority), for one-time adjustments without creating a full preset
+.specify/presets/templates/           # Custom extensions and core templates
+.specify/extensions/templates/        # Enhance spec-kit capabilities
+.specify/templates/                   # spec-kit's core built-in templates
+```
+
+#### Extensions
+
+Use extensions when you need functionality beyond spec-kit's core. Extensions introduce new commands and templates — for example, adding domain-specific workflows not covered by built-in SDD commands, integrating external tools, or adding entirely new development phases. They extend spec-kit's capabilities.
+
+For example, extensions can add Jira integration, post-implementation code review, V-Model test traceability, or project health diagnostics.
+
+[Community Extensions](https://github.com/github/spec-kit#-community-extensions)
+
+```bash
+specify extension search
+
+# Install an extension
+specify extension add <extension-name>
+```
+
+#### Presets
+
+Use presets when you need to **change how spec-kit works without adding new features**. Presets override templates and commands from the core and installed extensions — for example, enforcing compliance-oriented spec formats, adopting domain-specific terminology, or applying organizational standards to plans and tasks. They customize the artifacts and instructions generated by spec-kit and its extensions.
+
+For instance, presets can restructure spec templates to require regulatory traceability, adapt workflows to fit adopted methodologies (such as Agile, Kanban, Waterfall, Jobs-to-be-Done, or Domain-Driven Design), add security review gates to plans, enforce test-first task ordering, or localize the entire workflow into different languages. The [pirate-speak demo](https://github.com/mnriem/spec-kit-pirate-speak-preset-demo) demonstrates the depth of customization. Multiple presets can be stacked in priority order.
+
+- [Community Presets](https://github.com/github/spec-kit?tab=readme-ov-file#-community-presets)
+- [Preset Documentation](https://github.com/github/spec-kit/blob/main/presets/README.md)
+
+```bash
+specify preset search
+
+# Install a preset
+specify preset add <preset-name>
+```
+
+## open-spec
+
+Coming soon…
+5:T92d,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Install a specific stable version (recommended — replace vX.Y.Z with the latest tag)</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git@vX.Y.Z</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Or install the latest from the main branch (may include unreleased changes)</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Upgrade spec-kit</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git@vX.Y.Z</span></span></code>6:Tb68,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Create a new project</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">PROJECT_NAM</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">E</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Or initialize in an existing project</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Specify AI coding agent and use skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Or</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Check installed tools</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> check</span></span></code>7:T4c7,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.constitution</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Create</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> principles</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> focused</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> code</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> quality,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> testing</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> standards,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> user</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> experience</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> consistency,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> performance</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> requirements</span></span></code>8:Tde6,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Build</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> an</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> application</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> that</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> can</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> help</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> me</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> organize</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photos</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> separate</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photo</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> albums.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Albums</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> grouped</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> by</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> date</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> can</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> be</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> re-organized</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> by</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> dragging</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> dropping</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> the</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> main</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> page.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Albums</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> never</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> other</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> nested</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> albums.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Within</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> each</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> album,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photos</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> previewed</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tile-like</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> interface.</span></span></code>9:T9d2,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.plan</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> The</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> application</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> uses</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Vite</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> with</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> minimal</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> number</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> of</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> libraries.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Use</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> vanilla</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> HTML,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> CSS,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> JavaScript</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> as</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> much</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> as</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> possible.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Images</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> not</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> uploaded</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> anywhere</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> metadata</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> is</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> stored</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> local</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> SQLite</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> database.</span></span></code>a:T42a0,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Basic project initialization</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Specify AI assistant</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Cursor support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> cursor-agent</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Qoder support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> qodercli</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Windsurf support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> windsurf</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Kiro CLI support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> kiro-cli</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Amp support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> amp</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with SHAI support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> shai</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Mistral Vibe support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> vibe</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with IBM Bob support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> bob</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Pi Coding Agent support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> pi</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Codex CLI support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> codex</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Antigravity support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> agy</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with Forge support</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> forge</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with generic support for unsupported agents</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> generic</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-commands-dir</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .myagent/commands/</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize with PowerShell script support (Windows/cross-platform)</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --script</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ps</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize in current directory</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Or use the --here flag</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Force merge into current (non-empty) directory without confirmation</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Or</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Skip Git initialization</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> gemini</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --no-git</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Enable debug output</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --debug</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Use GitHub Token for API requests (suitable for enterprise environments)</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --github-token</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ghp_your_token_here</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># By default, Claude Code installs skills in the project</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Initialize in current directory and use agent skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> gemini</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Use timestamp branch numbering (suitable for distributed teams)</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --branch-numbering</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> timestamp</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Check system requirements</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> check</span></span></code>b:T425,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extension</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> search</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Install an extension</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extension</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">extension-nam</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">e</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span></code>c:T418,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> preset</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> search</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Install a preset</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> preset</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">preset-nam</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">e</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span></code>0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{"post":{"title":"Spec Coding (SDD — Spec-Driven Development)","description":"A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.","coverImage":"/images/posts/spec-coding-cover.png","date":"$D2026-04-26T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"spec-coding","published":true,"content":"$4","readingTime":6},"relatedPosts":[{"title":"Ralph Loop","description":"Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.","date":"$D2026-04-28T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"ralph","published":true,"readingTime":5},{"title":"Superpowers","description":"A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.","date":"$D2026-04-27T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"superpowers","published":true,"readingTime":9},{"title":"Next.js 15: A Complete Guide","description":"A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.","coverImage":"/images/posts/nextjs-guide.jpg","date":"$D2026-04-05T00:00:00.000Z","tags":["Next.js","React","Web Development"],"category":"Tutorials","author":"Charlie Fei","slug":"nextjs-15-guide","published":true,"readingTime":7}],"locale":"en","highlightedCode":{"# Install a specific stable version (recommended — replace vX.Y.Z with the latest tag)\nuv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z\n\n# Or install the latest from the main branch (may include unreleased changes)\nuv tool install specify-cli --from git+https://github.com/github/spec-kit.git\n\n# Upgrade spec-kit\nuv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z":"$5","# Create a new project\nspecify init <PROJECT_NAME>\n\n# Or initialize in an existing project\nspecify init . --ai claude\n\n# Specify AI coding agent and use skills\nspecify init . --ai claude --ai-skills\n\n# Or\nspecify init --here --ai claude\n\n# Check installed tools\nspecify check":"$6","/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements":"$7","/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.":"$8","/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.":"$9","/speckit.tasks":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/speckit.tasks</span></span></code>","/speckit.implement":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/speckit.implement</span></span></code>","# Basic project initialization\nspecify init my-project\n\n# Specify AI assistant\nspecify init my-project --ai claude\n\n# Initialize with Cursor support\nspecify init my-project --ai cursor-agent\n\n# Initialize with Qoder support\nspecify init my-project --ai qodercli\n\n# Initialize with Windsurf support\nspecify init my-project --ai windsurf\n\n# Initialize with Kiro CLI support\nspecify init my-project --ai kiro-cli\n\n# Initialize with Amp support\nspecify init my-project --ai amp\n\n# Initialize with SHAI support\nspecify init my-project --ai shai\n\n# Initialize with Mistral Vibe support\nspecify init my-project --ai vibe\n\n# Initialize with IBM Bob support\nspecify init my-project --ai bob\n\n# Initialize with Pi Coding Agent support\nspecify init my-project --ai pi\n\n# Initialize with Codex CLI support\nspecify init my-project --ai codex --ai-skills\n\n# Initialize with Antigravity support\nspecify init my-project --ai agy --ai-skills\n\n# Initialize with Forge support\nspecify init my-project --ai forge\n\n# Initialize with generic support for unsupported agents\nspecify init my-project --ai generic --ai-commands-dir .myagent/commands/\n\n# Initialize with PowerShell script support (Windows/cross-platform)\nspecify init my-project --ai copilot --script ps\n\n# Initialize in current directory\nspecify init . --ai copilot\n# Or use the --here flag\nspecify init --here --ai copilot\n\n# Force merge into current (non-empty) directory without confirmation\nspecify init . --force --ai copilot\n# Or\nspecify init --here --force --ai copilot\n\n# Skip Git initialization\nspecify init my-project --ai gemini --no-git\n\n# Enable debug output\nspecify init my-project --ai claude --debug\n\n# Use GitHub Token for API requests (suitable for enterprise environments)\nspecify init my-project --ai claude --github-token ghp_your_token_here\n\n# By default, Claude Code installs skills in the project\nspecify init my-project --ai claude\n\n# Initialize in current directory and use agent skills\nspecify init --here --ai gemini --ai-skills\n\n# Use timestamp branch numbering (suitable for distributed teams)\nspecify init my-project --ai claude --branch-numbering timestamp\n\n# Check system requirements\nspecify check":"$a",".specify/templates/overrides/         # Local project overrides (highest priority), for one-time adjustments without creating a full preset\n.specify/presets/templates/           # Custom extensions and core templates\n.specify/extensions/templates/        # Enhance spec-kit capabilities\n.specify/templates/                   # spec-kit's core built-in templates":"<code data-language=\"plain\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span>.specify/templates/overrides/         # Local project overrides (highest priority), for one-time adjustments without creating a full preset</span></span>\n<span data-line=\"\"><span>.specify/presets/templates/           # Custom extensions and core templates</span></span>\n<span data-line=\"\"><span>.specify/extensions/templates/        # Enhance spec-kit capabilities</span></span>\n<span data-line=\"\"><span>.specify/templates/                   # spec-kit's core built-in templates</span></span></code>","specify extension search\n\n# Install an extension\nspecify extension add <extension-name>":"$b","specify preset search\n\n# Install a preset\nspecify preset add <preset-name>":"$c"},"commentsConfig":{"repo":"charliefei/charliefei.github.io","repoId":"R_kgDOIjbuug","category":"Announcements","categoryId":"DIC_kwDOIjbuus4C-bD3","mapping":"specific","strict":"0","reactionsEnabled":"1","emitMetadata":"0","inputPosition":"bottom","theme":"preferred_color_scheme","lang":"zh-CN","loading":"lazy"}}]],["$Ld","$Le","$Lf","$L10"],"$L11"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"WOboLdh_ZJBULkcYo2eiS"}
+d:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/003uh0yflnc6i.css","precedence":"next"}]
+e:["$","script","script-0",{"src":"/_next/static/chunks/0gb5w2ednu-sk.js","async":true}]
+f:["$","script","script-1",{"src":"/_next/static/chunks/0c7rf5it7~8a~.js","async":true}]
+10:["$","script","script-2",{"src":"/_next/static/chunks/00.-_10l3y85z.js","async":true}]
+11:["$","$L12",null,{"children":["$","$13",null,{"name":"Next.MetadataOutlet","children":"$@14"}]}]
+14:null

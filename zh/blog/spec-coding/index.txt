@@ -1,0 +1,364 @@
+1:"$Sreact.fragment"
+4:I[39756,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"default"]
+5:I[37457,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"default"]
+7:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"OutletBoundary"]
+8:"$Sreact.suspense"
+b:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"ViewportBoundary"]
+d:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"MetadataBoundary"]
+f:I[68027,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"default",1]
+:HL["/_next/static/chunks/066jf0nk75nic.css","style"]
+:HL["/_next/static/chunks/01_1ip3c.ved1.css","style"]
+:HL["/_next/static/media/797e433ab948586e-s.p.08e28id.o-okb.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/chunks/003uh0yflnc6i.css","style"]
+0:{"P":null,"c":["","zh","blog","spec-coding",""],"q":"","i":false,"f":[[["",{"children":[["locale","zh","d",null],{"children":["blog",{"children":[["slug","spec-coding","d",null],{"children":["__PAGE__",{}]}]}]}]},"$undefined","$undefined",16],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/066jf0nk75nic.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/01_1ip3c.ved1.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/01xlw8hd842-c.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0t2xr05rlu96l.js","async":true,"nonce":"$undefined"}]],"$L2"]}],{"children":[["$","$1","c",{"children":[[["$","script","script-0",{"src":"/_next/static/chunks/087rkv3~-ckm2.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0-_swpmipqq3k.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/0ntyttz705s_-.js","async":true,"nonce":"$undefined"}]],"$L3"]}],{"children":[["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L6",[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/003uh0yflnc6i.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/0gb5w2ednu-sk.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/0c7rf5it7~8a~.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/00.-_10l3y85z.js","async":true,"nonce":"$undefined"}]],["$","$L7",null,{"children":["$","$8",null,{"name":"Next.MetadataOutlet","children":"$@9"}]}]]}],{},null,false,null]},null,false,"$@a"]},null,false,"$@a"]},null,false,null]},null,false,null],["$","$1","h",{"children":[null,["$","$Lb",null,{"children":"$Lc"}],["$","div",null,{"hidden":true,"children":["$","$Ld",null,{"children":["$","$8",null,{"name":"Next.Metadata","children":"$Le"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$f",[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/066jf0nk75nic.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/01_1ip3c.ved1.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"h":null,"s":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"WOboLdh_ZJBULkcYo2eiS"}
+10:[]
+a:"$W10"
+2:["$","html",null,{"lang":"en-US","className":"geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__variable h-full antialiased","suppressHydrationWarning":true,"data-scroll-behavior":"smooth","children":["$","body",null,{"className":"min-h-full flex flex-col font-sans","children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}]
+11:I[75696,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js"],"default"]
+3:["$","$L11",null,{"formats":"$undefined","locale":"zh","messages":{"nav":{"home":"首页","blog":"博客","about":"关于","resume":"简历","experience":"经历","toggleMenu":"切换菜单","closeMenu":"关闭菜单","rss":"查看 RSS"},"home":{"hero":{"greeting":"你好，我是","profession":"一名{profession}","openToWork":"正在寻找机会"},"latestPosts":"最新文章","latestPostsSubtitle":"最新发布的技术文章与思考","viewAll":"查看全部","browseMore":"浏览更多文章","skillsHighlight":"我的专长","stats":{"skills":"{count} 技能","experience":"{count} 经历","posts":"{count} 文章"},"noPosts":"暂无文章"},"blog":{"title":"博客","description":"我的思考、教程和经验分享","subtitle":"思考与灵感","readMore":"阅读全文","readingTime":"{time} 分钟阅读","tags":"标签","categories":"分类","searchPlaceholder":"搜索文章...","noPosts":"暂无文章","noPostsHint":"尝试其他关键词或筛选条件","relatedPosts":"相关文章","share":"分享文章","prevPost":"上一篇","nextPost":"下一篇","showFilters":"高级筛选","hideFilters":"隐藏筛选","clearFilters":"清除筛选","clear":"清除","searchLabel":"搜索: {query}","toc":"目录","tocExpandAll":"全部展开","tocCollapseAll":"全部折叠","articleTags":"文章标签","viewMoreCategory":"查看更多 {category} 分类文章","browseAll":"浏览全部","viewGrid":"网格视图","viewList":"列表视图","showingResults":"显示 {total} 篇中的 {count} 篇","featured":"精选","stats":{"articles":"篇","tags":"标签"}},"about":{"title":"关于我","eyebrow":"关于这个博客","bio":"个人简介","social":"联系方式","socialHint":"在这些渠道查看我的代码、写作和动态。","location":"所在地","toolkit":"常用技术","toolkitHint":"快速了解我最常使用的技术栈。","viewExperience":"查看完整经历","detailsEyebrow":"个人档案","detailsTabHint":"给自己随意发挥的文字空间","detailsEmpty":"还没有添加详细介绍。","tabsLabel":"关于页内容分区","markdownLabel":"Markdown","linksTitle":"友链","linksHint":"值得访问的个人站点与博客。","linksTabHint":"我关注的人、博客与站点。","linksCount":"{count} 个链接","linksEmpty":"暂未添加友链。向 content/links 添加数据后会显示在这里。","linksVisit":"访问站点","stats":{"skillsLabel":"技术栈","skillsValue":"{count} 项技能","focusLabel":"方向"}},"resume":{"title":"个人简历","download":"下载 PDF","lastUpdated":"更新于：{date}","openInNewTab":"在新标签页打开","preview":"简历预览","eyebrow":"专业档案","bio":"职业概述","bioHint":"精通现代Web技术的全栈开发工程师","location":"所在地","social":"联系方式","socialHint":"在这些渠道查看我的代码、写作和动态","skillsHighlight":"核心技能","skillsHint":"{count} 项关键技术与工具","experienceHighlight":"经验总结","experienceHint":"{count} 年专业工作经验","viewExperience":"查看完整经历","quickLinks":{"about":"关于我","aboutDesc":"了解更多关于我的背景","experience":"工作经历","experienceDesc":"查看我的工作经历","blog":"博客","blogDesc":"阅读我的文章"},"stats":{"skills":"{count} 技能","experience":"{count} 经历","posts":"{count} 文章"},"empty":{"title":"简历即将上线","description":"PDF 简历暂未上传，欢迎前往经历页面了解详细的工作背景。","viewExperience":"查看经历"}},"experience":{"title":"工作经历","eyebrow":"职业档案","description":"我的工作经历、项目实践和技术栈概览","tabsLabel":"经历内容分区","skills":"专业技能","projects":"项目经历","work":"工作经历","present":"至今","current":"在职","empty":{"work":"暂无工作经历。","workHint":"请在 content/experience/work/ 目录添加 markdown 文件","skills":"暂无技能数据。","skillsHint":"请在 content/experience/skills/ 目录添加 JSON 文件","projects":"暂无项目经历。","projectsHint":"请在 content/experience/projects/ 目录添加 markdown 文件"}},"footer":{"nav":{"blog":"博客","about":"关于","resume":"简历"},"copyright":"© {year} {name}。保留所有权利。","builtWith":"使用 Next.js 和 Tailwind CSS 构建","social":"联系方式"},"theme":{"switch":"切换主题","light":"浅色","dark":"深色","system":"跟随系统"},"lang":{"switch":"切换语言","en":"English","zh":"中文"},"notFound":{"title":"页面未找到","description":"您访问的页面不存在。","backHome":"返回首页"},"lightbox":{"close":"关闭","openImage":"查看图片","zoomIn":"放大","zoomOut":"缩小","previous":"上一张","next":"下一张","download":"下载图片","enterFullscreen":"进入全屏","exitFullscreen":"退出全屏","showCaptions":"显示说明","hideCaptions":"隐藏说明","showThumbnails":"显示缩略图","hideThumbnails":"隐藏缩略图"},"metadata":{"home":{"title":"Charlie Fei","description":"Charlie Fei 的个人博客与作品集，记录全栈开发、AI Coding、项目实践和个人简历信息。"},"blog":{"title":"博客","description":"关于前端开发、AI Coding、设计模式与工程实践的技术文章、教程和思考。"},"about":{"title":"关于 Charlie Fei","description":"了解 Charlie Fei：关注前端工程、AI Coding 和实用软件开发的全栈开发者。"},"resume":{"title":"简历","description":"查看并下载 Charlie Fei 的个人简历，了解全栈开发经历、技能、项目和联系方式。"},"experience":{"title":"经历","description":"浏览 Charlie Fei 的工作经历、精选项目、技术技能和全栈开发背景。"}}},"now":"$undefined","timeZone":"Asia/Shanghai","children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"Person\",\"@id\":\"https://charliefei.github.io/#person\",\"name\":\"Charlie Fei\",\"url\":\"https://charliefei.github.io/\",\"image\":\"https://charliefei.github.io/images/avatar.png\",\"jobTitle\":\"Full Stack Developer\",\"address\":{\"@type\":\"PostalAddress\",\"addressLocality\":\"Nanjing, China\"},\"email\":\"charliefei839@qq.com\",\"sameAs\":[\"https://github.com/charliefei\",\"https://x.com/charliefei_\",\"https://www.youtube.com/@charliefei839\",\"https://space.bilibili.com/352442220\"]},{\"@type\":\"WebSite\",\"@id\":\"https://charliefei.github.io/#website\",\"name\":\"Charlie's Personal Blog\",\"url\":\"https://charliefei.github.io/\",\"inLanguage\":\"zh-CN\",\"publisher\":{\"@id\":\"https://charliefei.github.io/#person\"}}]}"}}],"$L12"]}]
+13:I[10812,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js"],"ThemeProvider"]
+14:I[28231,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js"],"TooltipProvider"]
+15:I[49786,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js"],"Header"]
+16:I[31494,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/116wl6cb92thz.js"],"default"]
+17:I[20770,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js"],"Footer"]
+12:["$","$L13",null,{"attribute":"class","defaultTheme":"system","enableSystem":true,"children":["$","$L14",null,{"children":["$","div",null,{"className":"min-h-screen flex flex-col gradient-bg noise","children":[["$","$L15",null,{}],["$","main",null,{"className":"flex-1","children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","$L16",null,{}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","$L17",null,{"profile":{"personal":{"name":"Charlie Fei","avatar":"/images/avatar.png","logo":"/logo.png","profession":"Full Stack Developer","jobStatus":{"openToWork":true,"availableFor":["full-time","freelance"]},"bio":{"en":"🏔️ Full-Stack Developer, an advocate for AI Coding 🤯 (multi-language programmer) || With a heart that yearns for literature 📚, hoping to always cherish a love for beauty in a life that is plain yet full of unexpected moments ⛺❣️. May I always find my own peaceful haven amid the hustle and bustle of the ordinary 🏡...","zh":"🏔️ 全栈开发工程师，一个AI Coding的拥趸 🤯（多编程语言开发者） || 同时拥有一颗向往文学 📚 的心，希望总能在平淡又时刻充满意外的 life ⛺里，拥有一颗憧憬美的心❣️。希望总能在熙熙攘攘的平凡里，找到属于自己的一心净土 🏡..."},"location":"Nanjing, China","email":"charliefei839@qq.com"},"social":[{"platform":"github","url":"https://github.com/charliefei","username":"charliefei"},{"platform":"twitter","url":"https://x.com/charliefei_"},{"platform":"youtube","url":"https://www.youtube.com/@charliefei839"},{"platform":"bilibili","url":"https://space.bilibili.com/352442220"},{"platform":"email","url":"mailto:charliefei839@qq.com"}],"resume":{"pdfUrl":"","lastUpdated":"2026-04"},"theme":{"primaryColor":"#0e7490","accentColor":"#14b8a6"},"comments":{"giscus":{"repo":"charliefei/charliefei.github.io","repoId":"R_kgDOIjbuug","category":"Announcements","categoryId":"DIC_kwDOIjbuus4C-bD3","mapping":"specific","strict":"0","reactionsEnabled":"1","emitMetadata":"0","inputPosition":"bottom","theme":"preferred_color_scheme","lang":"zh-CN","loading":"lazy"}}}}]]}]}]}]
+c:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+19:I[60380,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/0gb5w2ednu-sk.js","/_next/static/chunks/0c7rf5it7~8a~.js","/_next/static/chunks/00.-_10l3y85z.js"],"BlogContent"]
+18:T693,[{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://charliefei.github.io/zh/blog/spec-coding/#article","headline":"Spec Coding（SDD——规格驱动开发）","description":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。","mainEntityOfPage":{"@type":"WebPage","@id":"https://charliefei.github.io/zh/blog/spec-coding/"},"image":["https://charliefei.github.io/images/posts/spec-coding-cover.png"],"datePublished":"2026-04-26T00:00:00.000Z","dateModified":"2026-04-26T00:00:00.000Z","author":{"@id":"https://charliefei.github.io/#person"},"publisher":{"@type":"Person","@id":"https://charliefei.github.io/#person","name":"Charlie Fei","url":"https://charliefei.github.io/","image":"https://charliefei.github.io/images/avatar.png","jobTitle":"Full Stack Developer","address":{"@type":"PostalAddress","addressLocality":"Nanjing, China"},"email":"charliefei839@qq.com","sameAs":["https://github.com/charliefei","https://x.com/charliefei_","https://www.youtube.com/@charliefei839","https://space.bilibili.com/352442220"]},"articleSection":"教程","keywords":"AICoding","url":"https://charliefei.github.io/zh/blog/spec-coding/","isPartOf":{"@id":"https://charliefei.github.io/#website"},"inLanguage":"zh-CN"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://charliefei.github.io/zh/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://charliefei.github.io/zh/blog/"},{"@type":"ListItem","position":3,"name":"Spec Coding（SDD——规格驱动开发）","item":"https://charliefei.github.io/zh/blog/spec-coding/"}]}]1a:T1eb5,
+## spec-kit
+
+- [spec-kit 官方仓库](https://github.com/github/spec-kit)
+- [SDD——规格驱动开发](https://github.com/github/spec-kit/blob/main/spec-driven.md)
+- [spec-kit 详细流程](https://github.com/github/spec-kit#-detailed-process)
+
+### 快速开始
+
+#### 安装 spec-kit
+
+```bash
+# 安装指定的稳定版本（推荐——将 vX.Y.Z 替换为最新标签）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+
+# 或安装 main 分支的最新版本（可能包含未发布的变更）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# 升级 spec-kit
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+```
+
+#### 初始化项目
+
+```bash
+# 创建新项目
+specify init <PROJECT_NAME>
+
+# 或在现有项目中初始化
+specify init . --ai claude
+
+# 指定 AI 编程代理并使用 skills
+specify init . --ai claude --ai-skills
+
+# 或
+specify init --here --ai claude
+
+# 检查已安装的工具
+specify check
+```
+
+#### 确定项目原则
+
+在项目目录中启动 AI 助手。大多数代理会将 spec-kit 暴露为 `/speckit.*` 斜杠命令；Codex CLI 在技能模式下使用 `$speckit-*`。
+
+使用 `/speckit.constitution` 命令创建项目的管理原则和开发指南，指导后续开发：
+
+```bash
+/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+```
+
+#### 创建规格说明
+
+用 `/speckit.specify` 命令描述你想要构建的内容。关注**「做什么」和「为什么做」**，而不是技术栈。
+
+```bash
+/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+```
+
+#### 制定技术实施计划
+
+用 `/speckit.plan` 命令提供技术栈和架构选择：
+
+```bash
+/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+```
+
+#### 拆解任务
+
+使用 `/speckit.tasks` 根据实施计划生成可执行的任务列表：
+
+```bash
+/speckit.tasks
+```
+
+#### 执行任务
+
+使用 `/speckit.implement` 执行所有任务，按照计划构建你的功能：
+
+```bash
+/speckit.implement
+```
+
+### 斜杠命令速查
+
+**核心命令**
+
+| 命令 | Agent Skill | 说明 |
+| --- | --- | --- |
+| `/speckit.constitution` | speckit-constitution | 创建或更新项目管理原则与开发指南 |
+| `/speckit.specify` | speckit-specify | 定义构建目标（需求与用户故事） |
+| `/speckit.plan` | speckit-plan | 根据选定的技术栈制定实施计划 |
+| `/speckit.tasks` | speckit-tasks | 生成可执行的任务列表 |
+| `/speckit.taskstoissues` | speckit-taskstoissues | 将任务列表转换为 GitHub Issues 进行追踪与执行 |
+| `/speckit.implement` | speckit-implement | 按计划执行所有任务以构建功能 |
+
+**可选命令**
+
+| 命令 | Agent Skill | 说明 |
+| --- | --- | --- |
+| `/speckit.clarify` | speckit-clarify | 澄清未明确的需求领域（建议在 `/speckit.plan` 之前使用，原名 `/quizme`） |
+| `/speckit.analyze` | speckit-analyze | 跨制品的完整性与覆盖度分析（在 `/speckit.tasks` 之后、`/speckit.implement` 之前运行） |
+| `/speckit.checklist` | speckit-checklist | 生成自定义质量检查清单，验证需求的完整性、清晰度与一致性 |
+
+### spec-kit 命令参考
+
+```bash
+# 基础项目初始化
+specify init my-project
+
+# 指定 AI 助手
+specify init my-project --ai claude
+
+# 初始化并支持 Cursor
+specify init my-project --ai cursor-agent
+
+# 初始化并支持 Qoder
+specify init my-project --ai qodercli
+
+# 初始化并支持 Windsurf
+specify init my-project --ai windsurf
+
+# 初始化并支持 Kiro CLI
+specify init my-project --ai kiro-cli
+
+# 初始化并支持 Amp
+specify init my-project --ai amp
+
+# 初始化并支持 SHAI
+specify init my-project --ai shai
+
+# 初始化并支持 Mistral Vibe
+specify init my-project --ai vibe
+
+# 初始化并支持 IBM Bob
+specify init my-project --ai bob
+
+# 初始化并支持 Pi Coding Agent
+specify init my-project --ai pi
+
+# 初始化并支持 Codex CLI
+specify init my-project --ai codex --ai-skills
+
+# 初始化并支持 Antigravity
+specify init my-project --ai agy --ai-skills
+
+# 初始化并支持 Forge
+specify init my-project --ai forge
+
+# 初始化并为不支持的代理提供通用支持
+specify init my-project --ai generic --ai-commands-dir .myagent/commands/
+
+# 初始化并支持 PowerShell 脚本（Windows/跨平台）
+specify init my-project --ai copilot --script ps
+
+# 在当前目录初始化
+specify init . --ai copilot
+# 或使用 --here 标志
+specify init --here --ai copilot
+
+# 强制合并到当前（非空）目录，无需确认
+specify init . --force --ai copilot
+# 或
+specify init --here --force --ai copilot
+
+# 跳过 Git 初始化
+specify init my-project --ai gemini --no-git
+
+# 启用调试输出
+specify init my-project --ai claude --debug
+
+# 使用 GitHub Token 进行 API 请求（适用于企业环境）
+specify init my-project --ai claude --github-token ghp_your_token_here
+
+# 默认情况下，Claude Code 会在项目中安装 skills
+specify init my-project --ai claude
+
+# 在当前目录初始化并使用 agent skills
+specify init --here --ai gemini --ai-skills
+
+# 使用时间戳分支编号（适用于分布式团队）
+specify init my-project --ai claude --branch-numbering timestamp
+
+# 检查系统需求
+specify check
+```
+
+### 扩展与预设
+
+```plain
+.specify/templates/overrides/         # 本地项目覆盖（优先级最高），无需创建完整预设即可一次性调整当前项目
+.specify/presets/templates/           # 自定义扩展和核心模板
+.specify/extensions/templates/        # 增强 spec-kit 的能力
+.specify/templates/                   # spec-kit 的核心内置模板
+```
+
+#### Extensions（扩展）
+
+当需要超越 spec-kit 核心的功能时，使用扩展。扩展会引入新的命令和模板——例如，添加内置 SDD 命令未覆盖的领域特定工作流、集成外部工具，或添加全新的开发阶段。它们扩展了 spec-kit 的能力边界。
+
+例如，扩展可以添加 Jira 集成、实现后的代码审查、V-Model 测试追溯，或项目健康度诊断。
+
+[社区扩展](https://github.com/github/spec-kit#-community-extensions)
+
+```bash
+specify extension search
+
+# 安装扩展
+specify extension add <extension-name>
+```
+
+#### Presets（预设）
+
+当需要**改变 spec-kit 的工作方式但不添加新功能**时，使用预设。预设会覆盖核心及已安装扩展自带的模板和命令——例如，强制使用合规导向的规格格式、采用领域特定术语，或将组织标准应用于计划和任务。它们定制了 spec-kit 及其扩展生成的制品与指令。
+
+举例来说，预设可以重构规格模板以要求监管追溯、调整工作流以适配采用的方法论（如敏捷、看板、瀑布、Job-to-be-Done 或领域驱动设计）、在计划中增加安全审查关卡、强制测试优先的任务排序，或将整个工作流本地化为不同语言。[pirate-speak 演示](https://github.com/mnriem/spec-kit-pirate-speak-preset-demo)展示了自定义的深度。多个预设可以按优先级顺序叠加使用。
+
+- [社区预设](https://github.com/github/spec-kit?tab=readme-ov-file#-community-presets)
+- [预设说明](https://github.com/github/spec-kit/blob/main/presets/README.md)
+
+```bash
+specify preset search
+
+# 安装预设
+specify preset add <preset-name>
+```
+
+## open-spec
+
+待更新……
+1b:T920,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 安装指定的稳定版本（推荐——将 vX.Y.Z 替换为最新标签）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git@vX.Y.Z</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或安装 main 分支的最新版本（可能包含未发布的变更）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 升级 spec-kit</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git@vX.Y.Z</span></span></code>1c:Tb61,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 创建新项目</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">PROJECT_NAM</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">E</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或在现有项目中初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 指定 AI 编程代理并使用 skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 检查已安装的工具</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> check</span></span></code>1d:T4c7,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.constitution</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Create</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> principles</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> focused</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> code</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> quality,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> testing</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> standards,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> user</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> experience</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> consistency,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> performance</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> requirements</span></span></code>1e:Tde6,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Build</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> an</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> application</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> that</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> can</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> help</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> me</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> organize</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photos</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> separate</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photo</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> albums.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Albums</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> grouped</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> by</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> date</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> can</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> be</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> re-organized</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> by</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> dragging</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> dropping</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> the</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> main</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> page.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Albums</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> never</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> other</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> nested</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> albums.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Within</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> each</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> album,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photos</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> previewed</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tile-like</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> interface.</span></span></code>1f:T9d2,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.plan</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> The</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> application</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> uses</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Vite</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> with</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> minimal</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> number</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> of</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> libraries.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Use</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> vanilla</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> HTML,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> CSS,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> JavaScript</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> as</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> much</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> as</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> possible.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Images</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> not</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> uploaded</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> anywhere</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> metadata</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> is</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> stored</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> local</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> SQLite</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> database.</span></span></code>20:T4222,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 基础项目初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 指定 AI 助手</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Cursor</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> cursor-agent</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Qoder</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> qodercli</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Windsurf</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> windsurf</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Kiro CLI</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> kiro-cli</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Amp</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> amp</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 SHAI</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> shai</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Mistral Vibe</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> vibe</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 IBM Bob</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> bob</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Pi Coding Agent</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> pi</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Codex CLI</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> codex</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Antigravity</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> agy</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Forge</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> forge</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并为不支持的代理提供通用支持</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> generic</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-commands-dir</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .myagent/commands/</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 PowerShell 脚本（Windows/跨平台）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --script</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ps</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 在当前目录初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或使用 --here 标志</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 强制合并到当前（非空）目录，无需确认</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 跳过 Git 初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> gemini</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --no-git</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 启用调试输出</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --debug</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 使用 GitHub Token 进行 API 请求（适用于企业环境）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --github-token</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ghp_your_token_here</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 默认情况下，Claude Code 会在项目中安装 skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 在当前目录初始化并使用 agent skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> gemini</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 使用时间戳分支编号（适用于分布式团队）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --branch-numbering</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> timestamp</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 检查系统需求</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> check</span></span></code>21:T41d,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extension</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> search</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 安装扩展</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extension</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">extension-nam</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">e</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span></code>22:T414,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> preset</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> search</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 安装预设</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> preset</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">preset-nam</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">e</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span></code>6:[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$18"}}],["$","$L19",null,{"post":{"title":"Spec Coding（SDD——规格驱动开发）","description":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。","coverImage":"/images/posts/spec-coding-cover.png","date":"$D2026-04-26T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"spec-coding","published":true,"content":"$1a","readingTime":4},"relatedPosts":[{"title":"Ralph Loop","description":"Ralph 是一个自主 AI 智能体循环，它会反复运行 AI 编程工具（Amp 或 Claude Code），直到产品需求文档（PRD）中的所有条目全部完成。每次迭代都是一个全新的实例，拥有干净的上下文环境。记忆状态通过 Git 提交历史、progress.txt 文件以及 prd.json 文件进行持久化保存。","date":"$D2026-04-28T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"ralph","published":true,"coverImage":"$undefined","readingTime":3},{"title":"Superpowers","description":"Superpowers 学习和使用总结。Process over Prompt（流程大于提示词），给 AI 套上软件工程的「纪律与护栏」，让它像资深工程师一样先思考、再规划、后编码、必验证。","date":"$D2026-04-27T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"superpowers","published":true,"coverImage":"$undefined","readingTime":3},{"title":"Next.js 15 入门指南","description":"全面介绍如何使用 Next.js 15 App Router 构建现代 Web 应用，涵盖路由、数据获取和部署等内容。","coverImage":"/images/posts/nextjs-guide.jpg","date":"$D2026-04-05T00:00:00.000Z","tags":["Next.js","React","Web开发"],"category":"教程","author":"Charlie Fei","slug":"nextjs-15-guide","published":true,"readingTime":4}],"locale":"zh","highlightedCode":{"# 安装指定的稳定版本（推荐——将 vX.Y.Z 替换为最新标签）\nuv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z\n\n# 或安装 main 分支的最新版本（可能包含未发布的变更）\nuv tool install specify-cli --from git+https://github.com/github/spec-kit.git\n\n# 升级 spec-kit\nuv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z":"$1b","# 创建新项目\nspecify init <PROJECT_NAME>\n\n# 或在现有项目中初始化\nspecify init . --ai claude\n\n# 指定 AI 编程代理并使用 skills\nspecify init . --ai claude --ai-skills\n\n# 或\nspecify init --here --ai claude\n\n# 检查已安装的工具\nspecify check":"$1c","/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements":"$1d","/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.":"$1e","/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.":"$1f","/speckit.tasks":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/speckit.tasks</span></span></code>","/speckit.implement":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/speckit.implement</span></span></code>","# 基础项目初始化\nspecify init my-project\n\n# 指定 AI 助手\nspecify init my-project --ai claude\n\n# 初始化并支持 Cursor\nspecify init my-project --ai cursor-agent\n\n# 初始化并支持 Qoder\nspecify init my-project --ai qodercli\n\n# 初始化并支持 Windsurf\nspecify init my-project --ai windsurf\n\n# 初始化并支持 Kiro CLI\nspecify init my-project --ai kiro-cli\n\n# 初始化并支持 Amp\nspecify init my-project --ai amp\n\n# 初始化并支持 SHAI\nspecify init my-project --ai shai\n\n# 初始化并支持 Mistral Vibe\nspecify init my-project --ai vibe\n\n# 初始化并支持 IBM Bob\nspecify init my-project --ai bob\n\n# 初始化并支持 Pi Coding Agent\nspecify init my-project --ai pi\n\n# 初始化并支持 Codex CLI\nspecify init my-project --ai codex --ai-skills\n\n# 初始化并支持 Antigravity\nspecify init my-project --ai agy --ai-skills\n\n# 初始化并支持 Forge\nspecify init my-project --ai forge\n\n# 初始化并为不支持的代理提供通用支持\nspecify init my-project --ai generic --ai-commands-dir .myagent/commands/\n\n# 初始化并支持 PowerShell 脚本（Windows/跨平台）\nspecify init my-project --ai copilot --script ps\n\n# 在当前目录初始化\nspecify init . --ai copilot\n# 或使用 --here 标志\nspecify init --here --ai copilot\n\n# 强制合并到当前（非空）目录，无需确认\nspecify init . --force --ai copilot\n# 或\nspecify init --here --force --ai copilot\n\n# 跳过 Git 初始化\nspecify init my-project --ai gemini --no-git\n\n# 启用调试输出\nspecify init my-project --ai claude --debug\n\n# 使用 GitHub Token 进行 API 请求（适用于企业环境）\nspecify init my-project --ai claude --github-token ghp_your_token_here\n\n# 默认情况下，Claude Code 会在项目中安装 skills\nspecify init my-project --ai claude\n\n# 在当前目录初始化并使用 agent skills\nspecify init --here --ai gemini --ai-skills\n\n# 使用时间戳分支编号（适用于分布式团队）\nspecify init my-project --ai claude --branch-numbering timestamp\n\n# 检查系统需求\nspecify check":"$20",".specify/templates/overrides/         # 本地项目覆盖（优先级最高），无需创建完整预设即可一次性调整当前项目\n.specify/presets/templates/           # 自定义扩展和核心模板\n.specify/extensions/templates/        # 增强 spec-kit 的能力\n.specify/templates/                   # spec-kit 的核心内置模板":"<code data-language=\"plain\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span>.specify/templates/overrides/         # 本地项目覆盖（优先级最高），无需创建完整预设即可一次性调整当前项目</span></span>\n<span data-line=\"\"><span>.specify/presets/templates/           # 自定义扩展和核心模板</span></span>\n<span data-line=\"\"><span>.specify/extensions/templates/        # 增强 spec-kit 的能力</span></span>\n<span data-line=\"\"><span>.specify/templates/                   # spec-kit 的核心内置模板</span></span></code>","specify extension search\n\n# 安装扩展\nspecify extension add <extension-name>":"$21","specify preset search\n\n# 安装预设\nspecify preset add <preset-name>":"$22"},"commentsConfig":"$12:props:children:props:children:props:children:2:props:profile:comments:giscus"}]]
+23:I[27201,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"IconMark"]
+9:null
+e:[["$","title","0",{"children":"Spec Coding（SDD——规格驱动开发） | Charlie's Personal Blog"}],["$","meta","1",{"name":"description","content":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。"}],["$","meta","2",{"name":"application-name","content":"Charlie's Personal Blog"}],["$","link","3",{"rel":"author","href":"https://charliefei.github.io/"}],["$","meta","4",{"name":"author","content":"Charlie Fei"}],["$","meta","5",{"name":"keywords","content":"Charlie Fei,个人博客,全栈开发,前端开发,AI Coding,Next.js,TypeScript,教程,AICoding"}],["$","meta","6",{"name":"creator","content":"Charlie Fei"}],["$","meta","7",{"name":"publisher","content":"Charlie Fei"}],["$","meta","8",{"name":"robots","content":"index, follow"}],["$","meta","9",{"name":"googlebot","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","meta","10",{"name":"category","content":"教程"}],["$","link","11",{"rel":"canonical","href":"https://charliefei.github.io/zh/blog/spec-coding/"}],["$","link","12",{"rel":"alternate","hrefLang":"en-US","href":"https://charliefei.github.io/en/blog/spec-coding/"}],["$","link","13",{"rel":"alternate","hrefLang":"zh-CN","href":"https://charliefei.github.io/zh/blog/spec-coding/"}],["$","link","14",{"rel":"alternate","hrefLang":"x-default","href":"https://charliefei.github.io/en/blog/spec-coding/"}],["$","meta","15",{"name":"format-detection","content":"telephone=no, address=no, email=no"}],["$","meta","16",{"property":"og:title","content":"Spec Coding（SDD——规格驱动开发）"}],["$","meta","17",{"property":"og:description","content":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。"}],["$","meta","18",{"property":"og:url","content":"https://charliefei.github.io/zh/blog/spec-coding/"}],["$","meta","19",{"property":"og:site_name","content":"Charlie's Personal Blog"}],["$","meta","20",{"property":"og:locale","content":"zh_CN"}],["$","meta","21",{"property":"og:image","content":"https://charliefei.github.io/images/posts/spec-coding-cover.png"}],["$","meta","22",{"property":"og:image:width","content":"1200"}],["$","meta","23",{"property":"og:image:height","content":"630"}],["$","meta","24",{"property":"og:image:alt","content":"Spec Coding（SDD——规格驱动开发）"}],["$","meta","25",{"property":"og:type","content":"article"}],["$","meta","26",{"property":"article:published_time","content":"2026-04-26T00:00:00.000Z"}],["$","meta","27",{"property":"article:author","content":"Charlie Fei"}],["$","meta","28",{"property":"article:tag","content":"AICoding"}],["$","meta","29",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","30",{"name":"twitter:title","content":"Spec Coding（SDD——规格驱动开发）"}],["$","meta","31",{"name":"twitter:description","content":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。"}],["$","meta","32",{"name":"twitter:image","content":"https://charliefei.github.io/images/posts/spec-coding-cover.png"}],["$","link","33",{"rel":"icon","href":"/favicon.ico?favicon.0jfiq77~rcgbe.ico","sizes":"128x128","type":"image/x-icon"}],["$","link","34",{"rel":"icon","href":"/favicon.ico"}],["$","link","35",{"rel":"apple-touch-icon","href":"/logo.png"}],["$","$L23","36",{}]]

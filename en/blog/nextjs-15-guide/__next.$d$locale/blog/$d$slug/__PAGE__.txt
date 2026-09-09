@@ -1,0 +1,543 @@
+1:"$Sreact.fragment"
+3:I[60380,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/0gb5w2ednu-sk.js","/_next/static/chunks/0c7rf5it7~8a~.js","/_next/static/chunks/00.-_10l3y85z.js"],"BlogContent"]
+19:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"OutletBoundary"]
+1a:"$Sreact.suspense"
+:HL["/_next/static/chunks/003uh0yflnc6i.css","style"]
+2:T6e9,[{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://charliefei.github.io/en/blog/nextjs-15-guide/#article","headline":"Next.js 15: A Complete Guide","description":"A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.","mainEntityOfPage":{"@type":"WebPage","@id":"https://charliefei.github.io/en/blog/nextjs-15-guide/"},"image":["https://charliefei.github.io/images/posts/nextjs-guide.jpg"],"datePublished":"2026-04-05T00:00:00.000Z","dateModified":"2026-04-05T00:00:00.000Z","author":{"@id":"https://charliefei.github.io/#person"},"publisher":{"@type":"Person","@id":"https://charliefei.github.io/#person","name":"Charlie Fei","url":"https://charliefei.github.io/","image":"https://charliefei.github.io/images/avatar.png","jobTitle":"Full Stack Developer","address":{"@type":"PostalAddress","addressLocality":"Nanjing, China"},"email":"charliefei839@qq.com","sameAs":["https://github.com/charliefei","https://x.com/charliefei_","https://www.youtube.com/@charliefei839","https://space.bilibili.com/352442220"]},"articleSection":"Tutorials","keywords":"Next.js, React, Web Development","url":"https://charliefei.github.io/en/blog/nextjs-15-guide/","isPartOf":{"@id":"https://charliefei.github.io/#website"},"inLanguage":"en-US"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://charliefei.github.io/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://charliefei.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Next.js 15: A Complete Guide","item":"https://charliefei.github.io/en/blog/nextjs-15-guide/"}]}]4:T286c,
+## Introduction
+
+Next.js 15 brings powerful features that make building modern web applications easier than ever. This guide starts with the fundamentals and systematically walks through the complete App Router ecosystem — from the routing system and layout management to data fetching, rendering strategies, and error handling — helping you build a comprehensive knowledge framework.
+
+## App Router Basics
+
+The App Router is the foundation of modern Next.js applications. It uses file-system routing, where the directory structure maps directly to page paths. Here's a simple routing example:
+
+```typescript
+// app/page.tsx
+export default function HomePage() {
+  return (
+    <main>
+      <h1>Welcome to Next.js 15</h1>
+    </main>
+  )
+}
+```
+
+Files created inside the `app` directory are automatically mapped to corresponding routes:
+
+| File Path | Corresponding Route |
+| --- | --- |
+| `app/page.tsx` | `/` |
+| `app/about/page.tsx` | `/about` |
+| `app/blog/[slug]/page.tsx` | `/blog/:slug` (dynamic route) |
+| `app/blog/[...catchAll]/page.tsx` | `/blog/*` (catch-all route) |
+
+## Layout System
+
+Layouts are a highlight of the Next.js App Router, making it incredibly easy to share UI across pages.
+
+### Root Layout
+
+Every application must have a root layout (`app/layout.tsx`), which wraps all pages:
+
+```typescript
+// app/layout.tsx
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </body>
+    </html>
+  )
+}
+```
+
+### Nested Layouts
+
+You can add `layout.tsx` at any route segment level, and layouts are automatically nested. Layouts preserve state during navigation and do not re-render:
+
+```typescript
+// app/blog/layout.tsx
+// Shared by all /blog/* pages
+export default function BlogLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <Sidebar />
+      <article>{children}</article>
+    </div>
+  )
+}
+```
+
+### Templates
+
+Templates (`template.tsx`) are similar to layouts but re-render on every navigation, making them suitable for scenarios that require state reset (such as page view tracking):
+
+```typescript
+// app/blog/template.tsx
+export default function BlogTemplate({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return <div className="page-enter-animation">{children}</div>
+}
+```
+
+## Advanced Routing
+
+### Route Groups
+
+Use `(groupName)` directory structure to organize routes without affecting the URL path. Useful for grouping routes by module or applying different layouts to different groups:
+
+```typescript
+app/
+  (marketing)/
+    page.tsx          // /
+    about/page.tsx    // /about
+  (shop)/
+    products/
+      page.tsx        // /products
+    cart/page.tsx     // /cart
+```
+
+### Parallel Routes
+
+Render multiple pages simultaneously within the same layout using named slots (`@slotName`), ideal for dashboards or multi-section pages:
+
+```typescript
+// app/layout.tsx
+export default function Layout({
+  children,
+  team,
+  analytics,
+}: {
+  children: React.ReactNode
+  team: React.ReactNode
+  analytics: React.ReactNode
+}) {
+  return (
+    <>
+      {children}
+      <div className="grid grid-cols-2">
+        {team}
+        {analytics}
+      </div>
+    </>
+  )
+}
+```
+
+## Loading & Error Handling
+
+Next.js 15 provides built-in loading and error boundaries for each route segment.
+
+### Loading UI
+
+Add `loading.tsx` to display a skeleton screen or loading animation while the page is loading, providing instant feedback through streaming:
+
+```typescript
+// app/blog/loading.tsx
+export default function Loading() {
+  return (
+    <div className="space-y-4">
+      <Skeleton className="h-8 w-3/4" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-2/3" />
+    </div>
+  )
+}
+```
+
+### Error Boundaries
+
+`error.tsx` wraps route segments and catches rendering exceptions. It must be a client component:
+
+```typescript
+// app/blog/error.tsx
+'use client'
+
+export default function ErrorPage({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <div>
+      <h2>Something went wrong</h2>
+      <p>{error.message}</p>
+      <button onClick={() => reset()}>Try again</button>
+    </div>
+  )
+}
+```
+
+### 404 Page
+
+Customize the Not Found page via `not-found.tsx`, or trigger it programmatically with `notFound()`:
+
+```typescript
+// app/not-found.tsx
+export default function NotFound() {
+  return (
+    <div>
+      <h1>404 - Page Not Found</h1>
+      <Link href="/">Back to Home</Link>
+    </div>
+  )
+}
+```
+
+### Global Error
+
+`global-error.tsx` wraps the entire application and is used only when a critical error occurs in the root layout (must include `<html>` and `<body>` tags):
+
+```typescript
+// app/global-error.tsx
+'use client'
+
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <html>
+      <body>
+        <h2>A critical application error occurred</h2>
+        <button onClick={() => reset()}>Try again</button>
+      </body>
+    </html>
+  )
+}
+```
+
+## Key Features
+
+- **Server Components**: Rendered on the server by default, reducing client-side JavaScript and improving initial load performance. They can directly access databases and file systems without exposing API endpoints.
+- **Streaming**: Supports progressive HTML chunk transmission to the client, allowing users to see content faster without waiting for the entire page to generate. Works with `loading.tsx` for a smooth loading experience.
+- **Metadata API**: Define page title, description, Open Graph metadata, and more in a type-safe way by exporting `metadata` objects or `generateMetadata` function, making SEO optimization easy.
+- **Server Actions**: Define form submission and data mutation logic directly in server components without manually creating API routes, simplifying front-end/back-end interaction. Supports progressive enhancement (falls back to traditional form submission when JavaScript is unavailable).
+
+## Data Fetching
+
+Next.js 15 offers flexible data fetching approaches. You can use `async/await` directly in server components:
+
+```typescript
+// app/posts/page.tsx
+async function getPosts() {
+  const res = await fetch('https://api.example.com/posts')
+  return res.json()
+}
+
+export default async function PostsPage() {
+  const posts = await getPosts()
+  return (
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  )
+}
+```
+
+Thanks to server components, data fetching happens on the server side — no API credentials are exposed, and no additional data request logic needs to be loaded on the client.
+
+### fetch Caching Strategies
+
+The built-in `fetch` supports fine-grained cache control:
+
+```typescript
+// Static data request — default behavior, caches the result
+const staticData = await fetch('https://...')
+
+// Dynamic data request — re-fetches on every request
+const dynamicData = await fetch('https://...', { cache: 'no-store' })
+
+// Time-based incremental revalidation — re-fetches every 10 seconds
+const revalidatedData = await fetch('https://...', {
+  next: { revalidate: 10 },
+})
+```
+
+### Database Queries
+
+Server components can query databases directly without writing API routes:
+
+```typescript
+export default async function UserProfile({ params }: { params: { id: string } }) {
+  const user = await db.users.findUnique({
+    where: { id: params.id },
+  })
+
+  return <div>{user.name}</div>
+}
+```
+
+## Rendering Strategies
+
+Next.js 15 offers multiple rendering modes that can be flexibly chosen based on page characteristics.
+
+### Static Rendering
+
+The default rendering mode. Routes are rendered at build time, cached, and can be distributed via CDN. Ideal for content pages, blog posts, and other infrequently changing content.
+
+```typescript
+export const dynamic = 'force-static'
+```
+
+### Dynamic Rendering
+
+Routes are rendered dynamically on each request. Suitable for personalized content and real-time data:
+
+```typescript
+export const dynamic = 'force-dynamic'
+```
+
+### Incremental Static Regeneration (ISR)
+
+Combines the benefits of static and dynamic — serve statically, update on demand. Suitable for scenarios where data changes periodically but does not require real-time updates:
+
+```typescript
+// Page-level ISR
+export const revalidate = 3600 // Regenerate every hour
+```
+
+### Route Segment Configuration
+
+Each route segment can be finely controlled through exported configuration options:
+
+```typescript
+export const dynamic = 'auto'           // Auto-select static/dynamic
+export const dynamicParams = true        // Auto-handle ungenerated dynamic params
+export const revalidate = false          // Revalidation interval (seconds)
+export const fetchCache = 'auto'         // fetch cache strategy
+export const runtime = 'nodejs'          // Runtime environment
+export const preferredRegion = 'auto'    // Deployment region
+```
+
+## Middleware
+
+Middleware (`middleware.ts`) executes before a request completes, used for redirects, rewrites, authentication, i18n routing, and more:
+
+```typescript
+// middleware.ts
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  // Redirect user based on cookie
+  if (!request.cookies.has('session')) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+}
+
+// Configure matching paths
+export const config = {
+  matcher: ['/dashboard/:path*', '/admin/:path*'],
+}
+```
+
+## Summary
+
+Next.js 15 provides a solid and elegant foundation for building high-performance web applications. This article covers the core concepts from routing system, layout management, and data fetching to rendering strategies and error handling. Key takeaways:
+
+- **File-system routing** makes page organization intuitive at a glance
+- **Layouts and loading boundaries** provide elegant UI composition and user experience
+- **Server components** simplify data fetching and improve performance
+- **Multiple rendering strategies** let you choose the optimal approach for each scenario
+- **Built-in error handling** ensures application robustness
+
+These are just some of Next.js's capabilities. Start with these fundamentals and gradually explore more advanced features in practice.
+5:T90b,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/page.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> HomePage</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">() {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">    &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">main</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">h1</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Welcome</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> to</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E"> Next</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">js</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> 15</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">h1</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">main</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>6:T1029,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/layout.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> RootLayout</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> React</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">ReactNode</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">html</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> lang</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"en"</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">body</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">        &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Header</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> /></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">        &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">main</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">>{</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">main</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">        &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Footer</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> /></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">body</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">html</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>7:Td53,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/blog/layout.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// Shared by all /blog/* pages</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> BlogLayout</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> React</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">ReactNode</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">    &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">div</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Sidebar</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> /></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">article</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">>{</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">article</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>8:T9f3,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/blog/template.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> BlogTemplate</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> React</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">ReactNode</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">div</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> className</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"page-enter-animation"</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">>{</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>9:Tade,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">app</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">/</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  (</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">marketing</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">)</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">/</span></span>
+<span data-line=""><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">    page</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">tsx</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">          // /</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">    about</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">/</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">page</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">tsx</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">    // /about</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  (</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">shop</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">)</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">/</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">    products</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">/</span></span>
+<span data-line=""><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">      page</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">tsx</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">        // /products</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">    cart</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">/</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">page</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">tsx</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">     // /cart</span></span></code>a:T133a,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/layout.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> Layout</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  team</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  analytics</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> React</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">ReactNode</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  team</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> React</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">ReactNode</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  analytics</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> React</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">ReactNode</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      {</span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">children</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> className</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"grid grid-cols-2"</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">        {</span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">team</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">        {</span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">analytics</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>b:Tbf6,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/blog/loading.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> Loading</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">() {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> className</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"space-y-4"</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Skeleton</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> className</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"h-8 w-3/4"</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> /></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Skeleton</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> className</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"h-4 w-full"</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> /></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Skeleton</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> className</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"h-4 w-2/3"</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> /></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>c:T15e4,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/blog/error.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'use client'</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> ErrorPage</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  error</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  reset</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  error</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> Error</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x26;</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> { </span><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">digest</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">?</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> string</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> }</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  reset</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> () </span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">=></span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> void</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">    &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">div</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">h2</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Something</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> went</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> wrong</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">h2</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">p</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">>{error.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">message</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">p</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">button</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> onClick</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">{() => </span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">reset</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">()}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Try</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> again</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">button</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>d:Tc1a,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/not-found.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> NotFound</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">() {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">    &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">div</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">h1</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5">404</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> -</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> Page</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> Not</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> Found</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">h1</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Link</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> href</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">"/"</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Back</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> to</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> Home</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Link</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>e:T1617,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/global-error.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'use client'</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> GlobalError</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  error</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">  reset</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">,</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">  error</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> Error</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x26;</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> { </span><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">digest</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">?</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> string</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> }</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  reset</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> () </span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">=></span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> void</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">    &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">html</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">body</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">        &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">h2</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5">A</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> critical</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> application</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> error</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> occurred</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">h2</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">        &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">button</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> onClick</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">{() => </span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">reset</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">()}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">Try</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> again</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">button</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">      &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">body</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">html</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>f:T1460,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// app/posts/page.tsx</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">async</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> getPosts</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">() {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> res</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> await</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> fetch</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'https://api.example.com/posts'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">)</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E"> res</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">json</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">()</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> async</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> PostsPage</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">() {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> posts</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> await</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> getPosts</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">()</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">    &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">ul</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      {</span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">posts</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">map</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">post</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =></span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">        &#x3C;</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">li</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E"> key</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">=</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">{post.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">id</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">{post.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">title</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">li</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">      ))}</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">    &#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">ul</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  )</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>10:Td33,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// Static data request — default behavior, caches the result</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> staticData</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> await</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> fetch</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'https://...'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">)</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// Dynamic data request — re-fetches on every request</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> dynamicData</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> await</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> fetch</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'https://...'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">, { </span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">cache</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">: </span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'no-store'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> })</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// Time-based incremental revalidation — re-fetches every 10 seconds</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> revalidatedData</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> await</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> fetch</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'https://...'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">, {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">  next</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">: { </span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">revalidate</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">: </span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5">10</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> },</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">})</span></span></code>11:Tdab,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> default</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> async</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> UserProfile</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({ </span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">params</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> }</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> { </span><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">params</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> { </span><span style="--shiki-dark:#E06C75;--shiki-light:#E36209">id</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> string</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> } }) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> user</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> await</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E"> db</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">users</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">findUnique</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">({</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">    where</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">: { </span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">id</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">: </span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">params</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">id</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> },</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  })</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  return</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> &#x3C;</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1">div</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">>{user.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">name</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">&#x3C;/</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">div</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">></span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>12:Td25,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> dynamic</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> 'auto'</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">           // Auto-select static/dynamic</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> dynamicParams</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> true</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">        // Auto-handle ungenerated dynamic params</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> revalidate</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> false</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">          // Revalidation interval (seconds)</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> fetchCache</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> 'auto'</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">         // fetch cache strategy</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> runtime</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> 'nodejs'</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">          // Runtime environment</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> preferredRegion</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> 'auto'</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">    // Deployment region</span></span></code>13:T1449,<code data-language="typescript" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// middleware.ts</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">import</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> { </span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">NextResponse</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> } </span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> 'next/server'</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">import</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> type</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> { </span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">NextRequest</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> } </span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> 'next/server'</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> function</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> middleware</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#E06C75;--shiki-dark-font-style:italic;--shiki-light:#E36209;--shiki-light-font-style:inherit">request</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">:</span><span style="--shiki-dark:#E5C07B;--shiki-light:#6F42C1"> NextRequest</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">) {</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">  // Redirect user based on cookie</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">  if</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49">!</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">request</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">cookies</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">has</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'session'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">)) {</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">    return</span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E"> NextResponse</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">redirect</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">new</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> URL</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">(</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'/login'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">, </span><span style="--shiki-dark:#E5C07B;--shiki-light:#24292E">request</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">.</span><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">url</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">))</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">  }</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">// Configure matching paths</span></span>
+<span data-line=""><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">export</span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49"> const</span><span style="--shiki-dark:#E5C07B;--shiki-light:#005CC5"> config</span><span style="--shiki-dark:#56B6C2;--shiki-light:#D73A49"> =</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> {</span></span>
+<span data-line=""><span style="--shiki-dark:#E06C75;--shiki-light:#24292E">  matcher</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">: [</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'/dashboard/:path*'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">, </span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">'/admin/:path*'</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">],</span></span>
+<span data-line=""><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">}</span></span></code>0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{"post":{"title":"Next.js 15: A Complete Guide","description":"A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.","coverImage":"/images/posts/nextjs-guide.jpg","date":"$D2026-04-05T00:00:00.000Z","tags":["Next.js","React","Web Development"],"category":"Tutorials","author":"Charlie Fei","slug":"nextjs-15-guide","published":true,"content":"$4","readingTime":7},"relatedPosts":[{"title":"Ralph Loop","description":"Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.","date":"$D2026-04-28T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"ralph","published":true,"readingTime":5},{"title":"Superpowers","description":"A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.","date":"$D2026-04-27T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"superpowers","published":true,"readingTime":9},{"title":"Spec Coding (SDD — Spec-Driven Development)","description":"A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.","coverImage":"/images/posts/spec-coding-cover.png","date":"$D2026-04-26T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"spec-coding","published":true,"readingTime":6}],"locale":"en","highlightedCode":{"// app/page.tsx\nexport default function HomePage() {\n  return (\n    <main>\n      <h1>Welcome to Next.js 15</h1>\n    </main>\n  )\n}":"$5","// app/layout.tsx\nexport default function RootLayout({\n  children,\n}: {\n  children: React.ReactNode\n}) {\n  return (\n    <html lang=\"en\">\n      <body>\n        <Header />\n        <main>{children}</main>\n        <Footer />\n      </body>\n    </html>\n  )\n}":"$6","// app/blog/layout.tsx\n// Shared by all /blog/* pages\nexport default function BlogLayout({\n  children,\n}: {\n  children: React.ReactNode\n}) {\n  return (\n    <div>\n      <Sidebar />\n      <article>{children}</article>\n    </div>\n  )\n}":"$7","// app/blog/template.tsx\nexport default function BlogTemplate({\n  children,\n}: {\n  children: React.ReactNode\n}) {\n  return <div className=\"page-enter-animation\">{children}</div>\n}":"$8","app/\n  (marketing)/\n    page.tsx          // /\n    about/page.tsx    // /about\n  (shop)/\n    products/\n      page.tsx        // /products\n    cart/page.tsx     // /cart":"$9","// app/layout.tsx\nexport default function Layout({\n  children,\n  team,\n  analytics,\n}: {\n  children: React.ReactNode\n  team: React.ReactNode\n  analytics: React.ReactNode\n}) {\n  return (\n    <>\n      {children}\n      <div className=\"grid grid-cols-2\">\n        {team}\n        {analytics}\n      </div>\n    </>\n  )\n}":"$a","// app/blog/loading.tsx\nexport default function Loading() {\n  return (\n    <div className=\"space-y-4\">\n      <Skeleton className=\"h-8 w-3/4\" />\n      <Skeleton className=\"h-4 w-full\" />\n      <Skeleton className=\"h-4 w-2/3\" />\n    </div>\n  )\n}":"$b","// app/blog/error.tsx\n'use client'\n\nexport default function ErrorPage({\n  error,\n  reset,\n}: {\n  error: Error & { digest?: string }\n  reset: () => void\n}) {\n  return (\n    <div>\n      <h2>Something went wrong</h2>\n      <p>{error.message}</p>\n      <button onClick={() => reset()}>Try again</button>\n    </div>\n  )\n}":"$c","// app/not-found.tsx\nexport default function NotFound() {\n  return (\n    <div>\n      <h1>404 - Page Not Found</h1>\n      <Link href=\"/\">Back to Home</Link>\n    </div>\n  )\n}":"$d","// app/global-error.tsx\n'use client'\n\nexport default function GlobalError({\n  error,\n  reset,\n}: {\n  error: Error & { digest?: string }\n  reset: () => void\n}) {\n  return (\n    <html>\n      <body>\n        <h2>A critical application error occurred</h2>\n        <button onClick={() => reset()}>Try again</button>\n      </body>\n    </html>\n  )\n}":"$e","// app/posts/page.tsx\nasync function getPosts() {\n  const res = await fetch('https://api.example.com/posts')\n  return res.json()\n}\n\nexport default async function PostsPage() {\n  const posts = await getPosts()\n  return (\n    <ul>\n      {posts.map(post => (\n        <li key={post.id}>{post.title}</li>\n      ))}\n    </ul>\n  )\n}":"$f","// Static data request — default behavior, caches the result\nconst staticData = await fetch('https://...')\n\n// Dynamic data request — re-fetches on every request\nconst dynamicData = await fetch('https://...', { cache: 'no-store' })\n\n// Time-based incremental revalidation — re-fetches every 10 seconds\nconst revalidatedData = await fetch('https://...', {\n  next: { revalidate: 10 },\n})":"$10","export default async function UserProfile({ params }: { params: { id: string } }) {\n  const user = await db.users.findUnique({\n    where: { id: params.id },\n  })\n\n  return <div>{user.name}</div>\n}":"$11","export const dynamic = 'force-static'":"<code data-language=\"typescript\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#C678DD;--shiki-light:#D73A49\">export</span><span style=\"--shiki-dark:#C678DD;--shiki-light:#D73A49\"> const</span><span style=\"--shiki-dark:#E5C07B;--shiki-light:#005CC5\"> dynamic</span><span style=\"--shiki-dark:#56B6C2;--shiki-light:#D73A49\"> =</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> 'force-static'</span></span></code>","export const dynamic = 'force-dynamic'":"<code data-language=\"typescript\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#C678DD;--shiki-light:#D73A49\">export</span><span style=\"--shiki-dark:#C678DD;--shiki-light:#D73A49\"> const</span><span style=\"--shiki-dark:#E5C07B;--shiki-light:#005CC5\"> dynamic</span><span style=\"--shiki-dark:#56B6C2;--shiki-light:#D73A49\"> =</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> 'force-dynamic'</span></span></code>","// Page-level ISR\nexport const revalidate = 3600 // Regenerate every hour":"<code data-language=\"typescript\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit\">// Page-level ISR</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#C678DD;--shiki-light:#D73A49\">export</span><span style=\"--shiki-dark:#C678DD;--shiki-light:#D73A49\"> const</span><span style=\"--shiki-dark:#E5C07B;--shiki-light:#005CC5\"> revalidate</span><span style=\"--shiki-dark:#56B6C2;--shiki-light:#D73A49\"> =</span><span style=\"--shiki-dark:#D19A66;--shiki-light:#005CC5\"> 3600</span><span style=\"--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit\"> // Regenerate every hour</span></span></code>","export const dynamic = 'auto'           // Auto-select static/dynamic\nexport const dynamicParams = true        // Auto-handle ungenerated dynamic params\nexport const revalidate = false          // Revalidation interval (seconds)\nexport const fetchCache = 'auto'         // fetch cache strategy\nexport const runtime = 'nodejs'          // Runtime environment\nexport const preferredRegion = 'auto'    // Deployment region":"$12","// middleware.ts\nimport { NextResponse } from 'next/server'\nimport type { NextRequest } from 'next/server'\n\nexport function middleware(request: NextRequest) {\n  // Redirect user based on cookie\n  if (!request.cookies.has('session')) {\n    return NextResponse.redirect(new URL('/login', request.url))\n  }\n}\n\n// Configure matching paths\nexport const config = {\n  matcher: ['/dashboard/:path*', '/admin/:path*'],\n}":"$13"},"commentsConfig":{"repo":"charliefei/charliefei.github.io","repoId":"R_kgDOIjbuug","category":"Announcements","categoryId":"DIC_kwDOIjbuus4C-bD3","mapping":"specific","strict":"0","reactionsEnabled":"1","emitMetadata":"0","inputPosition":"bottom","theme":"preferred_color_scheme","lang":"zh-CN","loading":"lazy"}}]],["$L14","$L15","$L16","$L17"],"$L18"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"WOboLdh_ZJBULkcYo2eiS"}
+14:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/003uh0yflnc6i.css","precedence":"next"}]
+15:["$","script","script-0",{"src":"/_next/static/chunks/0gb5w2ednu-sk.js","async":true}]
+16:["$","script","script-1",{"src":"/_next/static/chunks/0c7rf5it7~8a~.js","async":true}]
+17:["$","script","script-2",{"src":"/_next/static/chunks/00.-_10l3y85z.js","async":true}]
+18:["$","$L19",null,{"children":["$","$1a",null,{"name":"Next.MetadataOutlet","children":"$@1b"}]}]
+1b:null

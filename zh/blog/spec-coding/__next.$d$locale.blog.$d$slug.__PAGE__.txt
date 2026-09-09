@@ -1,0 +1,345 @@
+1:"$Sreact.fragment"
+3:I[60380,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/0gb5w2ednu-sk.js","/_next/static/chunks/0c7rf5it7~8a~.js","/_next/static/chunks/00.-_10l3y85z.js"],"BlogContent"]
+12:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"OutletBoundary"]
+13:"$Sreact.suspense"
+:HL["/_next/static/chunks/003uh0yflnc6i.css","style"]
+2:T693,[{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://charliefei.github.io/zh/blog/spec-coding/#article","headline":"Spec Coding（SDD——规格驱动开发）","description":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。","mainEntityOfPage":{"@type":"WebPage","@id":"https://charliefei.github.io/zh/blog/spec-coding/"},"image":["https://charliefei.github.io/images/posts/spec-coding-cover.png"],"datePublished":"2026-04-26T00:00:00.000Z","dateModified":"2026-04-26T00:00:00.000Z","author":{"@id":"https://charliefei.github.io/#person"},"publisher":{"@type":"Person","@id":"https://charliefei.github.io/#person","name":"Charlie Fei","url":"https://charliefei.github.io/","image":"https://charliefei.github.io/images/avatar.png","jobTitle":"Full Stack Developer","address":{"@type":"PostalAddress","addressLocality":"Nanjing, China"},"email":"charliefei839@qq.com","sameAs":["https://github.com/charliefei","https://x.com/charliefei_","https://www.youtube.com/@charliefei839","https://space.bilibili.com/352442220"]},"articleSection":"教程","keywords":"AICoding","url":"https://charliefei.github.io/zh/blog/spec-coding/","isPartOf":{"@id":"https://charliefei.github.io/#website"},"inLanguage":"zh-CN"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://charliefei.github.io/zh/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://charliefei.github.io/zh/blog/"},{"@type":"ListItem","position":3,"name":"Spec Coding（SDD——规格驱动开发）","item":"https://charliefei.github.io/zh/blog/spec-coding/"}]}]4:T1eb5,
+## spec-kit
+
+- [spec-kit 官方仓库](https://github.com/github/spec-kit)
+- [SDD——规格驱动开发](https://github.com/github/spec-kit/blob/main/spec-driven.md)
+- [spec-kit 详细流程](https://github.com/github/spec-kit#-detailed-process)
+
+### 快速开始
+
+#### 安装 spec-kit
+
+```bash
+# 安装指定的稳定版本（推荐——将 vX.Y.Z 替换为最新标签）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+
+# 或安装 main 分支的最新版本（可能包含未发布的变更）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# 升级 spec-kit
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+```
+
+#### 初始化项目
+
+```bash
+# 创建新项目
+specify init <PROJECT_NAME>
+
+# 或在现有项目中初始化
+specify init . --ai claude
+
+# 指定 AI 编程代理并使用 skills
+specify init . --ai claude --ai-skills
+
+# 或
+specify init --here --ai claude
+
+# 检查已安装的工具
+specify check
+```
+
+#### 确定项目原则
+
+在项目目录中启动 AI 助手。大多数代理会将 spec-kit 暴露为 `/speckit.*` 斜杠命令；Codex CLI 在技能模式下使用 `$speckit-*`。
+
+使用 `/speckit.constitution` 命令创建项目的管理原则和开发指南，指导后续开发：
+
+```bash
+/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+```
+
+#### 创建规格说明
+
+用 `/speckit.specify` 命令描述你想要构建的内容。关注**「做什么」和「为什么做」**，而不是技术栈。
+
+```bash
+/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+```
+
+#### 制定技术实施计划
+
+用 `/speckit.plan` 命令提供技术栈和架构选择：
+
+```bash
+/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+```
+
+#### 拆解任务
+
+使用 `/speckit.tasks` 根据实施计划生成可执行的任务列表：
+
+```bash
+/speckit.tasks
+```
+
+#### 执行任务
+
+使用 `/speckit.implement` 执行所有任务，按照计划构建你的功能：
+
+```bash
+/speckit.implement
+```
+
+### 斜杠命令速查
+
+**核心命令**
+
+| 命令 | Agent Skill | 说明 |
+| --- | --- | --- |
+| `/speckit.constitution` | speckit-constitution | 创建或更新项目管理原则与开发指南 |
+| `/speckit.specify` | speckit-specify | 定义构建目标（需求与用户故事） |
+| `/speckit.plan` | speckit-plan | 根据选定的技术栈制定实施计划 |
+| `/speckit.tasks` | speckit-tasks | 生成可执行的任务列表 |
+| `/speckit.taskstoissues` | speckit-taskstoissues | 将任务列表转换为 GitHub Issues 进行追踪与执行 |
+| `/speckit.implement` | speckit-implement | 按计划执行所有任务以构建功能 |
+
+**可选命令**
+
+| 命令 | Agent Skill | 说明 |
+| --- | --- | --- |
+| `/speckit.clarify` | speckit-clarify | 澄清未明确的需求领域（建议在 `/speckit.plan` 之前使用，原名 `/quizme`） |
+| `/speckit.analyze` | speckit-analyze | 跨制品的完整性与覆盖度分析（在 `/speckit.tasks` 之后、`/speckit.implement` 之前运行） |
+| `/speckit.checklist` | speckit-checklist | 生成自定义质量检查清单，验证需求的完整性、清晰度与一致性 |
+
+### spec-kit 命令参考
+
+```bash
+# 基础项目初始化
+specify init my-project
+
+# 指定 AI 助手
+specify init my-project --ai claude
+
+# 初始化并支持 Cursor
+specify init my-project --ai cursor-agent
+
+# 初始化并支持 Qoder
+specify init my-project --ai qodercli
+
+# 初始化并支持 Windsurf
+specify init my-project --ai windsurf
+
+# 初始化并支持 Kiro CLI
+specify init my-project --ai kiro-cli
+
+# 初始化并支持 Amp
+specify init my-project --ai amp
+
+# 初始化并支持 SHAI
+specify init my-project --ai shai
+
+# 初始化并支持 Mistral Vibe
+specify init my-project --ai vibe
+
+# 初始化并支持 IBM Bob
+specify init my-project --ai bob
+
+# 初始化并支持 Pi Coding Agent
+specify init my-project --ai pi
+
+# 初始化并支持 Codex CLI
+specify init my-project --ai codex --ai-skills
+
+# 初始化并支持 Antigravity
+specify init my-project --ai agy --ai-skills
+
+# 初始化并支持 Forge
+specify init my-project --ai forge
+
+# 初始化并为不支持的代理提供通用支持
+specify init my-project --ai generic --ai-commands-dir .myagent/commands/
+
+# 初始化并支持 PowerShell 脚本（Windows/跨平台）
+specify init my-project --ai copilot --script ps
+
+# 在当前目录初始化
+specify init . --ai copilot
+# 或使用 --here 标志
+specify init --here --ai copilot
+
+# 强制合并到当前（非空）目录，无需确认
+specify init . --force --ai copilot
+# 或
+specify init --here --force --ai copilot
+
+# 跳过 Git 初始化
+specify init my-project --ai gemini --no-git
+
+# 启用调试输出
+specify init my-project --ai claude --debug
+
+# 使用 GitHub Token 进行 API 请求（适用于企业环境）
+specify init my-project --ai claude --github-token ghp_your_token_here
+
+# 默认情况下，Claude Code 会在项目中安装 skills
+specify init my-project --ai claude
+
+# 在当前目录初始化并使用 agent skills
+specify init --here --ai gemini --ai-skills
+
+# 使用时间戳分支编号（适用于分布式团队）
+specify init my-project --ai claude --branch-numbering timestamp
+
+# 检查系统需求
+specify check
+```
+
+### 扩展与预设
+
+```plain
+.specify/templates/overrides/         # 本地项目覆盖（优先级最高），无需创建完整预设即可一次性调整当前项目
+.specify/presets/templates/           # 自定义扩展和核心模板
+.specify/extensions/templates/        # 增强 spec-kit 的能力
+.specify/templates/                   # spec-kit 的核心内置模板
+```
+
+#### Extensions（扩展）
+
+当需要超越 spec-kit 核心的功能时，使用扩展。扩展会引入新的命令和模板——例如，添加内置 SDD 命令未覆盖的领域特定工作流、集成外部工具，或添加全新的开发阶段。它们扩展了 spec-kit 的能力边界。
+
+例如，扩展可以添加 Jira 集成、实现后的代码审查、V-Model 测试追溯，或项目健康度诊断。
+
+[社区扩展](https://github.com/github/spec-kit#-community-extensions)
+
+```bash
+specify extension search
+
+# 安装扩展
+specify extension add <extension-name>
+```
+
+#### Presets（预设）
+
+当需要**改变 spec-kit 的工作方式但不添加新功能**时，使用预设。预设会覆盖核心及已安装扩展自带的模板和命令——例如，强制使用合规导向的规格格式、采用领域特定术语，或将组织标准应用于计划和任务。它们定制了 spec-kit 及其扩展生成的制品与指令。
+
+举例来说，预设可以重构规格模板以要求监管追溯、调整工作流以适配采用的方法论（如敏捷、看板、瀑布、Job-to-be-Done 或领域驱动设计）、在计划中增加安全审查关卡、强制测试优先的任务排序，或将整个工作流本地化为不同语言。[pirate-speak 演示](https://github.com/mnriem/spec-kit-pirate-speak-preset-demo)展示了自定义的深度。多个预设可以按优先级顺序叠加使用。
+
+- [社区预设](https://github.com/github/spec-kit?tab=readme-ov-file#-community-presets)
+- [预设说明](https://github.com/github/spec-kit/blob/main/presets/README.md)
+
+```bash
+specify preset search
+
+# 安装预设
+specify preset add <preset-name>
+```
+
+## open-spec
+
+待更新……
+5:T920,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 安装指定的稳定版本（推荐——将 vX.Y.Z 替换为最新标签）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git@vX.Y.Z</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或安装 main 分支的最新版本（可能包含未发布的变更）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 升级 spec-kit</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">uv</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tool</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> specify-cli</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> git+https://github.com/github/spec-kit.git@vX.Y.Z</span></span></code>6:Tb61,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 创建新项目</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">PROJECT_NAM</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">E</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或在现有项目中初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 指定 AI 编程代理并使用 skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 检查已安装的工具</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> check</span></span></code>7:T4c7,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.constitution</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Create</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> principles</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> focused</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> code</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> quality,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> testing</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> standards,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> user</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> experience</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> consistency,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> performance</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> requirements</span></span></code>8:Tde6,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Build</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> an</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> application</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> that</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> can</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> help</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> me</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> organize</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photos</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> separate</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photo</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> albums.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Albums</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> grouped</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> by</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> date</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> can</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> be</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> re-organized</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> by</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> dragging</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> dropping</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> the</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> main</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> page.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Albums</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> never</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> other</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> nested</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> albums.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Within</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> each</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> album,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> photos</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> previewed</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tile-like</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> interface.</span></span></code>9:T9d2,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/speckit.plan</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> The</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> application</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> uses</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Vite</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> with</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> minimal</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> number</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> of</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> libraries.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Use</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> vanilla</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> HTML,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> CSS,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> JavaScript</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> as</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> much</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> as</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> possible.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Images</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> are</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> not</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> uploaded</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> anywhere</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> metadata</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> is</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> stored</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> in</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> local</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> SQLite</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> database.</span></span></code>a:T4222,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 基础项目初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 指定 AI 助手</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Cursor</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> cursor-agent</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Qoder</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> qodercli</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Windsurf</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> windsurf</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Kiro CLI</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> kiro-cli</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Amp</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> amp</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 SHAI</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> shai</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Mistral Vibe</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> vibe</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 IBM Bob</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> bob</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Pi Coding Agent</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> pi</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Codex CLI</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> codex</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Antigravity</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> agy</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 Forge</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> forge</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并为不支持的代理提供通用支持</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> generic</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-commands-dir</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .myagent/commands/</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 初始化并支持 PowerShell 脚本（Windows/跨平台）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --script</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ps</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 在当前目录初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或使用 --here 标志</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 强制合并到当前（非空）目录，无需确认</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> .</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --force</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> copilot</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 跳过 Git 初始化</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> gemini</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --no-git</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 启用调试输出</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --debug</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 使用 GitHub Token 进行 API 请求（适用于企业环境）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --github-token</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ghp_your_token_here</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 默认情况下，Claude Code 会在项目中安装 skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 在当前目录初始化并使用 agent skills</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --here</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> gemini</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai-skills</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 使用时间戳分支编号（适用于分布式团队）</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> init</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my-project</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --ai</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> claude</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --branch-numbering</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> timestamp</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 检查系统需求</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> check</span></span></code>b:T41d,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extension</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> search</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 安装扩展</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extension</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">extension-nam</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">e</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span></code>c:T414,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> preset</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> search</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 安装预设</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">specify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> preset</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> &#x3C;</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">preset-nam</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">e</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49">></span></span></code>0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{"post":{"title":"Spec Coding（SDD——规格驱动开发）","description":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。","coverImage":"/images/posts/spec-coding-cover.png","date":"$D2026-04-26T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"spec-coding","published":true,"content":"$4","readingTime":4},"relatedPosts":[{"title":"Ralph Loop","description":"Ralph 是一个自主 AI 智能体循环，它会反复运行 AI 编程工具（Amp 或 Claude Code），直到产品需求文档（PRD）中的所有条目全部完成。每次迭代都是一个全新的实例，拥有干净的上下文环境。记忆状态通过 Git 提交历史、progress.txt 文件以及 prd.json 文件进行持久化保存。","date":"$D2026-04-28T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"ralph","published":true,"readingTime":3},{"title":"Superpowers","description":"Superpowers 学习和使用总结。Process over Prompt（流程大于提示词），给 AI 套上软件工程的「纪律与护栏」，让它像资深工程师一样先思考、再规划、后编码、必验证。","date":"$D2026-04-27T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"superpowers","published":true,"readingTime":3},{"title":"Next.js 15 入门指南","description":"全面介绍如何使用 Next.js 15 App Router 构建现代 Web 应用，涵盖路由、数据获取和部署等内容。","coverImage":"/images/posts/nextjs-guide.jpg","date":"$D2026-04-05T00:00:00.000Z","tags":["Next.js","React","Web开发"],"category":"教程","author":"Charlie Fei","slug":"nextjs-15-guide","published":true,"readingTime":4}],"locale":"zh","highlightedCode":{"# 安装指定的稳定版本（推荐——将 vX.Y.Z 替换为最新标签）\nuv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z\n\n# 或安装 main 分支的最新版本（可能包含未发布的变更）\nuv tool install specify-cli --from git+https://github.com/github/spec-kit.git\n\n# 升级 spec-kit\nuv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z":"$5","# 创建新项目\nspecify init <PROJECT_NAME>\n\n# 或在现有项目中初始化\nspecify init . --ai claude\n\n# 指定 AI 编程代理并使用 skills\nspecify init . --ai claude --ai-skills\n\n# 或\nspecify init --here --ai claude\n\n# 检查已安装的工具\nspecify check":"$6","/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements":"$7","/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.":"$8","/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.":"$9","/speckit.tasks":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/speckit.tasks</span></span></code>","/speckit.implement":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/speckit.implement</span></span></code>","# 基础项目初始化\nspecify init my-project\n\n# 指定 AI 助手\nspecify init my-project --ai claude\n\n# 初始化并支持 Cursor\nspecify init my-project --ai cursor-agent\n\n# 初始化并支持 Qoder\nspecify init my-project --ai qodercli\n\n# 初始化并支持 Windsurf\nspecify init my-project --ai windsurf\n\n# 初始化并支持 Kiro CLI\nspecify init my-project --ai kiro-cli\n\n# 初始化并支持 Amp\nspecify init my-project --ai amp\n\n# 初始化并支持 SHAI\nspecify init my-project --ai shai\n\n# 初始化并支持 Mistral Vibe\nspecify init my-project --ai vibe\n\n# 初始化并支持 IBM Bob\nspecify init my-project --ai bob\n\n# 初始化并支持 Pi Coding Agent\nspecify init my-project --ai pi\n\n# 初始化并支持 Codex CLI\nspecify init my-project --ai codex --ai-skills\n\n# 初始化并支持 Antigravity\nspecify init my-project --ai agy --ai-skills\n\n# 初始化并支持 Forge\nspecify init my-project --ai forge\n\n# 初始化并为不支持的代理提供通用支持\nspecify init my-project --ai generic --ai-commands-dir .myagent/commands/\n\n# 初始化并支持 PowerShell 脚本（Windows/跨平台）\nspecify init my-project --ai copilot --script ps\n\n# 在当前目录初始化\nspecify init . --ai copilot\n# 或使用 --here 标志\nspecify init --here --ai copilot\n\n# 强制合并到当前（非空）目录，无需确认\nspecify init . --force --ai copilot\n# 或\nspecify init --here --force --ai copilot\n\n# 跳过 Git 初始化\nspecify init my-project --ai gemini --no-git\n\n# 启用调试输出\nspecify init my-project --ai claude --debug\n\n# 使用 GitHub Token 进行 API 请求（适用于企业环境）\nspecify init my-project --ai claude --github-token ghp_your_token_here\n\n# 默认情况下，Claude Code 会在项目中安装 skills\nspecify init my-project --ai claude\n\n# 在当前目录初始化并使用 agent skills\nspecify init --here --ai gemini --ai-skills\n\n# 使用时间戳分支编号（适用于分布式团队）\nspecify init my-project --ai claude --branch-numbering timestamp\n\n# 检查系统需求\nspecify check":"$a",".specify/templates/overrides/         # 本地项目覆盖（优先级最高），无需创建完整预设即可一次性调整当前项目\n.specify/presets/templates/           # 自定义扩展和核心模板\n.specify/extensions/templates/        # 增强 spec-kit 的能力\n.specify/templates/                   # spec-kit 的核心内置模板":"<code data-language=\"plain\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span>.specify/templates/overrides/         # 本地项目覆盖（优先级最高），无需创建完整预设即可一次性调整当前项目</span></span>\n<span data-line=\"\"><span>.specify/presets/templates/           # 自定义扩展和核心模板</span></span>\n<span data-line=\"\"><span>.specify/extensions/templates/        # 增强 spec-kit 的能力</span></span>\n<span data-line=\"\"><span>.specify/templates/                   # spec-kit 的核心内置模板</span></span></code>","specify extension search\n\n# 安装扩展\nspecify extension add <extension-name>":"$b","specify preset search\n\n# 安装预设\nspecify preset add <preset-name>":"$c"},"commentsConfig":{"repo":"charliefei/charliefei.github.io","repoId":"R_kgDOIjbuug","category":"Announcements","categoryId":"DIC_kwDOIjbuus4C-bD3","mapping":"specific","strict":"0","reactionsEnabled":"1","emitMetadata":"0","inputPosition":"bottom","theme":"preferred_color_scheme","lang":"zh-CN","loading":"lazy"}}]],["$Ld","$Le","$Lf","$L10"],"$L11"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"WOboLdh_ZJBULkcYo2eiS"}
+d:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/003uh0yflnc6i.css","precedence":"next"}]
+e:["$","script","script-0",{"src":"/_next/static/chunks/0gb5w2ednu-sk.js","async":true}]
+f:["$","script","script-1",{"src":"/_next/static/chunks/0c7rf5it7~8a~.js","async":true}]
+10:["$","script","script-2",{"src":"/_next/static/chunks/00.-_10l3y85z.js","async":true}]
+11:["$","$L12",null,{"children":["$","$13",null,{"name":"Next.MetadataOutlet","children":"$@14"}]}]
+14:null

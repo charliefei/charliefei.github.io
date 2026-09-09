@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url>
+<loc>https://charliefei.github.io/en/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/blog/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.9</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/about/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/about/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/about/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/about/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/experience/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/experience/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/experience/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/experience/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/resume/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/resume/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/resume/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/resume/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/blog/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.9</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/about/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/about/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/about/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/about/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/experience/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/experience/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/experience/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/experience/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/resume/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/resume/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/resume/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/resume/" />
+<lastmod>2026-09-09T03:05:16.625Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/blog/ralph/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/ralph/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/ralph/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/ralph/" />
+<lastmod>2026-04-28T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/blog/superpowers/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/superpowers/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/superpowers/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/superpowers/" />
+<lastmod>2026-04-27T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/blog/spec-coding/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/spec-coding/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/spec-coding/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/spec-coding/" />
+<lastmod>2026-04-26T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/en/blog/nextjs-15-guide/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/nextjs-15-guide/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/nextjs-15-guide/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/nextjs-15-guide/" />
+<lastmod>2026-04-05T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/blog/ralph/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/ralph/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/ralph/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/ralph/" />
+<lastmod>2026-04-28T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/blog/superpowers/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/superpowers/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/superpowers/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/superpowers/" />
+<lastmod>2026-04-27T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/blog/spec-coding/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/spec-coding/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/spec-coding/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/spec-coding/" />
+<lastmod>2026-04-26T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://charliefei.github.io/zh/blog/nextjs-15-guide/</loc>
+<xhtml:link rel="alternate" hreflang="en-US" href="https://charliefei.github.io/en/blog/nextjs-15-guide/" />
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://charliefei.github.io/zh/blog/nextjs-15-guide/" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://charliefei.github.io/en/blog/nextjs-15-guide/" />
+<lastmod>2026-04-05T00:00:00.000Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+</urlset>

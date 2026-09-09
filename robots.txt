@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://charliefei.github.io/
+Sitemap: https://charliefei.github.io/sitemap.xml

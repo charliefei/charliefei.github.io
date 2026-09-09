@@ -1,0 +1,225 @@
+1:"$Sreact.fragment"
+3:I[60380,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/0gb5w2ednu-sk.js","/_next/static/chunks/0c7rf5it7~8a~.js","/_next/static/chunks/00.-_10l3y85z.js"],"BlogContent"]
+d:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"OutletBoundary"]
+e:"$Sreact.suspense"
+:HL["/_next/static/chunks/003uh0yflnc6i.css","style"]
+2:T6b9,[{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://charliefei.github.io/en/blog/ralph/#article","headline":"Ralph Loop","description":"Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.","mainEntityOfPage":{"@type":"WebPage","@id":"https://charliefei.github.io/en/blog/ralph/"},"datePublished":"2026-04-28T00:00:00.000Z","dateModified":"2026-04-28T00:00:00.000Z","author":{"@id":"https://charliefei.github.io/#person"},"publisher":{"@type":"Person","@id":"https://charliefei.github.io/#person","name":"Charlie Fei","url":"https://charliefei.github.io/","image":"https://charliefei.github.io/images/avatar.png","jobTitle":"Full Stack Developer","address":{"@type":"PostalAddress","addressLocality":"Nanjing, China"},"email":"charliefei839@qq.com","sameAs":["https://github.com/charliefei","https://x.com/charliefei_","https://www.youtube.com/@charliefei839","https://space.bilibili.com/352442220"]},"articleSection":"Tutorials","keywords":"AICoding","url":"https://charliefei.github.io/en/blog/ralph/","isPartOf":{"@id":"https://charliefei.github.io/#website"},"inLanguage":"en-US"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://charliefei.github.io/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://charliefei.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Ralph Loop","item":"https://charliefei.github.io/en/blog/ralph/"}]}]4:T1781,
+[GitHub Repository](https://github.com/snarktank/ralph)
+
+[Official Introduction](https://ghuntley.com/ralph/)
+
+[Ryan Carson's Experience](https://x.com/ryancarson/status/2008548371712135632)
+
+# Installing Ralph
+
+## Manual Copy to Project
+```bash
+# Run from project root
+mkdir -p scripts/ralph
+cp /path/to/ralph/ralph.sh scripts/ralph/
+
+# Copy the prompt template for your AI tool:
+cp /path/to/ralph/prompt.md scripts/ralph/prompt.md    # for Amp
+# or
+cp /path/to/ralph/CLAUDE.md scripts/ralph/CLAUDE.md    # for Claude Code
+
+chmod +x scripts/ralph/ralph.sh
+```
+
+## Installing via Agent Skills
+
+### Manual Copy
+
+```bash
+# Amp
+cp -r skills/prd ~/.config/amp/skills/
+cp -r skills/ralph ~/.config/amp/skills/
+
+# Claude Code
+cp -r skills/prd ~/.claude/skills/
+cp -r skills/ralph ~/.claude/skills/
+```
+
+### Via Claude Code Plugin Marketplace
+
+```bash
+/plugin marketplace add snarktank/ralph
+/plugin install ralph-skills@ralph-marketplace
+```
+
+After installation you'll have two skills:
+- `/prd` — Generate a Product Requirements Document (PRD)
+- `/ralph` — Convert PRD to prd.json format
+
+## Configuring Amp Auto Handoff
+
+Edit `~/.config/amp/settings.json`:
+
+```json
+{
+  "amp.experimental.autoHandoff": { "context": 90 }
+}
+```
+
+This enables **auto-handoff on context overflow**, allowing Ralph to handle large user stories that exceed a single context window capacity.
+
+# Official Workflow
+
+## Creating a PRD
+
+Use the PRD skill to generate a detailed requirements document:
+
+```bash
+Load the prd skill and create a PRD for [your feature description]
+```
+
+Answer the AI's clarifying questions. This command saves the output to `tasks/prd-[feature-name].md`.
+
+## Converting PRD to Ralph Format
+
+Use the Ralph tool to convert the Markdown PRD into JSON format:
+
+```bash
+Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
+```
+
+This generates a **prd.json** file containing user stories structured for **autonomous execution**.
+
+## Running Ralph
+
+```bash
+# Using Amp (default)
+./scripts/ralph/ralph.sh [max_iterations]
+
+# Using Claude Code
+./scripts/ralph/ralph.sh --tool claude [max_iterations]
+```
+
+The default iteration count is 10. Use `--tool amp` or `--tool claude` to select the AI coding tool.
+
+Ralph's execution flow:
+
+1. Create a feature branch based on the branch name specified in the PRD
+2. Pick the highest priority user story that is not yet completed (`passes: false`)
+3. Implement the user story
+4. Run quality checks (type checking, tests)
+5. Commit if checks pass
+6. Update prd.json, marking the story as completed (`passes: true`)
+7. Append lessons learned to progress.txt
+8. Repeat until all stories pass or maximum iterations are reached
+
+# Core Files
+
+| File | Purpose |
+| --- | --- |
+| ralph.sh | Bash loop script that launches fresh AI instances (supports `--tool amp` or `--tool claude`) |
+| prompt.md | Prompt template for Amp |
+| CLAUDE.md | Prompt template for Claude Code |
+| prd.json | User stories with completion status (task list) |
+| prd.json.example | Example PRD format for reference |
+| progress.txt | Append-only experience log for subsequent iterations |
+| skills/prd/ | Skill for generating PRDs (compatible with Amp and Claude Code) |
+| skills/ralph/ | Skill for converting PRDs to JSON (compatible with Amp and Claude Code) |
+| .claude-plugin/ | Plugin manifest for Claude Code plugin marketplace discovery |
+| flowchart/ | Interactive visualization of the Ralph workflow |
+
+# Core Concepts
+
+## Each Iteration = Fresh Context
+
+Each iteration launches a **brand new, context-clean AI instance** (Amp or Claude Code). The only persisted state between iterations includes:
+
+- Git history (commits from previous iterations)
+- progress.txt (lessons learned and context information)
+- prd.json (which user stories are completed)
+
+## Small Task Principle
+
+Every requirement item in the PRD should be small enough to complete within a **single context window**. If tasks are too large, the LLM will exhaust its context before completion, resulting in poor quality code.
+
+**Appropriately sized user stories:**
+
+- Add a database field and migration script
+- Add a new UI component to an existing page
+- Add new logic and update a server action
+- Add a filter dropdown to a list
+
+**Too large (needs splitting):**
+
+- "Build a complete dashboard"
+- "Add authentication functionality"
+- "Refactor the entire API"
+
+## AGENTS.md Updates Are Crucial
+
+After each iteration, Ralph appends lessons learned to the corresponding **AGENTS.md** file. This is crucial — AI coding tools automatically read these files, and subsequent iterations as well as future developers benefit from the summarized development patterns, gotchas, and code conventions.
+
+What to include in AGENTS.md:
+
+- **Development patterns**: e.g., "This codebase uses X to implement Y"
+- **Gotchas**: e.g., "When modifying W, always update Z"
+- **Useful context**: e.g., "Settings panel is located in component X"
+
+## Feedback Loop
+
+Ralph only works correctly when a **feedback loop** exists:
+
+- Type checking catches type errors
+- Tests verify functional behavior
+- CI must remain passing (broken code accumulates problems across iterations)
+
+## Browser Verification for Frontend Stories
+
+Frontend user story acceptance criteria must include **"Verify in the browser using the dev-browser tool"**. Ralph will access the corresponding page via browser dev tools, interact with the UI, and confirm the modifications work correctly.
+
+## Stop Condition
+
+When all user stories have `passes` set to `true`, Ralph outputs `<promise>COMPLETE</promise>` and exits the loop.
+
+# Debugging
+
+Check current run status:
+
+```bash
+# See which stories are completed
+cat prd.json | jq '.userStories[] | {id, title, passes}'
+
+# View experience logs from previous iterations
+cat progress.txt
+
+# View Git commit history
+git log --oneline -10
+```
+
+# Archiving
+
+When starting a new feature (using a different branch name), Ralph automatically archives previous run records. Archives are saved to `archive/YYYY-MM-DD-feature-name/`.
+5:T8dc,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Run from project root</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">mkdir</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -p</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /path/to/ralph/ralph.sh</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Copy the prompt template for your AI tool:</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /path/to/ralph/prompt.md</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/prompt.md</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">    # for Amp</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># or</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /path/to/ralph/CLAUDE.md</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/CLAUDE.md</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">    # for Claude Code</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">chmod</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> +x</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/ralph.sh</span></span></code>6:T6c3,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Amp</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/prd</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.config/amp/skills/</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/ralph</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.config/amp/skills/</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Claude Code</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/prd</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.claude/skills/</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/ralph</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.claude/skills/</span></span></code>7:T63f,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># See which stories are completed</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cat</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> prd.json</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> |</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> jq</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> '.userStories[] | {id, title, passes}'</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># View experience logs from previous iterations</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cat</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> progress.txt</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># View Git commit history</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">git</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> log</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --oneline</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -10</span></span></code>0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{"post":{"title":"Ralph Loop","description":"Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.","date":"$D2026-04-28T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"ralph","published":true,"content":"$4","readingTime":5},"relatedPosts":[{"title":"Superpowers","description":"A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.","date":"$D2026-04-27T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"superpowers","published":true,"readingTime":9},{"title":"Spec Coding (SDD — Spec-Driven Development)","description":"A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.","coverImage":"/images/posts/spec-coding-cover.png","date":"$D2026-04-26T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"spec-coding","published":true,"readingTime":6},{"title":"Next.js 15: A Complete Guide","description":"A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.","coverImage":"/images/posts/nextjs-guide.jpg","date":"$D2026-04-05T00:00:00.000Z","tags":["Next.js","React","Web Development"],"category":"Tutorials","author":"Charlie Fei","slug":"nextjs-15-guide","published":true,"readingTime":7}],"locale":"en","highlightedCode":{"# Run from project root\nmkdir -p scripts/ralph\ncp /path/to/ralph/ralph.sh scripts/ralph/\n\n# Copy the prompt template for your AI tool:\ncp /path/to/ralph/prompt.md scripts/ralph/prompt.md    # for Amp\n# or\ncp /path/to/ralph/CLAUDE.md scripts/ralph/CLAUDE.md    # for Claude Code\n\nchmod +x scripts/ralph/ralph.sh":"$5","# Amp\ncp -r skills/prd ~/.config/amp/skills/\ncp -r skills/ralph ~/.config/amp/skills/\n\n# Claude Code\ncp -r skills/prd ~/.claude/skills/\ncp -r skills/ralph ~/.claude/skills/":"$6","/plugin marketplace add snarktank/ralph\n/plugin install ralph-skills@ralph-marketplace":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/plugin</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> marketplace</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> add</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> snarktank/ralph</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/plugin</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> install</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> ralph-skills@ralph-marketplace</span></span></code>","{\n  \"amp.experimental.autoHandoff\": { \"context\": 90 }\n}":"<code data-language=\"json\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">{</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#E06C75;--shiki-light:#005CC5\">  \"amp.experimental.autoHandoff\"</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">: { </span><span style=\"--shiki-dark:#E06C75;--shiki-light:#005CC5\">\"context\"</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">: </span><span style=\"--shiki-dark:#D19A66;--shiki-light:#005CC5\">90</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> }</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">}</span></span></code>","Load the prd skill and create a PRD for [your feature description]":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">Load</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> the</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> prd</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> skill</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> and</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> create</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> a</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> PRD</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> for</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> [your </span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\">feature</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> description]</span></span></code>","Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">Load</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> the</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> ralph</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> skill</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> and</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> convert</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> tasks/prd-[feature-name].md</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> to</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> prd.json</span></span></code>","# Using Amp (default)\n./scripts/ralph/ralph.sh [max_iterations]\n\n# Using Claude Code\n./scripts/ralph/ralph.sh --tool claude [max_iterations]":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit\"># Using Amp (default)</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">./scripts/ralph/ralph.sh</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> [max_iterations]</span></span>\n<span data-line=\"\"> </span>\n<span data-line=\"\"><span style=\"--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit\"># Using Claude Code</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">./scripts/ralph/ralph.sh</span><span style=\"--shiki-dark:#D19A66;--shiki-light:#005CC5\"> --tool</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> claude</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> [max_iterations]</span></span></code>","# See which stories are completed\ncat prd.json | jq '.userStories[] | {id, title, passes}'\n\n# View experience logs from previous iterations\ncat progress.txt\n\n# View Git commit history\ngit log --oneline -10":"$7"},"commentsConfig":{"repo":"charliefei/charliefei.github.io","repoId":"R_kgDOIjbuug","category":"Announcements","categoryId":"DIC_kwDOIjbuus4C-bD3","mapping":"specific","strict":"0","reactionsEnabled":"1","emitMetadata":"0","inputPosition":"bottom","theme":"preferred_color_scheme","lang":"zh-CN","loading":"lazy"}}]],["$L8","$L9","$La","$Lb"],"$Lc"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"WOboLdh_ZJBULkcYo2eiS"}
+8:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/003uh0yflnc6i.css","precedence":"next"}]
+9:["$","script","script-0",{"src":"/_next/static/chunks/0gb5w2ednu-sk.js","async":true}]
+a:["$","script","script-1",{"src":"/_next/static/chunks/0c7rf5it7~8a~.js","async":true}]
+b:["$","script","script-2",{"src":"/_next/static/chunks/00.-_10l3y85z.js","async":true}]
+c:["$","$Ld",null,{"children":["$","$e",null,{"name":"Next.MetadataOutlet","children":"$@f"}]}]
+f:null

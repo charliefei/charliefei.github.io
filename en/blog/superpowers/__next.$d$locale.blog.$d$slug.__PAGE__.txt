@@ -1,0 +1,247 @@
+1:"$Sreact.fragment"
+3:I[60380,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/0gb5w2ednu-sk.js","/_next/static/chunks/0c7rf5it7~8a~.js","/_next/static/chunks/00.-_10l3y85z.js"],"BlogContent"]
+c:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"OutletBoundary"]
+d:"$Sreact.suspense"
+:HL["/_next/static/chunks/003uh0yflnc6i.css","style"]
+2:T686,[{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://charliefei.github.io/en/blog/superpowers/#article","headline":"Superpowers","description":"A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.","mainEntityOfPage":{"@type":"WebPage","@id":"https://charliefei.github.io/en/blog/superpowers/"},"datePublished":"2026-04-27T00:00:00.000Z","dateModified":"2026-04-27T00:00:00.000Z","author":{"@id":"https://charliefei.github.io/#person"},"publisher":{"@type":"Person","@id":"https://charliefei.github.io/#person","name":"Charlie Fei","url":"https://charliefei.github.io/","image":"https://charliefei.github.io/images/avatar.png","jobTitle":"Full Stack Developer","address":{"@type":"PostalAddress","addressLocality":"Nanjing, China"},"email":"charliefei839@qq.com","sameAs":["https://github.com/charliefei","https://x.com/charliefei_","https://www.youtube.com/@charliefei839","https://space.bilibili.com/352442220"]},"articleSection":"Tutorials","keywords":"AICoding","url":"https://charliefei.github.io/en/blog/superpowers/","isPartOf":{"@id":"https://charliefei.github.io/#website"},"inLanguage":"en-US"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://charliefei.github.io/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://charliefei.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Superpowers","item":"https://charliefei.github.io/en/blog/superpowers/"}]}]4:T3444,
+[GitHub Repository](https://github.com/obra/superpowers)
+
+# Installation
+```shell
+# Claude Official Plugin Marketplace
+/plugin install superpowers@claude-plugins-official
+
+# Superpowers Plugin Marketplace
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+
+# Cursor
+/add-plugin superpowers
+
+# Codex
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md
+
+# OpenCode
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
+
+# Gemini
+gemini extensions install https://github.com/obra/superpowers
+gemini extensions update superpowers
+```
+
+# Workflow
+
+Superpowers defines a complete software engineering workflow, breaking down the AI coding process into multiple stages, each with clear skills/commands, triggers, and deliverables.
+
+## Requirements Clarification
+
+- **Skill/Command:** Brainstorming (`/brainstorming` or `/superpowers:brainstorming`)
+- **Trigger:** User proposes a new feature or requirement (e.g., "Add user login functionality")
+- **Input/Output:** Input is user's natural language requirements; output is clarifying Q&A and preliminary design discussion. **Deliverable:** Requirements specification document (text format) listing key requirements.
+- **Notes:** The skill uses **Socratic questioning to clarify boundaries and requirement details** (e.g., supported login methods, error handling logic). Must obtain user confirmation before proceeding. If user answers are ambiguous or incomplete, continue asking. If answers are inconsistent, re-verify requirements.
+
+## Design & Architecture
+
+- **Skill:** Can be seen as a continuation of Brainstorming, or implicit in Plans; includes **design review**.
+- **Trigger:** Automatically proceeds after Brainstorming requirements are confirmed.
+- **Input/Output:** Input is the clarified requirements; output is system architecture or module division suggestions. **Deliverable:** System architecture sketch or component list.
+- **Notes:** Design should follow best practices, be clear and concise. If the design is insufficient, return to the Brainstorming phase to supplement requirements or rethink. Use Brainstorming output to verify design soundness.
+
+## Plan Breakdown
+
+- **Skill/Command:** Writing Plans (`/writing-plans` or `/superpowers:writing-plans`)
+- **Trigger:** After design plan is confirmed, input requirements to begin task breakdown.
+- **Input/Output:** Input is requirements specification or design document; output is detailed implementation steps. **Deliverable:** Implementation plan document listing multiple small tasks (each including goal, file paths, example code, verification steps).
+- **Notes:** Each task should be completable within 2–5 minutes. Follow DRY/YAGNI principles, implement only what's necessary. If task granularity is too large or too small, adjust accordingly. Continuously confirm the plan with the user during execution.
+
+## Creating a Git Worktree
+
+- **Skill/Command:** Using Git Worktrees (implicit, no explicit command)
+- **Trigger:** Automatically created when ready to start coding after implementation plan is generated.
+- **Input/Output:** Executes Git commands in the local project. **Deliverable:** New development branch and corresponding working directory (e.g., `git worktree add -b <feature> ...`).
+- **Notes:** Isolated development environment prevents affecting the main branch. If serious issues arise, the worktree branch can be deleted while keeping the main branch clean. Clean up (`git worktree remove`) after completion to free resources.
+
+## Implementation & Coding
+
+- **Skill/Command:** Execute Plans (`/execute-plan` or `/superpowers:executing-plans`), paired with Test-Driven Development.
+- **Trigger:** Starts when the user agrees to the execution plan or after the planning phase is complete.
+- **Input/Output:** Input is the task list; output is code and tests. AI implements tasks sequentially per plan, opening new sessions or sub-agents for each task.
+- **Deliverable:** Feature code files, corresponding test code, task execution logs.
+- **Notes:** Enforces TDD flow: before implementing each feature, first write a failing test (red), then write minimal code to pass it (green), and finally refactor. AI does not write production code without first writing a failing test. If many failures or logic confusion occurs, pause the current task for debugging; commit promptly after each task completes.
+
+## Test-Driven Development (TDD)
+
+- **Skill/Command:** Test-Driven Development (`/superpowers:test-driven-development`)
+- **Trigger:** Automatically triggered at the start of each coding task.
+- **Input/Output:** Input is task description; output is test cases and implementation code. **Deliverable:** Unit test files and implementation files.
+- **Notes:** Follows the "red-green-refactor" cycle. If test cases are written incorrectly and fail to fail, they should be rewritten. Tasks must not be marked complete before tests pass. AI automatically rolls back incorrect test-first attempts.
+
+## Systematic Debugging
+
+- **Skill/Command:** Systematic Debugging (`/superpowers:systematic-debugging`)
+- **Trigger:** Actively triggered when encountering failing tests, runtime errors, or functional anomalies during coding.
+- **Input/Output:** Input is error description and current code context; output is debugging analysis report. **Deliverable:** Four-stage debugging record (root cause analysis, pattern recognition, hypothesis testing, fix recommendations).
+- **Notes:** Must follow the **root cause first** principle: analyze the problem's essence before applying fixes. If still unresolved after three attempts, consider whether the issue lies in requirements or design, and if necessary, return to previous stages for review or seek human help. Record all debugging hypotheses and conclusions for future reference.
+
+## Code Review
+
+- **Skill/Command:** Request Code Review (`/request-code-review`)
+- **Trigger:** Triggered after all tasks on a feature branch are complete and all tests pass.
+- **Input/Output:** Input is the current branch's code changes; output is a review report. **Deliverable:** Code review feedback (strengths, defects, improvement suggestions).
+- **Notes:** Automated review checks against code style, security, performance, and other standards, producing a graded issue report. If critical issues are found, they must be fixed and the review re-run; general issues can be followed up after merge. When fixing, modify code as suggested and re-run tests and review.
+
+## Merge & Release
+
+- **Skill/Command:** Finish Branch (merge, no explicit command)
+- **Trigger:** Executed when all review issues are resolved and functionality is confirmed correct.
+- **Input/Output:** Input is the reviewed branch; output is the merge operation. **Deliverable:** Merged main branch code.
+- **Notes:** Default behavior: verify all tests pass before merging. Provides merge/PR, keep, or delete options. Clean up Git worktrees (`git worktree remove`) after merge to free space. Merge marks official completion; deployment or release can happen at this stage.
+
+## Retrospective & Summary
+
+- **Skill:** No specific Superpowers skill.
+- **Trigger:** Optional, after merge is complete.
+- **Deliverable:** Project summary document (project experience, list of open issues).
+- **Notes:** Recommended for teams or AI to summarize project outcomes and issues as reference for future process improvement.
+
+# Case Study
+```shell
+User: /brainstorming I want to add user login functionality to my website
+Claude (Brainstorming skill triggered):
+  Let me clarify a few questions before we begin:
+  1. Login method: email+password, phone+verification code, or third-party login?
+  2. Do you need a "Remember Me" feature?
+  3. How should login failures be communicated to the user?
+  ...
+User: We just need email+password login, simple error messages will do.
+Claude:
+  Understood. Requirements analysis results: User login feature needs email and password input, encrypted password storage; display error messages on the frontend on login failure; return user info on successful login. Please confirm to proceed (/writing-plans).
+User: Continue
+Claude: /writing-plans
+Claude (Writing Plans skill triggered):
+  Based on the requirements, I've generated an implementation plan for the "User Login" feature:
+  - Task 1: Create a user table model in `src/models/user.js` (fields: email, passwordHash). **First write a failing test** verifying a newly registered user can log in.
+  - Task 2: Implement login logic in `src/auth/login.js` (verify password and generate JWT). **First write a failing test** ensuring correct credentials allow login.
+  - Task 3: Add a login form in the frontend `src/components/LoginForm.vue` (email/password). **First write a failing test** checking form submission calls the Login API.
+  Please confirm the plan and start execution.
+User: Confirmed
+Claude:
+  Plan generated, starting task execution... (running `/execute-plan`)
+Claude:
+  Creating isolated Git worktree... (`git worktree add -b feature/login .claude/branches/feature/login`)
+  Starting sub-agent task 1: TDD cycle...
+  First write test `test/user.test.js`: verify new user can login [Red]...
+  Write implementation: `src/models/user.js` create model, add passwordHash field, compare hash on login [Green]...
+  Running tests...All pass!
+  Commit changes (`git add && git commit`).
+  Starting task 2...
+  Write test `test/auth.test.js`: verify login logic with registered user [Red]...
+  Implement `src/auth/login.js`: find user and verify password hash, generate JWT [Green]...
+  Tests pass!
+  Starting task 3...
+  Write test `test/loginForm.test.js`: simulate form submission and check Login API call [Red]...
+  Implement `src/components/LoginForm.vue`: add form and connect to backend [Green]...
+  Tests pass! All tasks complete.
+Claude:
+  All tests passed. Now running code review. (/request-code-review)
+Claude (Request Code Review skill triggered):
+  Reviewing tasks...
+  * Task 1 module: Naming conventions are compliant, no issues.
+  * Task 2 module: Found a potential issue — password hash is missing salt, recommend adding it.
+  * Task 3 module: Frontend submission is missing error handling, recommend improving error messaging.
+  Found 1 significant issue, please fix and re-review.
+User: OK, I'll fix it
+Claude:
+  Issues fixed, all tests pass. Code review approved.
+Claude:
+  Preparing to merge branch (finish-branch)... Merge successful, feature branch closed.
+```
+
+**Note:** In the case above, the user sequentially executes `/brainstorming`, `/writing-plans`, confirms and runs `/execute-plan` to trigger coding. AI creates an isolated Git worktree and completes three tasks through TDD cycles. Output includes requirements specification, task list, test results, code snippets, and review report. `/request-code-review` triggers automatic review and reports issues, which are fixed before merging. All commands (e.g., `/execute-plan`, `/request-code-review`) can be used directly in the Claude Code environment.
+
+# Skills Overview
+
+| Stage | Superpowers Skill/Command | Input/Deliverable | Notes & Failure Strategy |
+| --- | --- | --- | --- |
+| Requirements Clarification | Brainstorming (`/brainstorming`) | **Deliverable:** Requirements specification (text). AI Q&A dialogue to clarify requirements. | Ask user questions to define boundaries and use cases. If answers are vague, continue probing. Proceed only after confirmation. |
+| Design/Architecture | Implicit in Brainstorming | **Deliverable:** System design overview. | Evaluate design reasonableness. If unsuitable, return to Brainstorming or requirements stage. |
+| Plan Breakdown | Writing Plans (`/writing-plans`) | **Deliverable:** Implementation plan document (task list). | Break down into 2–5 minute tasks. Split if tasks are too large. Follow DRY/YAGNI principles. |
+| Isolated Development | Using Git Worktrees (automatic) | **Deliverable:** New branch and worktree. | Automatically runs `git worktree` to create branch. On failure, can create manually or continue on main branch (higher risk). |
+| Implementation/Coding | Execute Plans (`/execute-plan`) | **Deliverable:** Feature code and test code; execution logs. | Strict TDD flow: write tests first, then code. If tests don't pass, pause and enter debugging. |
+| TDD | Test-Driven Development (`/superpowers:test-driven-development`) | **Deliverable:** Test case files, implementation code files. | Refuses to generate code without writing tests first. Must not pass when tests fail — rewrite tests or adjust implementation. |
+| Debugging | Systematic Debugging (`/superpowers:systematic-debugging`) | **Deliverable:** Four-stage debugging report. | Follow root cause analysis → pattern recognition → hypothesis → fix steps. After three failures, consider design rework or human intervention. |
+| Code Review | Request Code Review (`/request-code-review`) | **Deliverable:** Review feedback report. | Auto-checks coding standards, security, etc. Critical issues block merge, require fixes. |
+| Merge/Release | Finish Branch (automatic) | **Deliverable:** Merged main branch code. | Run all tests first for stability validation. Provides merge options (merge, PR, keep). Clean up worktrees after completion. |
+5:Tfce,<code data-language="shell" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Claude Official Plugin Marketplace</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/plugin</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> superpowers@claude-plugins-official</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Superpowers Plugin Marketplace</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/plugin</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> marketplace</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> obra/superpowers-marketplace</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/plugin</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> superpowers@superpowers-marketplace</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Cursor</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">/add-plugin</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> superpowers</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Codex</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Fetch</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> follow</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> instructions</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># OpenCode</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Fetch</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> follow</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> instructions</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> from</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Gemini</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">gemini</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extensions</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> install</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> https://github.com/obra/superpowers</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">gemini</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> extensions</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> update</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> superpowers</span></span></code>6:T3a7e,<code data-language="shell" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">User:</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /brainstorming</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> I</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> want</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> to</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> add</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> user</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> login</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> functionality</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> to</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> my</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> website</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Claude</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (Brainstorming </span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">skill</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> triggered</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">):</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  Let</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> me</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> clarify</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> few</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> questions</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> before</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> we</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> begin:</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  1.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Login</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> method:</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> email+password,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> phone+verification</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> code,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> or</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> third-party</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> login?</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  2.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Do</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> you</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> need</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> a</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> "Remember Me"</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> feature?</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  3.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> How</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> should</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> login</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> failures</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> be</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> communicated</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> to</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> the</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> user?</span></span>
+<span data-line=""><span style="--shiki-dark:#56B6C2;--shiki-light:#005CC5">  ...</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">User:</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> We</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> just</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> need</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> email+password</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> login,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> simple</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> error</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> messages</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> will</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> do.</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Claude:</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  Understood.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Requirements</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> analysis</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> results:</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> User</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> login</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> feature</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> needs</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> email</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> and</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> password</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> input,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> encrypted</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> password</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> storage</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">; </span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">display</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> error</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> messages</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> the</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> frontend</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> login</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> failure</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">; </span><span style="--shiki-dark:#C678DD;--shiki-light:#D73A49">return</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> user</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> info</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> successful</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> login.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Please</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> confirm</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> to</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> proceed</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (/writing-plans).</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">User:</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Continue</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Claude:</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /writing-plans</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Claude</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (Writing </span><span style="--shiki-dark:#98C379;--shiki-light:#032F62">Plans</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skill</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> triggered</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E">):</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  Based</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> on</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> the</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> requirements,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> I've generated an implementation plan for the "User Login" feature:</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  - Task 1: Create a user table model in `src/models/user.js` (fields: email, passwordHash). **First write a failing test** verifying a newly registered user can log in.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  - Task 2: Implement login logic in `src/auth/login.js` (verify password and generate JWT). **First write a failing test** ensuring correct credentials allow login.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  - Task 3: Add a login form in the frontend `src/components/LoginForm.vue` (email/password). **First write a failing test** checking form submission calls the Login API.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Please confirm the plan and start execution.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">User: Confirmed</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">Claude:</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Plan generated, starting task execution... (running `/execute-plan`)</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">Claude:</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Creating isolated Git worktree... (`git worktree add -b feature/login .claude/branches/feature/login`)</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Starting sub-agent task 1: TDD cycle...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  First write test `test/user.test.js`: verify new user can login [Red]...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Write implementation: `src/models/user.js` create model, add passwordHash field, compare hash on login [Green]...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Running tests...All pass!</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Commit changes (`git add &#x26;&#x26; git commit`).</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Starting task 2...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Write test `test/auth.test.js`: verify login logic with registered user [Red]...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Implement `src/auth/login.js`: find user and verify password hash, generate JWT [Green]...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Tests pass!</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Starting task 3...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Write test `test/loginForm.test.js`: simulate form submission and check Login API call [Red]...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Implement `src/components/LoginForm.vue`: add form and connect to backend [Green]...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Tests pass! All tasks complete.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">Claude:</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  All tests passed. Now running code review. (/request-code-review)</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">Claude (Request Code Review skill triggered):</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Reviewing tasks...</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  * Task 1 module: Naming conventions are compliant, no issues.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  * Task 2 module: Found a potential issue — password hash is missing salt, recommend adding it.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  * Task 3 module: Frontend submission is missing error handling, recommend improving error messaging.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">  Found 1 significant issue, please fix and re-review.</span></span>
+<span data-line=""><span style="--shiki-dark:#98C379;--shiki-light:#032F62">User: OK, I'll</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> fix</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> it</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Claude:</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  Issues</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> fixed,</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> all</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> tests</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> pass.</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> Code</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> review</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> approved.</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">Claude:</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">  Preparing</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> to</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> merge</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> branch</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#24292E"> (finish-branch)... Merge successful, feature branch closed.</span></span></code>0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{"post":{"title":"Superpowers","description":"A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.","date":"$D2026-04-27T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"superpowers","published":true,"content":"$4","readingTime":9},"relatedPosts":[{"title":"Ralph Loop","description":"Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.","date":"$D2026-04-28T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"ralph","published":true,"readingTime":5},{"title":"Spec Coding (SDD — Spec-Driven Development)","description":"A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.","coverImage":"/images/posts/spec-coding-cover.png","date":"$D2026-04-26T00:00:00.000Z","tags":["AICoding"],"category":"Tutorials","author":"Charlie Fei","slug":"spec-coding","published":true,"readingTime":6},{"title":"Next.js 15: A Complete Guide","description":"A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.","coverImage":"/images/posts/nextjs-guide.jpg","date":"$D2026-04-05T00:00:00.000Z","tags":["Next.js","React","Web Development"],"category":"Tutorials","author":"Charlie Fei","slug":"nextjs-15-guide","published":true,"readingTime":7}],"locale":"en","highlightedCode":{"# Claude Official Plugin Marketplace\n/plugin install superpowers@claude-plugins-official\n\n# Superpowers Plugin Marketplace\n/plugin marketplace add obra/superpowers-marketplace\n/plugin install superpowers@superpowers-marketplace\n\n# Cursor\n/add-plugin superpowers\n\n# Codex\nFetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md\n\n# OpenCode\nFetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n\n# Gemini\ngemini extensions install https://github.com/obra/superpowers\ngemini extensions update superpowers":"$5","User: /brainstorming I want to add user login functionality to my website\nClaude (Brainstorming skill triggered):\n  Let me clarify a few questions before we begin:\n  1. Login method: email+password, phone+verification code, or third-party login?\n  2. Do you need a \"Remember Me\" feature?\n  3. How should login failures be communicated to the user?\n  ...\nUser: We just need email+password login, simple error messages will do.\nClaude:\n  Understood. Requirements analysis results: User login feature needs email and password input, encrypted password storage; display error messages on the frontend on login failure; return user info on successful login. Please confirm to proceed (/writing-plans).\nUser: Continue\nClaude: /writing-plans\nClaude (Writing Plans skill triggered):\n  Based on the requirements, I've generated an implementation plan for the \"User Login\" feature:\n  - Task 1: Create a user table model in `src/models/user.js` (fields: email, passwordHash). **First write a failing test** verifying a newly registered user can log in.\n  - Task 2: Implement login logic in `src/auth/login.js` (verify password and generate JWT). **First write a failing test** ensuring correct credentials allow login.\n  - Task 3: Add a login form in the frontend `src/components/LoginForm.vue` (email/password). **First write a failing test** checking form submission calls the Login API.\n  Please confirm the plan and start execution.\nUser: Confirmed\nClaude:\n  Plan generated, starting task execution... (running `/execute-plan`)\nClaude:\n  Creating isolated Git worktree... (`git worktree add -b feature/login .claude/branches/feature/login`)\n  Starting sub-agent task 1: TDD cycle...\n  First write test `test/user.test.js`: verify new user can login [Red]...\n  Write implementation: `src/models/user.js` create model, add passwordHash field, compare hash on login [Green]...\n  Running tests...All pass!\n  Commit changes (`git add && git commit`).\n  Starting task 2...\n  Write test `test/auth.test.js`: verify login logic with registered user [Red]...\n  Implement `src/auth/login.js`: find user and verify password hash, generate JWT [Green]...\n  Tests pass!\n  Starting task 3...\n  Write test `test/loginForm.test.js`: simulate form submission and check Login API call [Red]...\n  Implement `src/components/LoginForm.vue`: add form and connect to backend [Green]...\n  Tests pass! All tasks complete.\nClaude:\n  All tests passed. Now running code review. (/request-code-review)\nClaude (Request Code Review skill triggered):\n  Reviewing tasks...\n  * Task 1 module: Naming conventions are compliant, no issues.\n  * Task 2 module: Found a potential issue — password hash is missing salt, recommend adding it.\n  * Task 3 module: Frontend submission is missing error handling, recommend improving error messaging.\n  Found 1 significant issue, please fix and re-review.\nUser: OK, I'll fix it\nClaude:\n  Issues fixed, all tests pass. Code review approved.\nClaude:\n  Preparing to merge branch (finish-branch)... Merge successful, feature branch closed.":"$6"},"commentsConfig":{"repo":"charliefei/charliefei.github.io","repoId":"R_kgDOIjbuug","category":"Announcements","categoryId":"DIC_kwDOIjbuus4C-bD3","mapping":"specific","strict":"0","reactionsEnabled":"1","emitMetadata":"0","inputPosition":"bottom","theme":"preferred_color_scheme","lang":"zh-CN","loading":"lazy"}}]],["$L7","$L8","$L9","$La"],"$Lb"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"WOboLdh_ZJBULkcYo2eiS"}
+7:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/003uh0yflnc6i.css","precedence":"next"}]
+8:["$","script","script-0",{"src":"/_next/static/chunks/0gb5w2ednu-sk.js","async":true}]
+9:["$","script","script-1",{"src":"/_next/static/chunks/0c7rf5it7~8a~.js","async":true}]
+a:["$","script","script-2",{"src":"/_next/static/chunks/00.-_10l3y85z.js","async":true}]
+b:["$","$Lc",null,{"children":["$","$d",null,{"name":"Next.MetadataOutlet","children":"$@e"}]}]
+e:null

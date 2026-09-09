@@ -1,0 +1,225 @@
+1:"$Sreact.fragment"
+3:I[60380,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js","/_next/static/chunks/087rkv3~-ckm2.js","/_next/static/chunks/0-_swpmipqq3k.js","/_next/static/chunks/0ntyttz705s_-.js","/_next/static/chunks/0gb5w2ednu-sk.js","/_next/static/chunks/0c7rf5it7~8a~.js","/_next/static/chunks/00.-_10l3y85z.js"],"BlogContent"]
+d:I[97367,["/_next/static/chunks/01xlw8hd842-c.js","/_next/static/chunks/0t2xr05rlu96l.js"],"OutletBoundary"]
+e:"$Sreact.suspense"
+:HL["/_next/static/chunks/003uh0yflnc6i.css","style"]
+2:T6ed,[{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://charliefei.github.io/zh/blog/ralph/#article","headline":"Ralph Loop","description":"Ralph 是一个自主 AI 智能体循环，它会反复运行 AI 编程工具（Amp 或 Claude Code），直到产品需求文档（PRD）中的所有条目全部完成。每次迭代都是一个全新的实例，拥有干净的上下文环境。记忆状态通过 Git 提交历史、progress.txt 文件以及 prd.json 文件进行持久化保存。","mainEntityOfPage":{"@type":"WebPage","@id":"https://charliefei.github.io/zh/blog/ralph/"},"datePublished":"2026-04-28T00:00:00.000Z","dateModified":"2026-04-28T00:00:00.000Z","author":{"@id":"https://charliefei.github.io/#person"},"publisher":{"@type":"Person","@id":"https://charliefei.github.io/#person","name":"Charlie Fei","url":"https://charliefei.github.io/","image":"https://charliefei.github.io/images/avatar.png","jobTitle":"Full Stack Developer","address":{"@type":"PostalAddress","addressLocality":"Nanjing, China"},"email":"charliefei839@qq.com","sameAs":["https://github.com/charliefei","https://x.com/charliefei_","https://www.youtube.com/@charliefei839","https://space.bilibili.com/352442220"]},"articleSection":"教程","keywords":"AICoding","url":"https://charliefei.github.io/zh/blog/ralph/","isPartOf":{"@id":"https://charliefei.github.io/#website"},"inLanguage":"zh-CN"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://charliefei.github.io/zh/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://charliefei.github.io/zh/blog/"},{"@type":"ListItem","position":3,"name":"Ralph Loop","item":"https://charliefei.github.io/zh/blog/ralph/"}]}]4:T1706,
+[GitHub 仓库](https://github.com/snarktank/ralph)
+
+[官方介绍文章](https://ghuntley.com/ralph/)
+
+[Ryan Carson 的使用心得](https://x.com/ryancarson/status/2008548371712135632)
+
+# 安装 Ralph
+
+## 手动复制到项目
+```bash
+# 在项目根目录执行
+mkdir -p scripts/ralph
+cp /path/to/ralph/ralph.sh scripts/ralph/
+
+# 复制适合你 AI 工具的提示词模板：
+cp /path/to/ralph/prompt.md scripts/ralph/prompt.md    # for Amp
+# 或
+cp /path/to/ralph/CLAUDE.md scripts/ralph/CLAUDE.md    # for Claude Code
+
+chmod +x scripts/ralph/ralph.sh
+```
+
+## 通过 Agent Skills 安装
+
+### 手动复制
+
+```bash
+# Amp
+cp -r skills/prd ~/.config/amp/skills/
+cp -r skills/ralph ~/.config/amp/skills/
+
+# Claude Code
+cp -r skills/prd ~/.claude/skills/
+cp -r skills/ralph ~/.claude/skills/
+```
+
+### 通过 Claude Code 官方插件市场
+
+```bash
+/plugin marketplace add snarktank/ralph
+/plugin install ralph-skills@ralph-marketplace
+```
+
+安装完成后会获得两个 skill：
+- `/prd` — 生成产品需求文档（PRD）
+- `/ralph` — 将 PRD 转换为 prd.json 格式
+
+## 配置 Amp 自动交接
+
+编辑 `~/.config/amp/settings.json`：
+
+```json
+{
+  "amp.experimental.autoHandoff": { "context": 90 }
+}
+```
+
+这实现了**上下文溢出时的自动交接**，使 Ralph 能够处理超出单个上下文窗口容量的大型用户故事。
+
+# 官方工作流
+
+## 创建 PRD
+
+使用 PRD 技能生成一份详细的需求文档：
+
+```bash
+Load the prd skill and create a PRD for [your feature description]
+```
+
+回答 AI 提出的澄清问题。该命令会将输出保存至 `tasks/prd-[功能名称].md`。
+
+## 将 PRD 转换为 Ralph 格式
+
+使用 Ralph 工具将 Markdown 格式的 PRD 转换为 JSON 格式：
+
+```bash
+Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
+```
+
+这会生成一个 **prd.json** 文件，其中包含为**自主执行**而结构化编排的用户故事。
+
+## 运行 Ralph
+
+```bash
+# 使用 Amp（默认）
+./scripts/ralph/ralph.sh [max_iterations]
+
+# 使用 Claude Code
+./scripts/ralph/ralph.sh --tool claude [max_iterations]
+```
+
+默认迭代次数为 10 次。可使用 `--tool amp` 或 `--tool claude` 参数选择 AI 编程工具。
+
+Ralph 的执行流程如下：
+
+1. 基于 PRD 中指定的分支名称创建功能分支
+2. 选取优先级最高且尚未通过（`passes: false`）的用户故事
+3. 实现该用户故事
+4. 运行质量检查（类型检查、测试）
+5. 检查通过则进行提交
+6. 更新 prd.json，将该故事标记为已通过（`passes: true`）
+7. 将经验总结追加到 progress.txt
+8. 重复执行，直至所有故事均通过检查或达到最大迭代次数
+
+# 核心文件
+
+| 文件 | 用途 |
+| --- | --- |
+| ralph.sh | 启动全新 AI 实例的 Bash 循环脚本（支持 `--tool amp` 或 `--tool claude` 参数） |
+| prompt.md | Amp 的提示词模板 |
+| CLAUDE.md | Claude Code 的提示词模板 |
+| prd.json | 带完成状态的用户故事（任务清单） |
+| prd.json.example | PRD 示例格式，供参考 |
+| progress.txt | 追加式经验记录，供后续迭代参考 |
+| skills/prd/ | 用于生成 PRD 的技能（适配 Amp 与 Claude Code） |
+| skills/ralph/ | 用于将 PRD 转换为 JSON 的技能（兼容 Amp 和 Claude Code） |
+| .claude-plugin/ | 用于 Claude Code 插件市场发现的插件清单 |
+| flowchart/ | Ralph 工作流程的交互式可视化演示 |
+
+# 核心概念
+
+## 每次迭代 = 全新上下文
+
+每次迭代都会启动一个**全新的、上下文干净的 AI 实例**（Amp 或 Claude Code）。迭代之间唯一保留的状态包括：
+
+- Git 历史记录（来自之前迭代的提交）
+- progress.txt（经验总结与上下文信息）
+- prd.json（标记哪些用户故事已完成）
+
+## 小任务原则
+
+PRD 中的每个需求项都应足够小，确保能在**单次上下文窗口**内完成。任务过大时，大语言模型会在完成前耗尽上下文，导致生成的代码质量很差。
+
+**大小合适的用户故事：**
+
+- 添加数据库字段及迁移脚本
+- 在现有页面中新增一个 UI 组件
+- 为服务端操作新增逻辑并更新
+- 为列表添加筛选下拉框
+
+**过大的任务（需要拆分）：**
+
+- "搭建完整的仪表盘"
+- "添加身份认证功能"
+- "重构整个 API"
+
+## AGENTS.md 更新至关重要
+
+每次迭代完成后，Ralph 都会将经验总结更新到对应的 **AGENTS.md** 文件中。这一点至关重要——AI 编程工具会自动读取这些文件，后续的迭代以及未来的开发人员都能从总结出的开发模式、注意事项和代码规范中受益。
+
+建议写入 AGENTS.md 的内容：
+
+- **开发模式**：例如 "该代码库使用 X 实现 Y 功能"
+- **注意事项**：例如 "修改 W 时务必同步更新 Z"
+- **有用的上下文**：例如 "设置面板位于组件 X 中"
+
+## 反馈循环
+
+Ralph 只有在存在**反馈循环**的情况下才能正常工作：
+
+- 类型检查捕获类型错误
+- 测试验证功能行为
+- CI 必须保持通过（损坏的代码会在多次迭代中不断累积问题）
+
+## 前端故事的浏览器验证
+
+前端用户故事的验收标准中必须包含 **"使用 dev-browser 工具在浏览器中验证"** 这一项。Ralph 会通过浏览器开发工具访问对应页面、与界面交互，并确认修改功能正常。
+
+## 停止条件
+
+当所有用户故事的 `passes` 均为 `true` 时，Ralph 会输出 `<promise>COMPLETE</promise>` 并退出循环。
+
+# 调试
+
+检查当前运行状态：
+
+```bash
+# 查看哪些故事已完成
+cat prd.json | jq '.userStories[] | {id, title, passes}'
+
+# 查看之前迭代的经验记录
+cat progress.txt
+
+# 查看 Git 提交历史
+git log --oneline -10
+```
+
+# 归档
+
+启动一个新功能时（使用不同的分支名称），Ralph 会自动归档之前的运行记录。归档文件将保存至 `archive/YYYY-MM-DD-feature-name/` 目录下。
+5:T8e4,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 在项目根目录执行</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">mkdir</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -p</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /path/to/ralph/ralph.sh</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 复制适合你 AI 工具的提示词模板：</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /path/to/ralph/prompt.md</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/prompt.md</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">    # for Amp</span></span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 或</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> /path/to/ralph/CLAUDE.md</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/CLAUDE.md</span><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit">    # for Claude Code</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">chmod</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> +x</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> scripts/ralph/ralph.sh</span></span></code>6:T6c3,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Amp</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/prd</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.config/amp/skills/</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/ralph</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.config/amp/skills/</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># Claude Code</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/prd</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.claude/skills/</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cp</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -r</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> skills/ralph</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> ~/.claude/skills/</span></span></code>7:T62f,<code data-language="bash" data-theme="one-dark-pro github-light" style="display: grid;"><span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 查看哪些故事已完成</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cat</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> prd.json</span><span style="--shiki-dark:#ABB2BF;--shiki-light:#D73A49"> |</span><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1"> jq</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> '.userStories[] | {id, title, passes}'</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 查看之前迭代的经验记录</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">cat</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> progress.txt</span></span>
+<span data-line=""> </span>
+<span data-line=""><span style="--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit"># 查看 Git 提交历史</span></span>
+<span data-line=""><span style="--shiki-dark:#61AFEF;--shiki-light:#6F42C1">git</span><span style="--shiki-dark:#98C379;--shiki-light:#032F62"> log</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> --oneline</span><span style="--shiki-dark:#D19A66;--shiki-light:#005CC5"> -10</span></span></code>0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","$L3",null,{"post":{"title":"Ralph Loop","description":"Ralph 是一个自主 AI 智能体循环，它会反复运行 AI 编程工具（Amp 或 Claude Code），直到产品需求文档（PRD）中的所有条目全部完成。每次迭代都是一个全新的实例，拥有干净的上下文环境。记忆状态通过 Git 提交历史、progress.txt 文件以及 prd.json 文件进行持久化保存。","date":"$D2026-04-28T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"ralph","published":true,"content":"$4","readingTime":3},"relatedPosts":[{"title":"Superpowers","description":"Superpowers 学习和使用总结。Process over Prompt（流程大于提示词），给 AI 套上软件工程的「纪律与护栏」，让它像资深工程师一样先思考、再规划、后编码、必验证。","date":"$D2026-04-27T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"superpowers","published":true,"readingTime":3},{"title":"Spec Coding（SDD——规格驱动开发）","description":"对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。","coverImage":"/images/posts/spec-coding-cover.png","date":"$D2026-04-26T00:00:00.000Z","tags":["AICoding"],"category":"教程","author":"Charlie Fei","slug":"spec-coding","published":true,"readingTime":4},{"title":"Next.js 15 入门指南","description":"全面介绍如何使用 Next.js 15 App Router 构建现代 Web 应用，涵盖路由、数据获取和部署等内容。","coverImage":"/images/posts/nextjs-guide.jpg","date":"$D2026-04-05T00:00:00.000Z","tags":["Next.js","React","Web开发"],"category":"教程","author":"Charlie Fei","slug":"nextjs-15-guide","published":true,"readingTime":4}],"locale":"zh","highlightedCode":{"# 在项目根目录执行\nmkdir -p scripts/ralph\ncp /path/to/ralph/ralph.sh scripts/ralph/\n\n# 复制适合你 AI 工具的提示词模板：\ncp /path/to/ralph/prompt.md scripts/ralph/prompt.md    # for Amp\n# 或\ncp /path/to/ralph/CLAUDE.md scripts/ralph/CLAUDE.md    # for Claude Code\n\nchmod +x scripts/ralph/ralph.sh":"$5","# Amp\ncp -r skills/prd ~/.config/amp/skills/\ncp -r skills/ralph ~/.config/amp/skills/\n\n# Claude Code\ncp -r skills/prd ~/.claude/skills/\ncp -r skills/ralph ~/.claude/skills/":"$6","/plugin marketplace add snarktank/ralph\n/plugin install ralph-skills@ralph-marketplace":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/plugin</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> marketplace</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> add</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> snarktank/ralph</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">/plugin</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> install</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> ralph-skills@ralph-marketplace</span></span></code>","{\n  \"amp.experimental.autoHandoff\": { \"context\": 90 }\n}":"<code data-language=\"json\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">{</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#E06C75;--shiki-light:#005CC5\">  \"amp.experimental.autoHandoff\"</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">: { </span><span style=\"--shiki-dark:#E06C75;--shiki-light:#005CC5\">\"context\"</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">: </span><span style=\"--shiki-dark:#D19A66;--shiki-light:#005CC5\">90</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> }</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\">}</span></span></code>","Load the prd skill and create a PRD for [your feature description]":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">Load</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> the</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> prd</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> skill</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> and</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> create</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> a</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> PRD</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> for</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> [your </span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\">feature</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> description]</span></span></code>","Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">Load</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> the</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> ralph</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> skill</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> and</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> convert</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> tasks/prd-[feature-name].md</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> to</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> prd.json</span></span></code>","# 使用 Amp（默认）\n./scripts/ralph/ralph.sh [max_iterations]\n\n# 使用 Claude Code\n./scripts/ralph/ralph.sh --tool claude [max_iterations]":"<code data-language=\"bash\" data-theme=\"one-dark-pro github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit\"># 使用 Amp（默认）</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">./scripts/ralph/ralph.sh</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> [max_iterations]</span></span>\n<span data-line=\"\"> </span>\n<span data-line=\"\"><span style=\"--shiki-dark:#7F848E;--shiki-dark-font-style:italic;--shiki-light:#6A737D;--shiki-light-font-style:inherit\"># 使用 Claude Code</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#61AFEF;--shiki-light:#6F42C1\">./scripts/ralph/ralph.sh</span><span style=\"--shiki-dark:#D19A66;--shiki-light:#005CC5\"> --tool</span><span style=\"--shiki-dark:#98C379;--shiki-light:#032F62\"> claude</span><span style=\"--shiki-dark:#ABB2BF;--shiki-light:#24292E\"> [max_iterations]</span></span></code>","# 查看哪些故事已完成\ncat prd.json | jq '.userStories[] | {id, title, passes}'\n\n# 查看之前迭代的经验记录\ncat progress.txt\n\n# 查看 Git 提交历史\ngit log --oneline -10":"$7"},"commentsConfig":{"repo":"charliefei/charliefei.github.io","repoId":"R_kgDOIjbuug","category":"Announcements","categoryId":"DIC_kwDOIjbuus4C-bD3","mapping":"specific","strict":"0","reactionsEnabled":"1","emitMetadata":"0","inputPosition":"bottom","theme":"preferred_color_scheme","lang":"zh-CN","loading":"lazy"}}]],["$L8","$L9","$La","$Lb"],"$Lc"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"WOboLdh_ZJBULkcYo2eiS"}
+8:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/003uh0yflnc6i.css","precedence":"next"}]
+9:["$","script","script-0",{"src":"/_next/static/chunks/0gb5w2ednu-sk.js","async":true}]
+a:["$","script","script-1",{"src":"/_next/static/chunks/0c7rf5it7~8a~.js","async":true}]
+b:["$","script","script-2",{"src":"/_next/static/chunks/00.-_10l3y85z.js","async":true}]
+c:["$","$Ld",null,{"children":["$","$e",null,{"name":"Next.MetadataOutlet","children":"$@f"}]}]
+f:null
