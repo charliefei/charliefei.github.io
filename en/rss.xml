@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Charlie&apos;s Personal Blog - English</title>
+        <link>https://charliefei.github.io/en/blog/</link>
+        <description>Technical articles, tutorials, and thoughts from Charlie Fei.</description>
+        <language>en-US</language>
+        <lastBuildDate>Tue, 28 Apr 2026 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Charlie Fei Blog RSS Generator</generator>
+        <image>
+            <title>Charlie Fei</title>
+            <url>https://charliefei.github.io/images/avatar.png</url>
+            <link>https://charliefei.github.io/</link>
+        </image>
+        <copyright>All rights reserved by Charlie Fei</copyright>
+        <atom:link href="https://charliefei.github.io/en/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Ralph Loop]]></title>
+            <link>https://charliefei.github.io/en/blog/ralph/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/ralph/</guid>
+            <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/snarktank/ralph">GitHub Repository</a></p>
+<p><a href="https://ghuntley.com/ralph/">Official Introduction</a></p>
+<p><a href="https://x.com/ryancarson/status/2008548371712135632">Ryan Carson's Experience</a></p>
+<h1>Installing Ralph</h1>
+<h2>Manual Copy to Project</h2>
+<pre><code class="language-bash"># Run from project root
+mkdir -p scripts/ralph
+cp /path/to/ralph/ralph.sh scripts/ralph/
+
+# Copy the prompt template for your AI tool:
+cp /path/to/ralph/prompt.md scripts/ralph/prompt.md    # for Amp
+# or
+cp /path/to/ralph/CLAUDE.md scripts/ralph/CLAUDE.md    # for Claude Code
+
+chmod +x scripts/ralph/ralph.sh
+</code></pre>
+<h2>Installing via Agent Skills</h2>
+<h3>Manual Copy</h3>
+<pre><code class="language-bash"># Amp
+cp -r skills/prd ~/.config/amp/skills/
+cp -r skills/ralph ~/.config/amp/skills/
+
+# Claude Code
+cp -r skills/prd ~/.claude/skills/
+cp -r skills/ralph ~/.claude/skills/
+</code></pre>
+<h3>Via Claude Code Plugin Marketplace</h3>
+<pre><code class="language-bash">/plugin marketplace add snarktank/ralph
+/plugin install ralph-skills@ralph-marketplace
+</code></pre>
+<p>After installation you'll have two skills:</p>
+<ul>
+<li><code>/prd</code> — Generate a Product Requirements Document (PRD)</li>
+<li><code>/ralph</code> — Convert PRD to prd.json format</li>
+</ul>
+<h2>Configuring Amp Auto Handoff</h2>
+<p>Edit <code>~/.config/amp/settings.json</code>:</p>
+<pre><code class="language-json">{
+  "amp.experimental.autoHandoff": { "context": 90 }
+}
+</code></pre>
+<p>This enables <strong>auto-handoff on context overflow</strong>, allowing Ralph to handle large user stories that exceed a single context window capacity.</p>
+<h1>Official Workflow</h1>
+<h2>Creating a PRD</h2>
+<p>Use the PRD skill to generate a detailed requirements document:</p>
+<pre><code class="language-bash">Load the prd skill and create a PRD for [your feature description]
+</code></pre>
+<p>Answer the AI's clarifying questions. This command saves the output to <code>tasks/prd-[feature-name].md</code>.</p>
+<h2>Converting PRD to Ralph Format</h2>
+<p>Use the Ralph tool to convert the Markdown PRD into JSON format:</p>
+<pre><code class="language-bash">Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
+</code></pre>
+<p>This generates a <strong>prd.json</strong> file containing user stories structured for <strong>autonomous execution</strong>.</p>
+<h2>Running Ralph</h2>
+<pre><code class="language-bash"># Using Amp (default)
+./scripts/ralph/ralph.sh [max_iterations]
+
+# Using Claude Code
+./scripts/ralph/ralph.sh --tool claude [max_iterations]
+</code></pre>
+<p>The default iteration count is 10. Use <code>--tool amp</code> or <code>--tool claude</code> to select the AI coding tool.</p>
+<p>Ralph's execution flow:</p>
+<ol>
+<li>Create a feature branch based on the branch name specified in the PRD</li>
+<li>Pick the highest priority user story that is not yet completed (<code>passes: false</code>)</li>
+<li>Implement the user story</li>
+<li>Run quality checks (type checking, tests)</li>
+<li>Commit if checks pass</li>
+<li>Update prd.json, marking the story as completed (<code>passes: true</code>)</li>
+<li>Append lessons learned to progress.txt</li>
+<li>Repeat until all stories pass or maximum iterations are reached</li>
+</ol>
+<h1>Core Files</h1>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ralph.sh</td>
+<td>Bash loop script that launches fresh AI instances (supports <code>--tool amp</code> or <code>--tool claude</code>)</td>
+</tr>
+<tr>
+<td>prompt.md</td>
+<td>Prompt template for Amp</td>
+</tr>
+<tr>
+<td>CLAUDE.md</td>
+<td>Prompt template for Claude Code</td>
+</tr>
+<tr>
+<td>prd.json</td>
+<td>User stories with completion status (task list)</td>
+</tr>
+<tr>
+<td>prd.json.example</td>
+<td>Example PRD format for reference</td>
+</tr>
+<tr>
+<td>progress.txt</td>
+<td>Append-only experience log for subsequent iterations</td>
+</tr>
+<tr>
+<td>skills/prd/</td>
+<td>Skill for generating PRDs (compatible with Amp and Claude Code)</td>
+</tr>
+<tr>
+<td>skills/ralph/</td>
+<td>Skill for converting PRDs to JSON (compatible with Amp and Claude Code)</td>
+</tr>
+<tr>
+<td>.claude-plugin/</td>
+<td>Plugin manifest for Claude Code plugin marketplace discovery</td>
+</tr>
+<tr>
+<td>flowchart/</td>
+<td>Interactive visualization of the Ralph workflow</td>
+</tr>
+</tbody>
+</table>
+<h1>Core Concepts</h1>
+<h2>Each Iteration = Fresh Context</h2>
+<p>Each iteration launches a <strong>brand new, context-clean AI instance</strong> (Amp or Claude Code). The only persisted state between iterations includes:</p>
+<ul>
+<li>Git history (commits from previous iterations)</li>
+<li>progress.txt (lessons learned and context information)</li>
+<li>prd.json (which user stories are completed)</li>
+</ul>
+<h2>Small Task Principle</h2>
+<p>Every requirement item in the PRD should be small enough to complete within a <strong>single context window</strong>. If tasks are too large, the LLM will exhaust its context before completion, resulting in poor quality code.</p>
+<p><strong>Appropriately sized user stories:</strong></p>
+<ul>
+<li>Add a database field and migration script</li>
+<li>Add a new UI component to an existing page</li>
+<li>Add new logic and update a server action</li>
+<li>Add a filter dropdown to a list</li>
+</ul>
+<p><strong>Too large (needs splitting):</strong></p>
+<ul>
+<li>"Build a complete dashboard"</li>
+<li>"Add authentication functionality"</li>
+<li>"Refactor the entire API"</li>
+</ul>
+<h2>AGENTS.md Updates Are Crucial</h2>
+<p>After each iteration, Ralph appends lessons learned to the corresponding <strong>AGENTS.md</strong> file. This is crucial — AI coding tools automatically read these files, and subsequent iterations as well as future developers benefit from the summarized development patterns, gotchas, and code conventions.</p>
+<p>What to include in AGENTS.md:</p>
+<ul>
+<li><strong>Development patterns</strong>: e.g., "This codebase uses X to implement Y"</li>
+<li><strong>Gotchas</strong>: e.g., "When modifying W, always update Z"</li>
+<li><strong>Useful context</strong>: e.g., "Settings panel is located in component X"</li>
+</ul>
+<h2>Feedback Loop</h2>
+<p>Ralph only works correctly when a <strong>feedback loop</strong> exists:</p>
+<ul>
+<li>Type checking catches type errors</li>
+<li>Tests verify functional behavior</li>
+<li>CI must remain passing (broken code accumulates problems across iterations)</li>
+</ul>
+<h2>Browser Verification for Frontend Stories</h2>
+<p>Frontend user story acceptance criteria must include <strong>"Verify in the browser using the dev-browser tool"</strong>. Ralph will access the corresponding page via browser dev tools, interact with the UI, and confirm the modifications work correctly.</p>
+<h2>Stop Condition</h2>
+<p>When all user stories have <code>passes</code> set to <code>true</code>, Ralph outputs <code>&#x3C;promise>COMPLETE&#x3C;/promise></code> and exits the loop.</p>
+<h1>Debugging</h1>
+<p>Check current run status:</p>
+<pre><code class="language-bash"># See which stories are completed
+cat prd.json | jq '.userStories[] | {id, title, passes}'
+
+# View experience logs from previous iterations
+cat progress.txt
+
+# View Git commit history
+git log --oneline -10
+</code></pre>
+<h1>Archiving</h1>
+<p>When starting a new feature (using a different branch name), Ralph automatically archives previous run records. Archives are saved to <code>archive/YYYY-MM-DD-feature-name/</code>.</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Superpowers]]></title>
+            <link>https://charliefei.github.io/en/blog/superpowers/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/superpowers/</guid>
+            <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/obra/superpowers">GitHub Repository</a></p>
+<h1>Installation</h1>
+<pre><code class="language-shell"># Claude Official Plugin Marketplace
+/plugin install superpowers@claude-plugins-official
+
+# Superpowers Plugin Marketplace
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+
+# Cursor
+/add-plugin superpowers
+
+# Codex
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md
+
+# OpenCode
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
+
+# Gemini
+gemini extensions install https://github.com/obra/superpowers
+gemini extensions update superpowers
+</code></pre>
+<h1>Workflow</h1>
+<p>Superpowers defines a complete software engineering workflow, breaking down the AI coding process into multiple stages, each with clear skills/commands, triggers, and deliverables.</p>
+<h2>Requirements Clarification</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Brainstorming (<code>/brainstorming</code> or <code>/superpowers:brainstorming</code>)</li>
+<li><strong>Trigger:</strong> User proposes a new feature or requirement (e.g., "Add user login functionality")</li>
+<li><strong>Input/Output:</strong> Input is user's natural language requirements; output is clarifying Q&#x26;A and preliminary design discussion. <strong>Deliverable:</strong> Requirements specification document (text format) listing key requirements.</li>
+<li><strong>Notes:</strong> The skill uses <strong>Socratic questioning to clarify boundaries and requirement details</strong> (e.g., supported login methods, error handling logic). Must obtain user confirmation before proceeding. If user answers are ambiguous or incomplete, continue asking. If answers are inconsistent, re-verify requirements.</li>
+</ul>
+<h2>Design &#x26; Architecture</h2>
+<ul>
+<li><strong>Skill:</strong> Can be seen as a continuation of Brainstorming, or implicit in Plans; includes <strong>design review</strong>.</li>
+<li><strong>Trigger:</strong> Automatically proceeds after Brainstorming requirements are confirmed.</li>
+<li><strong>Input/Output:</strong> Input is the clarified requirements; output is system architecture or module division suggestions. <strong>Deliverable:</strong> System architecture sketch or component list.</li>
+<li><strong>Notes:</strong> Design should follow best practices, be clear and concise. If the design is insufficient, return to the Brainstorming phase to supplement requirements or rethink. Use Brainstorming output to verify design soundness.</li>
+</ul>
+<h2>Plan Breakdown</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Writing Plans (<code>/writing-plans</code> or <code>/superpowers:writing-plans</code>)</li>
+<li><strong>Trigger:</strong> After design plan is confirmed, input requirements to begin task breakdown.</li>
+<li><strong>Input/Output:</strong> Input is requirements specification or design document; output is detailed implementation steps. <strong>Deliverable:</strong> Implementation plan document listing multiple small tasks (each including goal, file paths, example code, verification steps).</li>
+<li><strong>Notes:</strong> Each task should be completable within 2–5 minutes. Follow DRY/YAGNI principles, implement only what's necessary. If task granularity is too large or too small, adjust accordingly. Continuously confirm the plan with the user during execution.</li>
+</ul>
+<h2>Creating a Git Worktree</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Using Git Worktrees (implicit, no explicit command)</li>
+<li><strong>Trigger:</strong> Automatically created when ready to start coding after implementation plan is generated.</li>
+<li><strong>Input/Output:</strong> Executes Git commands in the local project. <strong>Deliverable:</strong> New development branch and corresponding working directory (e.g., <code>git worktree add -b &#x3C;feature> ...</code>).</li>
+<li><strong>Notes:</strong> Isolated development environment prevents affecting the main branch. If serious issues arise, the worktree branch can be deleted while keeping the main branch clean. Clean up (<code>git worktree remove</code>) after completion to free resources.</li>
+</ul>
+<h2>Implementation &#x26; Coding</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Execute Plans (<code>/execute-plan</code> or <code>/superpowers:executing-plans</code>), paired with Test-Driven Development.</li>
+<li><strong>Trigger:</strong> Starts when the user agrees to the execution plan or after the planning phase is complete.</li>
+<li><strong>Input/Output:</strong> Input is the task list; output is code and tests. AI implements tasks sequentially per plan, opening new sessions or sub-agents for each task.</li>
+<li><strong>Deliverable:</strong> Feature code files, corresponding test code, task execution logs.</li>
+<li><strong>Notes:</strong> Enforces TDD flow: before implementing each feature, first write a failing test (red), then write minimal code to pass it (green), and finally refactor. AI does not write production code without first writing a failing test. If many failures or logic confusion occurs, pause the current task for debugging; commit promptly after each task completes.</li>
+</ul>
+<h2>Test-Driven Development (TDD)</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Test-Driven Development (<code>/superpowers:test-driven-development</code>)</li>
+<li><strong>Trigger:</strong> Automatically triggered at the start of each coding task.</li>
+<li><strong>Input/Output:</strong> Input is task description; output is test cases and implementation code. <strong>Deliverable:</strong> Unit test files and implementation files.</li>
+<li><strong>Notes:</strong> Follows the "red-green-refactor" cycle. If test cases are written incorrectly and fail to fail, they should be rewritten. Tasks must not be marked complete before tests pass. AI automatically rolls back incorrect test-first attempts.</li>
+</ul>
+<h2>Systematic Debugging</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Systematic Debugging (<code>/superpowers:systematic-debugging</code>)</li>
+<li><strong>Trigger:</strong> Actively triggered when encountering failing tests, runtime errors, or functional anomalies during coding.</li>
+<li><strong>Input/Output:</strong> Input is error description and current code context; output is debugging analysis report. <strong>Deliverable:</strong> Four-stage debugging record (root cause analysis, pattern recognition, hypothesis testing, fix recommendations).</li>
+<li><strong>Notes:</strong> Must follow the <strong>root cause first</strong> principle: analyze the problem's essence before applying fixes. If still unresolved after three attempts, consider whether the issue lies in requirements or design, and if necessary, return to previous stages for review or seek human help. Record all debugging hypotheses and conclusions for future reference.</li>
+</ul>
+<h2>Code Review</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Request Code Review (<code>/request-code-review</code>)</li>
+<li><strong>Trigger:</strong> Triggered after all tasks on a feature branch are complete and all tests pass.</li>
+<li><strong>Input/Output:</strong> Input is the current branch's code changes; output is a review report. <strong>Deliverable:</strong> Code review feedback (strengths, defects, improvement suggestions).</li>
+<li><strong>Notes:</strong> Automated review checks against code style, security, performance, and other standards, producing a graded issue report. If critical issues are found, they must be fixed and the review re-run; general issues can be followed up after merge. When fixing, modify code as suggested and re-run tests and review.</li>
+</ul>
+<h2>Merge &#x26; Release</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Finish Branch (merge, no explicit command)</li>
+<li><strong>Trigger:</strong> Executed when all review issues are resolved and functionality is confirmed correct.</li>
+<li><strong>Input/Output:</strong> Input is the reviewed branch; output is the merge operation. <strong>Deliverable:</strong> Merged main branch code.</li>
+<li><strong>Notes:</strong> Default behavior: verify all tests pass before merging. Provides merge/PR, keep, or delete options. Clean up Git worktrees (<code>git worktree remove</code>) after merge to free space. Merge marks official completion; deployment or release can happen at this stage.</li>
+</ul>
+<h2>Retrospective &#x26; Summary</h2>
+<ul>
+<li><strong>Skill:</strong> No specific Superpowers skill.</li>
+<li><strong>Trigger:</strong> Optional, after merge is complete.</li>
+<li><strong>Deliverable:</strong> Project summary document (project experience, list of open issues).</li>
+<li><strong>Notes:</strong> Recommended for teams or AI to summarize project outcomes and issues as reference for future process improvement.</li>
+</ul>
+<h1>Case Study</h1>
+<pre><code class="language-shell">User: /brainstorming I want to add user login functionality to my website
+Claude (Brainstorming skill triggered):
+  Let me clarify a few questions before we begin:
+  1. Login method: email+password, phone+verification code, or third-party login?
+  2. Do you need a "Remember Me" feature?
+  3. How should login failures be communicated to the user?
+  ...
+User: We just need email+password login, simple error messages will do.
+Claude:
+  Understood. Requirements analysis results: User login feature needs email and password input, encrypted password storage; display error messages on the frontend on login failure; return user info on successful login. Please confirm to proceed (/writing-plans).
+User: Continue
+Claude: /writing-plans
+Claude (Writing Plans skill triggered):
+  Based on the requirements, I've generated an implementation plan for the "User Login" feature:
+  - Task 1: Create a user table model in `src/models/user.js` (fields: email, passwordHash). **First write a failing test** verifying a newly registered user can log in.
+  - Task 2: Implement login logic in `src/auth/login.js` (verify password and generate JWT). **First write a failing test** ensuring correct credentials allow login.
+  - Task 3: Add a login form in the frontend `src/components/LoginForm.vue` (email/password). **First write a failing test** checking form submission calls the Login API.
+  Please confirm the plan and start execution.
+User: Confirmed
+Claude:
+  Plan generated, starting task execution... (running `/execute-plan`)
+Claude:
+  Creating isolated Git worktree... (`git worktree add -b feature/login .claude/branches/feature/login`)
+  Starting sub-agent task 1: TDD cycle...
+  First write test `test/user.test.js`: verify new user can login [Red]...
+  Write implementation: `src/models/user.js` create model, add passwordHash field, compare hash on login [Green]...
+  Running tests...All pass!
+  Commit changes (`git add &#x26;&#x26; git commit`).
+  Starting task 2...
+  Write test `test/auth.test.js`: verify login logic with registered user [Red]...
+  Implement `src/auth/login.js`: find user and verify password hash, generate JWT [Green]...
+  Tests pass!
+  Starting task 3...
+  Write test `test/loginForm.test.js`: simulate form submission and check Login API call [Red]...
+  Implement `src/components/LoginForm.vue`: add form and connect to backend [Green]...
+  Tests pass! All tasks complete.
+Claude:
+  All tests passed. Now running code review. (/request-code-review)
+Claude (Request Code Review skill triggered):
+  Reviewing tasks...
+  * Task 1 module: Naming conventions are compliant, no issues.
+  * Task 2 module: Found a potential issue — password hash is missing salt, recommend adding it.
+  * Task 3 module: Frontend submission is missing error handling, recommend improving error messaging.
+  Found 1 significant issue, please fix and re-review.
+User: OK, I'll fix it
+Claude:
+  Issues fixed, all tests pass. Code review approved.
+Claude:
+  Preparing to merge branch (finish-branch)... Merge successful, feature branch closed.
+</code></pre>
+<p><strong>Note:</strong> In the case above, the user sequentially executes <code>/brainstorming</code>, <code>/writing-plans</code>, confirms and runs <code>/execute-plan</code> to trigger coding. AI creates an isolated Git worktree and completes three tasks through TDD cycles. Output includes requirements specification, task list, test results, code snippets, and review report. <code>/request-code-review</code> triggers automatic review and reports issues, which are fixed before merging. All commands (e.g., <code>/execute-plan</code>, <code>/request-code-review</code>) can be used directly in the Claude Code environment.</p>
+<h1>Skills Overview</h1>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Superpowers Skill/Command</th>
+<th>Input/Deliverable</th>
+<th>Notes &#x26; Failure Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements Clarification</td>
+<td>Brainstorming (<code>/brainstorming</code>)</td>
+<td><strong>Deliverable:</strong> Requirements specification (text). AI Q&#x26;A dialogue to clarify requirements.</td>
+<td>Ask user questions to define boundaries and use cases. If answers are vague, continue probing. Proceed only after confirmation.</td>
+</tr>
+<tr>
+<td>Design/Architecture</td>
+<td>Implicit in Brainstorming</td>
+<td><strong>Deliverable:</strong> System design overview.</td>
+<td>Evaluate design reasonableness. If unsuitable, return to Brainstorming or requirements stage.</td>
+</tr>
+<tr>
+<td>Plan Breakdown</td>
+<td>Writing Plans (<code>/writing-plans</code>)</td>
+<td><strong>Deliverable:</strong> Implementation plan document (task list).</td>
+<td>Break down into 2–5 minute tasks. Split if tasks are too large. Follow DRY/YAGNI principles.</td>
+</tr>
+<tr>
+<td>Isolated Development</td>
+<td>Using Git Worktrees (automatic)</td>
+<td><strong>Deliverable:</strong> New branch and worktree.</td>
+<td>Automatically runs <code>git worktree</code> to create branch. On failure, can create manually or continue on main branch (higher risk).</td>
+</tr>
+<tr>
+<td>Implementation/Coding</td>
+<td>Execute Plans (<code>/execute-plan</code>)</td>
+<td><strong>Deliverable:</strong> Feature code and test code; execution logs.</td>
+<td>Strict TDD flow: write tests first, then code. If tests don't pass, pause and enter debugging.</td>
+</tr>
+<tr>
+<td>TDD</td>
+<td>Test-Driven Development (<code>/superpowers:test-driven-development</code>)</td>
+<td><strong>Deliverable:</strong> Test case files, implementation code files.</td>
+<td>Refuses to generate code without writing tests first. Must not pass when tests fail — rewrite tests or adjust implementation.</td>
+</tr>
+<tr>
+<td>Debugging</td>
+<td>Systematic Debugging (<code>/superpowers:systematic-debugging</code>)</td>
+<td><strong>Deliverable:</strong> Four-stage debugging report.</td>
+<td>Follow root cause analysis → pattern recognition → hypothesis → fix steps. After three failures, consider design rework or human intervention.</td>
+</tr>
+<tr>
+<td>Code Review</td>
+<td>Request Code Review (<code>/request-code-review</code>)</td>
+<td><strong>Deliverable:</strong> Review feedback report.</td>
+<td>Auto-checks coding standards, security, etc. Critical issues block merge, require fixes.</td>
+</tr>
+<tr>
+<td>Merge/Release</td>
+<td>Finish Branch (automatic)</td>
+<td><strong>Deliverable:</strong> Merged main branch code.</td>
+<td>Run all tests first for stability validation. Provides merge options (merge, PR, keep). Clean up worktrees after completion.</td>
+</tr>
+</tbody>
+</table>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Spec Coding (SDD — Spec-Driven Development)]]></title>
+            <link>https://charliefei.github.io/en/blog/spec-coding/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/spec-coding/</guid>
+            <pubDate>Sun, 26 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.]]></description>
+            <content:encoded><![CDATA[<h2>spec-kit</h2>
+<ul>
+<li><a href="https://github.com/github/spec-kit">spec-kit Official Repository</a></li>
+<li><a href="https://github.com/github/spec-kit/blob/main/spec-driven.md">SDD — Spec-Driven Development</a></li>
+<li><a href="https://github.com/github/spec-kit#-detailed-process">spec-kit Detailed Process</a></li>
+</ul>
+<h3>Quick Start</h3>
+<h4>Installing spec-kit</h4>
+<pre><code class="language-bash"># Install a specific stable version (recommended — replace vX.Y.Z with the latest tag)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+
+# Or install the latest from the main branch (may include unreleased changes)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Upgrade spec-kit
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+</code></pre>
+<h4>Initializing a Project</h4>
+<pre><code class="language-bash"># Create a new project
+specify init &#x3C;PROJECT_NAME>
+
+# Or initialize in an existing project
+specify init . --ai claude
+
+# Specify AI coding agent and use skills
+specify init . --ai claude --ai-skills
+
+# Or
+specify init --here --ai claude
+
+# Check installed tools
+specify check
+</code></pre>
+<h4>Setting Project Constitution</h4>
+<p>Launch the AI assistant in your project directory. Most agents expose spec-kit as <code>/speckit.*</code> slash commands; Codex CLI uses <code>$speckit-*</code> in skill mode.</p>
+<p>Use the <code>/speckit.constitution</code> command to create project governance principles and development guidelines:</p>
+<pre><code class="language-bash">/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+</code></pre>
+<h4>Creating Specifications</h4>
+<p>Use the <code>/speckit.specify</code> command to describe what you want to build. Focus on <strong>the "what" and "why"</strong>, not the tech stack.</p>
+<pre><code class="language-bash">/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+</code></pre>
+<h4>Creating a Technical Implementation Plan</h4>
+<p>Use the <code>/speckit.plan</code> command to provide tech stack and architectural choices:</p>
+<pre><code class="language-bash">/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+</code></pre>
+<h4>Breaking Down Tasks</h4>
+<p>Use <code>/speckit.tasks</code> to generate an actionable task list based on the implementation plan:</p>
+<pre><code class="language-bash">/speckit.tasks
+</code></pre>
+<h4>Executing Tasks</h4>
+<p>Use <code>/speckit.implement</code> to execute all tasks and build your feature according to the plan:</p>
+<pre><code class="language-bash">/speckit.implement
+</code></pre>
+<h3>Slash Command Reference</h3>
+<p><strong>Core Commands</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Agent Skill</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.constitution</code></td>
+<td>speckit-constitution</td>
+<td>Create or update project governance principles and development guidelines</td>
+</tr>
+<tr>
+<td><code>/speckit.specify</code></td>
+<td>speckit-specify</td>
+<td>Define build goals (requirements and user stories)</td>
+</tr>
+<tr>
+<td><code>/speckit.plan</code></td>
+<td>speckit-plan</td>
+<td>Create implementation plan based on selected tech stack</td>
+</tr>
+<tr>
+<td><code>/speckit.tasks</code></td>
+<td>speckit-tasks</td>
+<td>Generate an actionable task list</td>
+</tr>
+<tr>
+<td><code>/speckit.taskstoissues</code></td>
+<td>speckit-taskstoissues</td>
+<td>Convert task list to GitHub Issues for tracking and execution</td>
+</tr>
+<tr>
+<td><code>/speckit.implement</code></td>
+<td>speckit-implement</td>
+<td>Execute all tasks per the plan to build the feature</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Optional Commands</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Agent Skill</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.clarify</code></td>
+<td>speckit-clarify</td>
+<td>Clarify ambiguous requirements (recommended before <code>/speckit.plan</code>, formerly <code>/quizme</code>)</td>
+</tr>
+<tr>
+<td><code>/speckit.analyze</code></td>
+<td>speckit-analyze</td>
+<td>Cross-artifact completeness and coverage analysis (run after <code>/speckit.tasks</code>, before <code>/speckit.implement</code>)</td>
+</tr>
+<tr>
+<td><code>/speckit.checklist</code></td>
+<td>speckit-checklist</td>
+<td>Generate custom quality checklists to verify requirements completeness, clarity, and consistency</td>
+</tr>
+</tbody>
+</table>
+<h3>spec-kit Command Reference</h3>
+<pre><code class="language-bash"># Basic project initialization
+specify init my-project
+
+# Specify AI assistant
+specify init my-project --ai claude
+
+# Initialize with Cursor support
+specify init my-project --ai cursor-agent
+
+# Initialize with Qoder support
+specify init my-project --ai qodercli
+
+# Initialize with Windsurf support
+specify init my-project --ai windsurf
+
+# Initialize with Kiro CLI support
+specify init my-project --ai kiro-cli
+
+# Initialize with Amp support
+specify init my-project --ai amp
+
+# Initialize with SHAI support
+specify init my-project --ai shai
+
+# Initialize with Mistral Vibe support
+specify init my-project --ai vibe
+
+# Initialize with IBM Bob support
+specify init my-project --ai bob
+
+# Initialize with Pi Coding Agent support
+specify init my-project --ai pi
+
+# Initialize with Codex CLI support
+specify init my-project --ai codex --ai-skills
+
+# Initialize with Antigravity support
+specify init my-project --ai agy --ai-skills
+
+# Initialize with Forge support
+specify init my-project --ai forge
+
+# Initialize with generic support for unsupported agents
+specify init my-project --ai generic --ai-commands-dir .myagent/commands/
+
+# Initialize with PowerShell script support (Windows/cross-platform)
+specify init my-project --ai copilot --script ps
+
+# Initialize in current directory
+specify init . --ai copilot
+# Or use the --here flag
+specify init --here --ai copilot
+
+# Force merge into current (non-empty) directory without confirmation
+specify init . --force --ai copilot
+# Or
+specify init --here --force --ai copilot
+
+# Skip Git initialization
+specify init my-project --ai gemini --no-git
+
+# Enable debug output
+specify init my-project --ai claude --debug
+
+# Use GitHub Token for API requests (suitable for enterprise environments)
+specify init my-project --ai claude --github-token ghp_your_token_here
+
+# By default, Claude Code installs skills in the project
+specify init my-project --ai claude
+
+# Initialize in current directory and use agent skills
+specify init --here --ai gemini --ai-skills
+
+# Use timestamp branch numbering (suitable for distributed teams)
+specify init my-project --ai claude --branch-numbering timestamp
+
+# Check system requirements
+specify check
+</code></pre>
+<h3>Extensions &#x26; Presets</h3>
+<pre><code class="language-plain">.specify/templates/overrides/         # Local project overrides (highest priority), for one-time adjustments without creating a full preset
+.specify/presets/templates/           # Custom extensions and core templates
+.specify/extensions/templates/        # Enhance spec-kit capabilities
+.specify/templates/                   # spec-kit's core built-in templates
+</code></pre>
+<h4>Extensions</h4>
+<p>Use extensions when you need functionality beyond spec-kit's core. Extensions introduce new commands and templates — for example, adding domain-specific workflows not covered by built-in SDD commands, integrating external tools, or adding entirely new development phases. They extend spec-kit's capabilities.</p>
+<p>For example, extensions can add Jira integration, post-implementation code review, V-Model test traceability, or project health diagnostics.</p>
+<p><a href="https://github.com/github/spec-kit#-community-extensions">Community Extensions</a></p>
+<pre><code class="language-bash">specify extension search
+
+# Install an extension
+specify extension add &#x3C;extension-name>
+</code></pre>
+<h4>Presets</h4>
+<p>Use presets when you need to <strong>change how spec-kit works without adding new features</strong>. Presets override templates and commands from the core and installed extensions — for example, enforcing compliance-oriented spec formats, adopting domain-specific terminology, or applying organizational standards to plans and tasks. They customize the artifacts and instructions generated by spec-kit and its extensions.</p>
+<p>For instance, presets can restructure spec templates to require regulatory traceability, adapt workflows to fit adopted methodologies (such as Agile, Kanban, Waterfall, Jobs-to-be-Done, or Domain-Driven Design), add security review gates to plans, enforce test-first task ordering, or localize the entire workflow into different languages. The <a href="https://github.com/mnriem/spec-kit-pirate-speak-preset-demo">pirate-speak demo</a> demonstrates the depth of customization. Multiple presets can be stacked in priority order.</p>
+<ul>
+<li><a href="https://github.com/github/spec-kit?tab=readme-ov-file#-community-presets">Community Presets</a></li>
+<li><a href="https://github.com/github/spec-kit/blob/main/presets/README.md">Preset Documentation</a></li>
+</ul>
+<pre><code class="language-bash">specify preset search
+
+# Install a preset
+specify preset add &#x3C;preset-name>
+</code></pre>
+<h2>open-spec</h2>
+<p>Coming soon…</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Next.js 15: A Complete Guide]]></title>
+            <link>https://charliefei.github.io/en/blog/nextjs-15-guide/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/nextjs-15-guide/</guid>
+            <pubDate>Sun, 05 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.]]></description>
+            <content:encoded><![CDATA[<h2>Introduction</h2>
+<p>Next.js 15 brings powerful features that make building modern web applications easier than ever. This guide starts with the fundamentals and systematically walks through the complete App Router ecosystem — from the routing system and layout management to data fetching, rendering strategies, and error handling — helping you build a comprehensive knowledge framework.</p>
+<h2>App Router Basics</h2>
+<p>The App Router is the foundation of modern Next.js applications. It uses file-system routing, where the directory structure maps directly to page paths. Here's a simple routing example:</p>
+<pre><code class="language-typescript">// app/page.tsx
+export default function HomePage() {
+  return (
+    &#x3C;main>
+      &#x3C;h1>Welcome to Next.js 15&#x3C;/h1>
+    &#x3C;/main>
+  )
+}
+</code></pre>
+<p>Files created inside the <code>app</code> directory are automatically mapped to corresponding routes:</p>
+<table>
+<thead>
+<tr>
+<th>File Path</th>
+<th>Corresponding Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app/page.tsx</code></td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><code>app/about/page.tsx</code></td>
+<td><code>/about</code></td>
+</tr>
+<tr>
+<td><code>app/blog/[slug]/page.tsx</code></td>
+<td><code>/blog/:slug</code> (dynamic route)</td>
+</tr>
+<tr>
+<td><code>app/blog/[...catchAll]/page.tsx</code></td>
+<td><code>/blog/*</code> (catch-all route)</td>
+</tr>
+</tbody>
+</table>
+<h2>Layout System</h2>
+<p>Layouts are a highlight of the Next.js App Router, making it incredibly easy to share UI across pages.</p>
+<h3>Root Layout</h3>
+<p>Every application must have a root layout (<code>app/layout.tsx</code>), which wraps all pages:</p>
+<pre><code class="language-typescript">// app/layout.tsx
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    &#x3C;html lang="en">
+      &#x3C;body>
+        &#x3C;Header />
+        &#x3C;main>{children}&#x3C;/main>
+        &#x3C;Footer />
+      &#x3C;/body>
+    &#x3C;/html>
+  )
+}
+</code></pre>
+<h3>Nested Layouts</h3>
+<p>You can add <code>layout.tsx</code> at any route segment level, and layouts are automatically nested. Layouts preserve state during navigation and do not re-render:</p>
+<pre><code class="language-typescript">// app/blog/layout.tsx
+// Shared by all /blog/* pages
+export default function BlogLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    &#x3C;div>
+      &#x3C;Sidebar />
+      &#x3C;article>{children}&#x3C;/article>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>Templates</h3>
+<p>Templates (<code>template.tsx</code>) are similar to layouts but re-render on every navigation, making them suitable for scenarios that require state reset (such as page view tracking):</p>
+<pre><code class="language-typescript">// app/blog/template.tsx
+export default function BlogTemplate({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return &#x3C;div className="page-enter-animation">{children}&#x3C;/div>
+}
+</code></pre>
+<h2>Advanced Routing</h2>
+<h3>Route Groups</h3>
+<p>Use <code>(groupName)</code> directory structure to organize routes without affecting the URL path. Useful for grouping routes by module or applying different layouts to different groups:</p>
+<pre><code class="language-typescript">app/
+  (marketing)/
+    page.tsx          // /
+    about/page.tsx    // /about
+  (shop)/
+    products/
+      page.tsx        // /products
+    cart/page.tsx     // /cart
+</code></pre>
+<h3>Parallel Routes</h3>
+<p>Render multiple pages simultaneously within the same layout using named slots (<code>@slotName</code>), ideal for dashboards or multi-section pages:</p>
+<pre><code class="language-typescript">// app/layout.tsx
+export default function Layout({
+  children,
+  team,
+  analytics,
+}: {
+  children: React.ReactNode
+  team: React.ReactNode
+  analytics: React.ReactNode
+}) {
+  return (
+    &#x3C;>
+      {children}
+      &#x3C;div className="grid grid-cols-2">
+        {team}
+        {analytics}
+      &#x3C;/div>
+    &#x3C;/>
+  )
+}
+</code></pre>
+<h2>Loading &#x26; Error Handling</h2>
+<p>Next.js 15 provides built-in loading and error boundaries for each route segment.</p>
+<h3>Loading UI</h3>
+<p>Add <code>loading.tsx</code> to display a skeleton screen or loading animation while the page is loading, providing instant feedback through streaming:</p>
+<pre><code class="language-typescript">// app/blog/loading.tsx
+export default function Loading() {
+  return (
+    &#x3C;div className="space-y-4">
+      &#x3C;Skeleton className="h-8 w-3/4" />
+      &#x3C;Skeleton className="h-4 w-full" />
+      &#x3C;Skeleton className="h-4 w-2/3" />
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>Error Boundaries</h3>
+<p><code>error.tsx</code> wraps route segments and catches rendering exceptions. It must be a client component:</p>
+<pre><code class="language-typescript">// app/blog/error.tsx
+'use client'
+
+export default function ErrorPage({
+  error,
+  reset,
+}: {
+  error: Error &#x26; { digest?: string }
+  reset: () => void
+}) {
+  return (
+    &#x3C;div>
+      &#x3C;h2>Something went wrong&#x3C;/h2>
+      &#x3C;p>{error.message}&#x3C;/p>
+      &#x3C;button onClick={() => reset()}>Try again&#x3C;/button>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>404 Page</h3>
+<p>Customize the Not Found page via <code>not-found.tsx</code>, or trigger it programmatically with <code>notFound()</code>:</p>
+<pre><code class="language-typescript">// app/not-found.tsx
+export default function NotFound() {
+  return (
+    &#x3C;div>
+      &#x3C;h1>404 - Page Not Found&#x3C;/h1>
+      &#x3C;Link href="https://charliefei.github.io/">Back to Home&#x3C;/Link>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>Global Error</h3>
+<p><code>global-error.tsx</code> wraps the entire application and is used only when a critical error occurs in the root layout (must include <code>&#x3C;html></code> and <code>&#x3C;body></code> tags):</p>
+<pre><code class="language-typescript">// app/global-error.tsx
+'use client'
+
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error &#x26; { digest?: string }
+  reset: () => void
+}) {
+  return (
+    &#x3C;html>
+      &#x3C;body>
+        &#x3C;h2>A critical application error occurred&#x3C;/h2>
+        &#x3C;button onClick={() => reset()}>Try again&#x3C;/button>
+      &#x3C;/body>
+    &#x3C;/html>
+  )
+}
+</code></pre>
+<h2>Key Features</h2>
+<ul>
+<li><strong>Server Components</strong>: Rendered on the server by default, reducing client-side JavaScript and improving initial load performance. They can directly access databases and file systems without exposing API endpoints.</li>
+<li><strong>Streaming</strong>: Supports progressive HTML chunk transmission to the client, allowing users to see content faster without waiting for the entire page to generate. Works with <code>loading.tsx</code> for a smooth loading experience.</li>
+<li><strong>Metadata API</strong>: Define page title, description, Open Graph metadata, and more in a type-safe way by exporting <code>metadata</code> objects or <code>generateMetadata</code> function, making SEO optimization easy.</li>
+<li><strong>Server Actions</strong>: Define form submission and data mutation logic directly in server components without manually creating API routes, simplifying front-end/back-end interaction. Supports progressive enhancement (falls back to traditional form submission when JavaScript is unavailable).</li>
+</ul>
+<h2>Data Fetching</h2>
+<p>Next.js 15 offers flexible data fetching approaches. You can use <code>async/await</code> directly in server components:</p>
+<pre><code class="language-typescript">// app/posts/page.tsx
+async function getPosts() {
+  const res = await fetch('https://api.example.com/posts')
+  return res.json()
+}
+
+export default async function PostsPage() {
+  const posts = await getPosts()
+  return (
+    &#x3C;ul>
+      {posts.map(post => (
+        &#x3C;li key={post.id}>{post.title}&#x3C;/li>
+      ))}
+    &#x3C;/ul>
+  )
+}
+</code></pre>
+<p>Thanks to server components, data fetching happens on the server side — no API credentials are exposed, and no additional data request logic needs to be loaded on the client.</p>
+<h3>fetch Caching Strategies</h3>
+<p>The built-in <code>fetch</code> supports fine-grained cache control:</p>
+<pre><code class="language-typescript">// Static data request — default behavior, caches the result
+const staticData = await fetch('https://...')
+
+// Dynamic data request — re-fetches on every request
+const dynamicData = await fetch('https://...', { cache: 'no-store' })
+
+// Time-based incremental revalidation — re-fetches every 10 seconds
+const revalidatedData = await fetch('https://...', {
+  next: { revalidate: 10 },
+})
+</code></pre>
+<h3>Database Queries</h3>
+<p>Server components can query databases directly without writing API routes:</p>
+<pre><code class="language-typescript">export default async function UserProfile({ params }: { params: { id: string } }) {
+  const user = await db.users.findUnique({
+    where: { id: params.id },
+  })
+
+  return &#x3C;div>{user.name}&#x3C;/div>
+}
+</code></pre>
+<h2>Rendering Strategies</h2>
+<p>Next.js 15 offers multiple rendering modes that can be flexibly chosen based on page characteristics.</p>
+<h3>Static Rendering</h3>
+<p>The default rendering mode. Routes are rendered at build time, cached, and can be distributed via CDN. Ideal for content pages, blog posts, and other infrequently changing content.</p>
+<pre><code class="language-typescript">export const dynamic = 'force-static'
+</code></pre>
+<h3>Dynamic Rendering</h3>
+<p>Routes are rendered dynamically on each request. Suitable for personalized content and real-time data:</p>
+<pre><code class="language-typescript">export const dynamic = 'force-dynamic'
+</code></pre>
+<h3>Incremental Static Regeneration (ISR)</h3>
+<p>Combines the benefits of static and dynamic — serve statically, update on demand. Suitable for scenarios where data changes periodically but does not require real-time updates:</p>
+<pre><code class="language-typescript">// Page-level ISR
+export const revalidate = 3600 // Regenerate every hour
+</code></pre>
+<h3>Route Segment Configuration</h3>
+<p>Each route segment can be finely controlled through exported configuration options:</p>
+<pre><code class="language-typescript">export const dynamic = 'auto'           // Auto-select static/dynamic
+export const dynamicParams = true        // Auto-handle ungenerated dynamic params
+export const revalidate = false          // Revalidation interval (seconds)
+export const fetchCache = 'auto'         // fetch cache strategy
+export const runtime = 'nodejs'          // Runtime environment
+export const preferredRegion = 'auto'    // Deployment region
+</code></pre>
+<h2>Middleware</h2>
+<p>Middleware (<code>middleware.ts</code>) executes before a request completes, used for redirects, rewrites, authentication, i18n routing, and more:</p>
+<pre><code class="language-typescript">// middleware.ts
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  // Redirect user based on cookie
+  if (!request.cookies.has('session')) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+}
+
+// Configure matching paths
+export const config = {
+  matcher: ['/dashboard/:path*', '/admin/:path*'],
+}
+</code></pre>
+<h2>Summary</h2>
+<p>Next.js 15 provides a solid and elegant foundation for building high-performance web applications. This article covers the core concepts from routing system, layout management, and data fetching to rendering strategies and error handling. Key takeaways:</p>
+<ul>
+<li><strong>File-system routing</strong> makes page organization intuitive at a glance</li>
+<li><strong>Layouts and loading boundaries</strong> provide elegant UI composition and user experience</li>
+<li><strong>Server components</strong> simplify data fetching and improve performance</li>
+<li><strong>Multiple rendering strategies</strong> let you choose the optimal approach for each scenario</li>
+<li><strong>Built-in error handling</strong> ensures application robustness</li>
+</ul>
+<p>These are just some of Next.js's capabilities. Start with these fundamentals and gradually explore more advanced features in practice.</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>Next.js</category>
+            <category>React</category>
+            <category>Web Development</category>
+        </item>
+    </channel>
+</rss>

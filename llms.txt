@@ -1,0 +1,49 @@
+# Charlie Fei's Blog
+
+> A bilingual personal blog by Charlie Fei about full-stack development, AI coding, projects, work experience, and personal writing.
+
+This file lists the most useful machine-readable entry points for LLMs. The complete text export is linked below.
+
+## Primary
+
+- [Full LLM text export](https://charliefei.github.io/llms-full.txt)
+- [Home](https://charliefei.github.io/)
+- [RSS feed](https://charliefei.github.io/rss.xml)
+
+## Content
+
+- [English home](https://charliefei.github.io/en/)
+- [English blog index](https://charliefei.github.io/en/blog/)
+- [English about](https://charliefei.github.io/en/about/)
+- [English experience](https://charliefei.github.io/en/experience/)
+- [English resume](https://charliefei.github.io/en/resume/)
+- [English RSS feed](https://charliefei.github.io/en/rss.xml)
+- [English post: Ralph Loop](https://charliefei.github.io/en/blog/ralph/): Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.
+- [English post: Superpowers](https://charliefei.github.io/en/blog/superpowers/): A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.
+- [English post: Spec Coding (SDD — Spec-Driven Development)](https://charliefei.github.io/en/blog/spec-coding/): A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.
+- [English post: Next.js 15: A Complete Guide](https://charliefei.github.io/en/blog/nextjs-15-guide/): A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.
+- [Chinese home](https://charliefei.github.io/zh/)
+- [Chinese blog index](https://charliefei.github.io/zh/blog/)
+- [Chinese about](https://charliefei.github.io/zh/about/)
+- [Chinese experience](https://charliefei.github.io/zh/experience/)
+- [Chinese resume](https://charliefei.github.io/zh/resume/)
+- [Chinese RSS feed](https://charliefei.github.io/zh/rss.xml)
+- [Chinese post: Ralph Loop](https://charliefei.github.io/zh/blog/ralph/): Ralph 是一个自主 AI 智能体循环，它会反复运行 AI 编程工具（Amp 或 Claude Code），直到产品需求文档（PRD）中的所有条目全部完成。每次迭代都是一个全新的实例，拥有干净的上下文环境。记忆状态通过 Git 提交历史、progress.txt 文件以及 prd.json 文件进行持久化保存。
+- [Chinese post: Superpowers](https://charliefei.github.io/zh/blog/superpowers/): Superpowers 学习和使用总结。Process over Prompt（流程大于提示词），给 AI 套上软件工程的「纪律与护栏」，让它像资深工程师一样先思考、再规划、后编码、必验证。
+- [Chinese post: Spec Coding（SDD——规格驱动开发）](https://charliefei.github.io/zh/blog/spec-coding/): 对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。
+- [Chinese post: Next.js 15 入门指南](https://charliefei.github.io/zh/blog/nextjs-15-guide/): 全面介绍如何使用 Next.js 15 App Router 构建现代 Web 应用，涵盖路由、数据获取和部署等内容。
+
+## About The Author
+
+- Name: Charlie Fei
+- Profession: Full Stack Developer
+- Location: Nanjing, China
+- Open to work: yes
+- Resume PDF: https://charliefei.github.io/ (last updated 2026-04)
+
+### Social Links
+- [github](https://github.com/charliefei): charliefei
+- [twitter](https://x.com/charliefei_)
+- [youtube](https://www.youtube.com/@charliefei839)
+- [bilibili](https://space.bilibili.com/352442220)
+- [email](mailto:charliefei839@qq.com)

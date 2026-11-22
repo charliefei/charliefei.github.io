@@ -1,0 +1,1953 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Charlie&apos;s Personal Blog</title>
+        <link>https://charliefei.github.io/</link>
+        <description>Technical articles, tutorials, and thoughts from Charlie Fei.</description>
+        <language>en-US</language>
+        <lastBuildDate>Tue, 28 Apr 2026 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Charlie Fei Blog RSS Generator</generator>
+        <image>
+            <title>Charlie Fei</title>
+            <url>https://charliefei.github.io/images/avatar.png</url>
+            <link>https://charliefei.github.io/</link>
+        </image>
+        <copyright>All rights reserved by Charlie Fei</copyright>
+        <atom:link href="https://charliefei.github.io/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Ralph Loop]]></title>
+            <link>https://charliefei.github.io/en/blog/ralph/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/ralph/</guid>
+            <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Ralph is an autonomous AI agent loop that repeatedly runs AI coding tools (Amp or Claude Code) until all items in a Product Requirements Document (PRD) are complete. Each iteration is a fresh instance with a clean context. Memory is persisted through Git commit history, progress.txt, and prd.json.]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/snarktank/ralph">GitHub Repository</a></p>
+<p><a href="https://ghuntley.com/ralph/">Official Introduction</a></p>
+<p><a href="https://x.com/ryancarson/status/2008548371712135632">Ryan Carson's Experience</a></p>
+<h1>Installing Ralph</h1>
+<h2>Manual Copy to Project</h2>
+<pre><code class="language-bash"># Run from project root
+mkdir -p scripts/ralph
+cp /path/to/ralph/ralph.sh scripts/ralph/
+
+# Copy the prompt template for your AI tool:
+cp /path/to/ralph/prompt.md scripts/ralph/prompt.md    # for Amp
+# or
+cp /path/to/ralph/CLAUDE.md scripts/ralph/CLAUDE.md    # for Claude Code
+
+chmod +x scripts/ralph/ralph.sh
+</code></pre>
+<h2>Installing via Agent Skills</h2>
+<h3>Manual Copy</h3>
+<pre><code class="language-bash"># Amp
+cp -r skills/prd ~/.config/amp/skills/
+cp -r skills/ralph ~/.config/amp/skills/
+
+# Claude Code
+cp -r skills/prd ~/.claude/skills/
+cp -r skills/ralph ~/.claude/skills/
+</code></pre>
+<h3>Via Claude Code Plugin Marketplace</h3>
+<pre><code class="language-bash">/plugin marketplace add snarktank/ralph
+/plugin install ralph-skills@ralph-marketplace
+</code></pre>
+<p>After installation you'll have two skills:</p>
+<ul>
+<li><code>/prd</code> — Generate a Product Requirements Document (PRD)</li>
+<li><code>/ralph</code> — Convert PRD to prd.json format</li>
+</ul>
+<h2>Configuring Amp Auto Handoff</h2>
+<p>Edit <code>~/.config/amp/settings.json</code>:</p>
+<pre><code class="language-json">{
+  "amp.experimental.autoHandoff": { "context": 90 }
+}
+</code></pre>
+<p>This enables <strong>auto-handoff on context overflow</strong>, allowing Ralph to handle large user stories that exceed a single context window capacity.</p>
+<h1>Official Workflow</h1>
+<h2>Creating a PRD</h2>
+<p>Use the PRD skill to generate a detailed requirements document:</p>
+<pre><code class="language-bash">Load the prd skill and create a PRD for [your feature description]
+</code></pre>
+<p>Answer the AI's clarifying questions. This command saves the output to <code>tasks/prd-[feature-name].md</code>.</p>
+<h2>Converting PRD to Ralph Format</h2>
+<p>Use the Ralph tool to convert the Markdown PRD into JSON format:</p>
+<pre><code class="language-bash">Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
+</code></pre>
+<p>This generates a <strong>prd.json</strong> file containing user stories structured for <strong>autonomous execution</strong>.</p>
+<h2>Running Ralph</h2>
+<pre><code class="language-bash"># Using Amp (default)
+./scripts/ralph/ralph.sh [max_iterations]
+
+# Using Claude Code
+./scripts/ralph/ralph.sh --tool claude [max_iterations]
+</code></pre>
+<p>The default iteration count is 10. Use <code>--tool amp</code> or <code>--tool claude</code> to select the AI coding tool.</p>
+<p>Ralph's execution flow:</p>
+<ol>
+<li>Create a feature branch based on the branch name specified in the PRD</li>
+<li>Pick the highest priority user story that is not yet completed (<code>passes: false</code>)</li>
+<li>Implement the user story</li>
+<li>Run quality checks (type checking, tests)</li>
+<li>Commit if checks pass</li>
+<li>Update prd.json, marking the story as completed (<code>passes: true</code>)</li>
+<li>Append lessons learned to progress.txt</li>
+<li>Repeat until all stories pass or maximum iterations are reached</li>
+</ol>
+<h1>Core Files</h1>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ralph.sh</td>
+<td>Bash loop script that launches fresh AI instances (supports <code>--tool amp</code> or <code>--tool claude</code>)</td>
+</tr>
+<tr>
+<td>prompt.md</td>
+<td>Prompt template for Amp</td>
+</tr>
+<tr>
+<td>CLAUDE.md</td>
+<td>Prompt template for Claude Code</td>
+</tr>
+<tr>
+<td>prd.json</td>
+<td>User stories with completion status (task list)</td>
+</tr>
+<tr>
+<td>prd.json.example</td>
+<td>Example PRD format for reference</td>
+</tr>
+<tr>
+<td>progress.txt</td>
+<td>Append-only experience log for subsequent iterations</td>
+</tr>
+<tr>
+<td>skills/prd/</td>
+<td>Skill for generating PRDs (compatible with Amp and Claude Code)</td>
+</tr>
+<tr>
+<td>skills/ralph/</td>
+<td>Skill for converting PRDs to JSON (compatible with Amp and Claude Code)</td>
+</tr>
+<tr>
+<td>.claude-plugin/</td>
+<td>Plugin manifest for Claude Code plugin marketplace discovery</td>
+</tr>
+<tr>
+<td>flowchart/</td>
+<td>Interactive visualization of the Ralph workflow</td>
+</tr>
+</tbody>
+</table>
+<h1>Core Concepts</h1>
+<h2>Each Iteration = Fresh Context</h2>
+<p>Each iteration launches a <strong>brand new, context-clean AI instance</strong> (Amp or Claude Code). The only persisted state between iterations includes:</p>
+<ul>
+<li>Git history (commits from previous iterations)</li>
+<li>progress.txt (lessons learned and context information)</li>
+<li>prd.json (which user stories are completed)</li>
+</ul>
+<h2>Small Task Principle</h2>
+<p>Every requirement item in the PRD should be small enough to complete within a <strong>single context window</strong>. If tasks are too large, the LLM will exhaust its context before completion, resulting in poor quality code.</p>
+<p><strong>Appropriately sized user stories:</strong></p>
+<ul>
+<li>Add a database field and migration script</li>
+<li>Add a new UI component to an existing page</li>
+<li>Add new logic and update a server action</li>
+<li>Add a filter dropdown to a list</li>
+</ul>
+<p><strong>Too large (needs splitting):</strong></p>
+<ul>
+<li>"Build a complete dashboard"</li>
+<li>"Add authentication functionality"</li>
+<li>"Refactor the entire API"</li>
+</ul>
+<h2>AGENTS.md Updates Are Crucial</h2>
+<p>After each iteration, Ralph appends lessons learned to the corresponding <strong>AGENTS.md</strong> file. This is crucial — AI coding tools automatically read these files, and subsequent iterations as well as future developers benefit from the summarized development patterns, gotchas, and code conventions.</p>
+<p>What to include in AGENTS.md:</p>
+<ul>
+<li><strong>Development patterns</strong>: e.g., "This codebase uses X to implement Y"</li>
+<li><strong>Gotchas</strong>: e.g., "When modifying W, always update Z"</li>
+<li><strong>Useful context</strong>: e.g., "Settings panel is located in component X"</li>
+</ul>
+<h2>Feedback Loop</h2>
+<p>Ralph only works correctly when a <strong>feedback loop</strong> exists:</p>
+<ul>
+<li>Type checking catches type errors</li>
+<li>Tests verify functional behavior</li>
+<li>CI must remain passing (broken code accumulates problems across iterations)</li>
+</ul>
+<h2>Browser Verification for Frontend Stories</h2>
+<p>Frontend user story acceptance criteria must include <strong>"Verify in the browser using the dev-browser tool"</strong>. Ralph will access the corresponding page via browser dev tools, interact with the UI, and confirm the modifications work correctly.</p>
+<h2>Stop Condition</h2>
+<p>When all user stories have <code>passes</code> set to <code>true</code>, Ralph outputs <code>&#x3C;promise>COMPLETE&#x3C;/promise></code> and exits the loop.</p>
+<h1>Debugging</h1>
+<p>Check current run status:</p>
+<pre><code class="language-bash"># See which stories are completed
+cat prd.json | jq '.userStories[] | {id, title, passes}'
+
+# View experience logs from previous iterations
+cat progress.txt
+
+# View Git commit history
+git log --oneline -10
+</code></pre>
+<h1>Archiving</h1>
+<p>When starting a new feature (using a different branch name), Ralph automatically archives previous run records. Archives are saved to <code>archive/YYYY-MM-DD-feature-name/</code>.</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Ralph Loop]]></title>
+            <link>https://charliefei.github.io/zh/blog/ralph/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/zh/blog/ralph/</guid>
+            <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Ralph 是一个自主 AI 智能体循环，它会反复运行 AI 编程工具（Amp 或 Claude Code），直到产品需求文档（PRD）中的所有条目全部完成。每次迭代都是一个全新的实例，拥有干净的上下文环境。记忆状态通过 Git 提交历史、progress.txt 文件以及 prd.json 文件进行持久化保存。]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/snarktank/ralph">GitHub 仓库</a></p>
+<p><a href="https://ghuntley.com/ralph/">官方介绍文章</a></p>
+<p><a href="https://x.com/ryancarson/status/2008548371712135632">Ryan Carson 的使用心得</a></p>
+<h1>安装 Ralph</h1>
+<h2>手动复制到项目</h2>
+<pre><code class="language-bash"># 在项目根目录执行
+mkdir -p scripts/ralph
+cp /path/to/ralph/ralph.sh scripts/ralph/
+
+# 复制适合你 AI 工具的提示词模板：
+cp /path/to/ralph/prompt.md scripts/ralph/prompt.md    # for Amp
+# 或
+cp /path/to/ralph/CLAUDE.md scripts/ralph/CLAUDE.md    # for Claude Code
+
+chmod +x scripts/ralph/ralph.sh
+</code></pre>
+<h2>通过 Agent Skills 安装</h2>
+<h3>手动复制</h3>
+<pre><code class="language-bash"># Amp
+cp -r skills/prd ~/.config/amp/skills/
+cp -r skills/ralph ~/.config/amp/skills/
+
+# Claude Code
+cp -r skills/prd ~/.claude/skills/
+cp -r skills/ralph ~/.claude/skills/
+</code></pre>
+<h3>通过 Claude Code 官方插件市场</h3>
+<pre><code class="language-bash">/plugin marketplace add snarktank/ralph
+/plugin install ralph-skills@ralph-marketplace
+</code></pre>
+<p>安装完成后会获得两个 skill：</p>
+<ul>
+<li><code>/prd</code> — 生成产品需求文档（PRD）</li>
+<li><code>/ralph</code> — 将 PRD 转换为 prd.json 格式</li>
+</ul>
+<h2>配置 Amp 自动交接</h2>
+<p>编辑 <code>~/.config/amp/settings.json</code>：</p>
+<pre><code class="language-json">{
+  "amp.experimental.autoHandoff": { "context": 90 }
+}
+</code></pre>
+<p>这实现了<strong>上下文溢出时的自动交接</strong>，使 Ralph 能够处理超出单个上下文窗口容量的大型用户故事。</p>
+<h1>官方工作流</h1>
+<h2>创建 PRD</h2>
+<p>使用 PRD 技能生成一份详细的需求文档：</p>
+<pre><code class="language-bash">Load the prd skill and create a PRD for [your feature description]
+</code></pre>
+<p>回答 AI 提出的澄清问题。该命令会将输出保存至 <code>tasks/prd-[功能名称].md</code>。</p>
+<h2>将 PRD 转换为 Ralph 格式</h2>
+<p>使用 Ralph 工具将 Markdown 格式的 PRD 转换为 JSON 格式：</p>
+<pre><code class="language-bash">Load the ralph skill and convert tasks/prd-[feature-name].md to prd.json
+</code></pre>
+<p>这会生成一个 <strong>prd.json</strong> 文件，其中包含为<strong>自主执行</strong>而结构化编排的用户故事。</p>
+<h2>运行 Ralph</h2>
+<pre><code class="language-bash"># 使用 Amp（默认）
+./scripts/ralph/ralph.sh [max_iterations]
+
+# 使用 Claude Code
+./scripts/ralph/ralph.sh --tool claude [max_iterations]
+</code></pre>
+<p>默认迭代次数为 10 次。可使用 <code>--tool amp</code> 或 <code>--tool claude</code> 参数选择 AI 编程工具。</p>
+<p>Ralph 的执行流程如下：</p>
+<ol>
+<li>基于 PRD 中指定的分支名称创建功能分支</li>
+<li>选取优先级最高且尚未通过（<code>passes: false</code>）的用户故事</li>
+<li>实现该用户故事</li>
+<li>运行质量检查（类型检查、测试）</li>
+<li>检查通过则进行提交</li>
+<li>更新 prd.json，将该故事标记为已通过（<code>passes: true</code>）</li>
+<li>将经验总结追加到 progress.txt</li>
+<li>重复执行，直至所有故事均通过检查或达到最大迭代次数</li>
+</ol>
+<h1>核心文件</h1>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ralph.sh</td>
+<td>启动全新 AI 实例的 Bash 循环脚本（支持 <code>--tool amp</code> 或 <code>--tool claude</code> 参数）</td>
+</tr>
+<tr>
+<td>prompt.md</td>
+<td>Amp 的提示词模板</td>
+</tr>
+<tr>
+<td>CLAUDE.md</td>
+<td>Claude Code 的提示词模板</td>
+</tr>
+<tr>
+<td>prd.json</td>
+<td>带完成状态的用户故事（任务清单）</td>
+</tr>
+<tr>
+<td>prd.json.example</td>
+<td>PRD 示例格式，供参考</td>
+</tr>
+<tr>
+<td>progress.txt</td>
+<td>追加式经验记录，供后续迭代参考</td>
+</tr>
+<tr>
+<td>skills/prd/</td>
+<td>用于生成 PRD 的技能（适配 Amp 与 Claude Code）</td>
+</tr>
+<tr>
+<td>skills/ralph/</td>
+<td>用于将 PRD 转换为 JSON 的技能（兼容 Amp 和 Claude Code）</td>
+</tr>
+<tr>
+<td>.claude-plugin/</td>
+<td>用于 Claude Code 插件市场发现的插件清单</td>
+</tr>
+<tr>
+<td>flowchart/</td>
+<td>Ralph 工作流程的交互式可视化演示</td>
+</tr>
+</tbody>
+</table>
+<h1>核心概念</h1>
+<h2>每次迭代 = 全新上下文</h2>
+<p>每次迭代都会启动一个<strong>全新的、上下文干净的 AI 实例</strong>（Amp 或 Claude Code）。迭代之间唯一保留的状态包括：</p>
+<ul>
+<li>Git 历史记录（来自之前迭代的提交）</li>
+<li>progress.txt（经验总结与上下文信息）</li>
+<li>prd.json（标记哪些用户故事已完成）</li>
+</ul>
+<h2>小任务原则</h2>
+<p>PRD 中的每个需求项都应足够小，确保能在<strong>单次上下文窗口</strong>内完成。任务过大时，大语言模型会在完成前耗尽上下文，导致生成的代码质量很差。</p>
+<p><strong>大小合适的用户故事：</strong></p>
+<ul>
+<li>添加数据库字段及迁移脚本</li>
+<li>在现有页面中新增一个 UI 组件</li>
+<li>为服务端操作新增逻辑并更新</li>
+<li>为列表添加筛选下拉框</li>
+</ul>
+<p><strong>过大的任务（需要拆分）：</strong></p>
+<ul>
+<li>"搭建完整的仪表盘"</li>
+<li>"添加身份认证功能"</li>
+<li>"重构整个 API"</li>
+</ul>
+<h2>AGENTS.md 更新至关重要</h2>
+<p>每次迭代完成后，Ralph 都会将经验总结更新到对应的 <strong>AGENTS.md</strong> 文件中。这一点至关重要——AI 编程工具会自动读取这些文件，后续的迭代以及未来的开发人员都能从总结出的开发模式、注意事项和代码规范中受益。</p>
+<p>建议写入 AGENTS.md 的内容：</p>
+<ul>
+<li><strong>开发模式</strong>：例如 "该代码库使用 X 实现 Y 功能"</li>
+<li><strong>注意事项</strong>：例如 "修改 W 时务必同步更新 Z"</li>
+<li><strong>有用的上下文</strong>：例如 "设置面板位于组件 X 中"</li>
+</ul>
+<h2>反馈循环</h2>
+<p>Ralph 只有在存在<strong>反馈循环</strong>的情况下才能正常工作：</p>
+<ul>
+<li>类型检查捕获类型错误</li>
+<li>测试验证功能行为</li>
+<li>CI 必须保持通过（损坏的代码会在多次迭代中不断累积问题）</li>
+</ul>
+<h2>前端故事的浏览器验证</h2>
+<p>前端用户故事的验收标准中必须包含 <strong>"使用 dev-browser 工具在浏览器中验证"</strong> 这一项。Ralph 会通过浏览器开发工具访问对应页面、与界面交互，并确认修改功能正常。</p>
+<h2>停止条件</h2>
+<p>当所有用户故事的 <code>passes</code> 均为 <code>true</code> 时，Ralph 会输出 <code>&#x3C;promise>COMPLETE&#x3C;/promise></code> 并退出循环。</p>
+<h1>调试</h1>
+<p>检查当前运行状态：</p>
+<pre><code class="language-bash"># 查看哪些故事已完成
+cat prd.json | jq '.userStories[] | {id, title, passes}'
+
+# 查看之前迭代的经验记录
+cat progress.txt
+
+# 查看 Git 提交历史
+git log --oneline -10
+</code></pre>
+<h1>归档</h1>
+<p>启动一个新功能时（使用不同的分支名称），Ralph 会自动归档之前的运行记录。归档文件将保存至 <code>archive/YYYY-MM-DD-feature-name/</code> 目录下。</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>教程</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Superpowers]]></title>
+            <link>https://charliefei.github.io/en/blog/superpowers/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/superpowers/</guid>
+            <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A study and summary of Superpowers. Process over Prompt — wrapping AI with software engineering discipline and guardrails, so it thinks first, plans next, then codes, and always verifies — just like a senior engineer.]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/obra/superpowers">GitHub Repository</a></p>
+<h1>Installation</h1>
+<pre><code class="language-shell"># Claude Official Plugin Marketplace
+/plugin install superpowers@claude-plugins-official
+
+# Superpowers Plugin Marketplace
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+
+# Cursor
+/add-plugin superpowers
+
+# Codex
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md
+
+# OpenCode
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
+
+# Gemini
+gemini extensions install https://github.com/obra/superpowers
+gemini extensions update superpowers
+</code></pre>
+<h1>Workflow</h1>
+<p>Superpowers defines a complete software engineering workflow, breaking down the AI coding process into multiple stages, each with clear skills/commands, triggers, and deliverables.</p>
+<h2>Requirements Clarification</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Brainstorming (<code>/brainstorming</code> or <code>/superpowers:brainstorming</code>)</li>
+<li><strong>Trigger:</strong> User proposes a new feature or requirement (e.g., "Add user login functionality")</li>
+<li><strong>Input/Output:</strong> Input is user's natural language requirements; output is clarifying Q&#x26;A and preliminary design discussion. <strong>Deliverable:</strong> Requirements specification document (text format) listing key requirements.</li>
+<li><strong>Notes:</strong> The skill uses <strong>Socratic questioning to clarify boundaries and requirement details</strong> (e.g., supported login methods, error handling logic). Must obtain user confirmation before proceeding. If user answers are ambiguous or incomplete, continue asking. If answers are inconsistent, re-verify requirements.</li>
+</ul>
+<h2>Design &#x26; Architecture</h2>
+<ul>
+<li><strong>Skill:</strong> Can be seen as a continuation of Brainstorming, or implicit in Plans; includes <strong>design review</strong>.</li>
+<li><strong>Trigger:</strong> Automatically proceeds after Brainstorming requirements are confirmed.</li>
+<li><strong>Input/Output:</strong> Input is the clarified requirements; output is system architecture or module division suggestions. <strong>Deliverable:</strong> System architecture sketch or component list.</li>
+<li><strong>Notes:</strong> Design should follow best practices, be clear and concise. If the design is insufficient, return to the Brainstorming phase to supplement requirements or rethink. Use Brainstorming output to verify design soundness.</li>
+</ul>
+<h2>Plan Breakdown</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Writing Plans (<code>/writing-plans</code> or <code>/superpowers:writing-plans</code>)</li>
+<li><strong>Trigger:</strong> After design plan is confirmed, input requirements to begin task breakdown.</li>
+<li><strong>Input/Output:</strong> Input is requirements specification or design document; output is detailed implementation steps. <strong>Deliverable:</strong> Implementation plan document listing multiple small tasks (each including goal, file paths, example code, verification steps).</li>
+<li><strong>Notes:</strong> Each task should be completable within 2–5 minutes. Follow DRY/YAGNI principles, implement only what's necessary. If task granularity is too large or too small, adjust accordingly. Continuously confirm the plan with the user during execution.</li>
+</ul>
+<h2>Creating a Git Worktree</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Using Git Worktrees (implicit, no explicit command)</li>
+<li><strong>Trigger:</strong> Automatically created when ready to start coding after implementation plan is generated.</li>
+<li><strong>Input/Output:</strong> Executes Git commands in the local project. <strong>Deliverable:</strong> New development branch and corresponding working directory (e.g., <code>git worktree add -b &#x3C;feature> ...</code>).</li>
+<li><strong>Notes:</strong> Isolated development environment prevents affecting the main branch. If serious issues arise, the worktree branch can be deleted while keeping the main branch clean. Clean up (<code>git worktree remove</code>) after completion to free resources.</li>
+</ul>
+<h2>Implementation &#x26; Coding</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Execute Plans (<code>/execute-plan</code> or <code>/superpowers:executing-plans</code>), paired with Test-Driven Development.</li>
+<li><strong>Trigger:</strong> Starts when the user agrees to the execution plan or after the planning phase is complete.</li>
+<li><strong>Input/Output:</strong> Input is the task list; output is code and tests. AI implements tasks sequentially per plan, opening new sessions or sub-agents for each task.</li>
+<li><strong>Deliverable:</strong> Feature code files, corresponding test code, task execution logs.</li>
+<li><strong>Notes:</strong> Enforces TDD flow: before implementing each feature, first write a failing test (red), then write minimal code to pass it (green), and finally refactor. AI does not write production code without first writing a failing test. If many failures or logic confusion occurs, pause the current task for debugging; commit promptly after each task completes.</li>
+</ul>
+<h2>Test-Driven Development (TDD)</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Test-Driven Development (<code>/superpowers:test-driven-development</code>)</li>
+<li><strong>Trigger:</strong> Automatically triggered at the start of each coding task.</li>
+<li><strong>Input/Output:</strong> Input is task description; output is test cases and implementation code. <strong>Deliverable:</strong> Unit test files and implementation files.</li>
+<li><strong>Notes:</strong> Follows the "red-green-refactor" cycle. If test cases are written incorrectly and fail to fail, they should be rewritten. Tasks must not be marked complete before tests pass. AI automatically rolls back incorrect test-first attempts.</li>
+</ul>
+<h2>Systematic Debugging</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Systematic Debugging (<code>/superpowers:systematic-debugging</code>)</li>
+<li><strong>Trigger:</strong> Actively triggered when encountering failing tests, runtime errors, or functional anomalies during coding.</li>
+<li><strong>Input/Output:</strong> Input is error description and current code context; output is debugging analysis report. <strong>Deliverable:</strong> Four-stage debugging record (root cause analysis, pattern recognition, hypothesis testing, fix recommendations).</li>
+<li><strong>Notes:</strong> Must follow the <strong>root cause first</strong> principle: analyze the problem's essence before applying fixes. If still unresolved after three attempts, consider whether the issue lies in requirements or design, and if necessary, return to previous stages for review or seek human help. Record all debugging hypotheses and conclusions for future reference.</li>
+</ul>
+<h2>Code Review</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Request Code Review (<code>/request-code-review</code>)</li>
+<li><strong>Trigger:</strong> Triggered after all tasks on a feature branch are complete and all tests pass.</li>
+<li><strong>Input/Output:</strong> Input is the current branch's code changes; output is a review report. <strong>Deliverable:</strong> Code review feedback (strengths, defects, improvement suggestions).</li>
+<li><strong>Notes:</strong> Automated review checks against code style, security, performance, and other standards, producing a graded issue report. If critical issues are found, they must be fixed and the review re-run; general issues can be followed up after merge. When fixing, modify code as suggested and re-run tests and review.</li>
+</ul>
+<h2>Merge &#x26; Release</h2>
+<ul>
+<li><strong>Skill/Command:</strong> Finish Branch (merge, no explicit command)</li>
+<li><strong>Trigger:</strong> Executed when all review issues are resolved and functionality is confirmed correct.</li>
+<li><strong>Input/Output:</strong> Input is the reviewed branch; output is the merge operation. <strong>Deliverable:</strong> Merged main branch code.</li>
+<li><strong>Notes:</strong> Default behavior: verify all tests pass before merging. Provides merge/PR, keep, or delete options. Clean up Git worktrees (<code>git worktree remove</code>) after merge to free space. Merge marks official completion; deployment or release can happen at this stage.</li>
+</ul>
+<h2>Retrospective &#x26; Summary</h2>
+<ul>
+<li><strong>Skill:</strong> No specific Superpowers skill.</li>
+<li><strong>Trigger:</strong> Optional, after merge is complete.</li>
+<li><strong>Deliverable:</strong> Project summary document (project experience, list of open issues).</li>
+<li><strong>Notes:</strong> Recommended for teams or AI to summarize project outcomes and issues as reference for future process improvement.</li>
+</ul>
+<h1>Case Study</h1>
+<pre><code class="language-shell">User: /brainstorming I want to add user login functionality to my website
+Claude (Brainstorming skill triggered):
+  Let me clarify a few questions before we begin:
+  1. Login method: email+password, phone+verification code, or third-party login?
+  2. Do you need a "Remember Me" feature?
+  3. How should login failures be communicated to the user?
+  ...
+User: We just need email+password login, simple error messages will do.
+Claude:
+  Understood. Requirements analysis results: User login feature needs email and password input, encrypted password storage; display error messages on the frontend on login failure; return user info on successful login. Please confirm to proceed (/writing-plans).
+User: Continue
+Claude: /writing-plans
+Claude (Writing Plans skill triggered):
+  Based on the requirements, I've generated an implementation plan for the "User Login" feature:
+  - Task 1: Create a user table model in `src/models/user.js` (fields: email, passwordHash). **First write a failing test** verifying a newly registered user can log in.
+  - Task 2: Implement login logic in `src/auth/login.js` (verify password and generate JWT). **First write a failing test** ensuring correct credentials allow login.
+  - Task 3: Add a login form in the frontend `src/components/LoginForm.vue` (email/password). **First write a failing test** checking form submission calls the Login API.
+  Please confirm the plan and start execution.
+User: Confirmed
+Claude:
+  Plan generated, starting task execution... (running `/execute-plan`)
+Claude:
+  Creating isolated Git worktree... (`git worktree add -b feature/login .claude/branches/feature/login`)
+  Starting sub-agent task 1: TDD cycle...
+  First write test `test/user.test.js`: verify new user can login [Red]...
+  Write implementation: `src/models/user.js` create model, add passwordHash field, compare hash on login [Green]...
+  Running tests...All pass!
+  Commit changes (`git add &#x26;&#x26; git commit`).
+  Starting task 2...
+  Write test `test/auth.test.js`: verify login logic with registered user [Red]...
+  Implement `src/auth/login.js`: find user and verify password hash, generate JWT [Green]...
+  Tests pass!
+  Starting task 3...
+  Write test `test/loginForm.test.js`: simulate form submission and check Login API call [Red]...
+  Implement `src/components/LoginForm.vue`: add form and connect to backend [Green]...
+  Tests pass! All tasks complete.
+Claude:
+  All tests passed. Now running code review. (/request-code-review)
+Claude (Request Code Review skill triggered):
+  Reviewing tasks...
+  * Task 1 module: Naming conventions are compliant, no issues.
+  * Task 2 module: Found a potential issue — password hash is missing salt, recommend adding it.
+  * Task 3 module: Frontend submission is missing error handling, recommend improving error messaging.
+  Found 1 significant issue, please fix and re-review.
+User: OK, I'll fix it
+Claude:
+  Issues fixed, all tests pass. Code review approved.
+Claude:
+  Preparing to merge branch (finish-branch)... Merge successful, feature branch closed.
+</code></pre>
+<p><strong>Note:</strong> In the case above, the user sequentially executes <code>/brainstorming</code>, <code>/writing-plans</code>, confirms and runs <code>/execute-plan</code> to trigger coding. AI creates an isolated Git worktree and completes three tasks through TDD cycles. Output includes requirements specification, task list, test results, code snippets, and review report. <code>/request-code-review</code> triggers automatic review and reports issues, which are fixed before merging. All commands (e.g., <code>/execute-plan</code>, <code>/request-code-review</code>) can be used directly in the Claude Code environment.</p>
+<h1>Skills Overview</h1>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Superpowers Skill/Command</th>
+<th>Input/Deliverable</th>
+<th>Notes &#x26; Failure Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements Clarification</td>
+<td>Brainstorming (<code>/brainstorming</code>)</td>
+<td><strong>Deliverable:</strong> Requirements specification (text). AI Q&#x26;A dialogue to clarify requirements.</td>
+<td>Ask user questions to define boundaries and use cases. If answers are vague, continue probing. Proceed only after confirmation.</td>
+</tr>
+<tr>
+<td>Design/Architecture</td>
+<td>Implicit in Brainstorming</td>
+<td><strong>Deliverable:</strong> System design overview.</td>
+<td>Evaluate design reasonableness. If unsuitable, return to Brainstorming or requirements stage.</td>
+</tr>
+<tr>
+<td>Plan Breakdown</td>
+<td>Writing Plans (<code>/writing-plans</code>)</td>
+<td><strong>Deliverable:</strong> Implementation plan document (task list).</td>
+<td>Break down into 2–5 minute tasks. Split if tasks are too large. Follow DRY/YAGNI principles.</td>
+</tr>
+<tr>
+<td>Isolated Development</td>
+<td>Using Git Worktrees (automatic)</td>
+<td><strong>Deliverable:</strong> New branch and worktree.</td>
+<td>Automatically runs <code>git worktree</code> to create branch. On failure, can create manually or continue on main branch (higher risk).</td>
+</tr>
+<tr>
+<td>Implementation/Coding</td>
+<td>Execute Plans (<code>/execute-plan</code>)</td>
+<td><strong>Deliverable:</strong> Feature code and test code; execution logs.</td>
+<td>Strict TDD flow: write tests first, then code. If tests don't pass, pause and enter debugging.</td>
+</tr>
+<tr>
+<td>TDD</td>
+<td>Test-Driven Development (<code>/superpowers:test-driven-development</code>)</td>
+<td><strong>Deliverable:</strong> Test case files, implementation code files.</td>
+<td>Refuses to generate code without writing tests first. Must not pass when tests fail — rewrite tests or adjust implementation.</td>
+</tr>
+<tr>
+<td>Debugging</td>
+<td>Systematic Debugging (<code>/superpowers:systematic-debugging</code>)</td>
+<td><strong>Deliverable:</strong> Four-stage debugging report.</td>
+<td>Follow root cause analysis → pattern recognition → hypothesis → fix steps. After three failures, consider design rework or human intervention.</td>
+</tr>
+<tr>
+<td>Code Review</td>
+<td>Request Code Review (<code>/request-code-review</code>)</td>
+<td><strong>Deliverable:</strong> Review feedback report.</td>
+<td>Auto-checks coding standards, security, etc. Critical issues block merge, require fixes.</td>
+</tr>
+<tr>
+<td>Merge/Release</td>
+<td>Finish Branch (automatic)</td>
+<td><strong>Deliverable:</strong> Merged main branch code.</td>
+<td>Run all tests first for stability validation. Provides merge options (merge, PR, keep). Clean up worktrees after completion.</td>
+</tr>
+</tbody>
+</table>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Superpowers]]></title>
+            <link>https://charliefei.github.io/zh/blog/superpowers/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/zh/blog/superpowers/</guid>
+            <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Superpowers 学习和使用总结。Process over Prompt（流程大于提示词），给 AI 套上软件工程的「纪律与护栏」，让它像资深工程师一样先思考、再规划、后编码、必验证。]]></description>
+            <content:encoded><![CDATA[<p><a href="https://github.com/obra/superpowers">GitHub 仓库</a></p>
+<h1>安装</h1>
+<pre><code class="language-shell"># Claude 官方插件市场
+/plugin install superpowers@claude-plugins-official
+
+# Superpowers 插件市场
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+
+# Cursor
+/add-plugin superpowers
+
+# Codex
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md
+
+# OpenCode
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
+
+# Gemini
+gemini extensions install https://github.com/obra/superpowers
+gemini extensions update superpowers
+</code></pre>
+<h1>工作流</h1>
+<p>Superpowers 定义了一套完整的软件工程工作流，将 AI 编码过程分解为多个阶段，每个阶段都有明确的技能/命令、触发条件和产出物。</p>
+<h2>需求澄清</h2>
+<ul>
+<li><strong>技能/命令：</strong> Brainstorming（<code>/brainstorming</code> 或 <code>/superpowers:brainstorming</code>）</li>
+<li><strong>触发条件：</strong> 用户提出新功能或需求指令（如"帮我添加用户登录功能"）</li>
+<li><strong>输入/输出：</strong> 输入为用户自然语言需求；输出为澄清问题问答及初步设计讨论。<strong>产物：</strong> 需求规格说明文档（文本格式），列出需求要点。</li>
+<li><strong>注意事项：</strong> Skill 会<strong>以苏格拉底式提问澄清边界和需求细节</strong>（例如支持哪些登录方式、异常处理逻辑等）。必须获得用户确认后才继续下一步。若用户回答有歧义或遗漏，应继续追问；若前后不一致，应重新核对需求。</li>
+</ul>
+<h2>设计与架构</h2>
+<ul>
+<li><strong>技能：</strong> 可视为 Brainstorming 的延续，或隐含在 Plans 中；包含<strong>设计审查</strong>。</li>
+<li><strong>触发条件：</strong> Brainstorming 确认需求后自动进行。</li>
+<li><strong>输入/输出：</strong> 输入为经过澄清的需求；输出为系统架构或模块划分建议。<strong>产物：</strong> 系统架构草图或组件列表。</li>
+<li><strong>注意事项：</strong> 设计应符合最佳实践，清晰简洁。若设计方案不足，需回到 Brainstorming 阶段补充需求或重新思考。可利用 Brainstorming 的输出验证设计合理性。</li>
+</ul>
+<h2>计划拆分</h2>
+<ul>
+<li><strong>技能/命令：</strong> Writing Plans（<code>/writing-plans</code> 或 <code>/superpowers:writing-plans</code>）</li>
+<li><strong>触发条件：</strong> 设计方案确认后，输入需求规格开始拆分任务。</li>
+<li><strong>输入/输出：</strong> 输入为需求规格或设计文档；输出为细化的实施步骤。<strong>产物：</strong> 实施计划文档，列出多个小任务（每个任务包括目标、文件路径、示例代码、验证步骤）。</li>
+<li><strong>注意事项：</strong> 每个任务建议控制在 2–5 分钟内完成。遵循 DRY / YAGNI 原则，仅实现必要功能。若任务粒度过大或过小，应重新调整。执行过程中需持续与用户确认计划。</li>
+</ul>
+<h2>创建 Git 工作区</h2>
+<ul>
+<li><strong>技能/命令：</strong> Using Git Worktrees（隐式执行，无显式命令）</li>
+<li><strong>触发条件：</strong> 实施计划生成后，准备开始编码时自动创建。</li>
+<li><strong>输入/输出：</strong> 在本地项目中执行 Git 命令。<strong>产物：</strong> 新的开发分支及对应工作目录（如 <code>git worktree add -b &#x3C;feature> ...</code>）。</li>
+<li><strong>注意事项：</strong> 隔离的开发环境可避免影响主分支。出现严重问题时，可直接删除工作区分支而保持主分支干净。完成后需清理（<code>git worktree remove</code>）以释放资源。</li>
+</ul>
+<h2>实现与编码</h2>
+<ul>
+<li><strong>技能/命令：</strong> Execute Plans（<code>/execute-plan</code> 或 <code>/superpowers:executing-plans</code>），配合测试驱动开发。</li>
+<li><strong>触发条件：</strong> 用户同意执行计划或计划阶段完毕后开始。</li>
+<li><strong>输入/输出：</strong> 输入为任务列表；输出为代码和测试。AI 按计划逐任务实施，每个任务新开会话或子代理进行实现。</li>
+<li><strong>产物：</strong> 功能代码文件、对应测试代码、任务执行日志。</li>
+<li><strong>注意事项：</strong> 强制 TDD 流程：每个功能实现前先生成一个失败测试（红灯），再编写最小代码使其通过（绿灯），最后重构。AI 不会在没有先写失败测试的情况下编写生产代码。若出现较多失败或逻辑混乱，应暂停当前任务进行调试；每次任务完成后及时提交。</li>
+</ul>
+<h2>测试驱动开发（TDD）</h2>
+<ul>
+<li><strong>技能/命令：</strong> Test-Driven Development（<code>/superpowers:test-driven-development</code>）</li>
+<li><strong>触发条件：</strong> 在每个编码任务开始时自动触发。</li>
+<li><strong>输入/输出：</strong> 输入为任务描述；输出为测试用例和实现代码。<strong>产物：</strong> 单元测试文件与实现文件。</li>
+<li><strong>注意事项：</strong> 遵守「红灯—绿灯—重构」循环。若测试用例编写错误导致无法失败，应重新编写。未通过测试前不得宣称任务完成。AI 会自动回滚错误的先写测试尝试。</li>
+</ul>
+<h2>系统化调试</h2>
+<ul>
+<li><strong>技能/命令：</strong> Systematic Debugging（<code>/superpowers:systematic-debugging</code>）</li>
+<li><strong>触发条件：</strong> 编码过程中遇到未通过的测试、运行时错误或功能异常时主动触发。</li>
+<li><strong>输入/输出：</strong> 输入为错误描述和当前代码上下文；输出为调试分析报告。<strong>产物：</strong> 四阶段调试记录（根因分析、模式识别、假设测试、修复建议）。</li>
+<li><strong>注意事项：</strong> 必须遵循<strong>根因优先</strong>原则：先分析问题本质再动手修复。若三次尝试后仍无法解决，应考虑需求或设计层面的问题，必要时回到前面阶段重新审查或寻求人类帮助。记录所有调试假设和结论以备查证。</li>
+</ul>
+<h2>代码审查</h2>
+<ul>
+<li><strong>技能/命令：</strong> Request Code Review（<code>/request-code-review</code>）</li>
+<li><strong>触发条件：</strong> 一个功能分支的所有任务完成、所有测试通过后触发。</li>
+<li><strong>输入/输出：</strong> 输入为当前分支的代码变更；输出为审查报告。<strong>产物：</strong> 代码审查反馈（优点、缺陷、改进建议）。</li>
+<li><strong>注意事项：</strong> 自动审查会根据代码风格、安全性、性能等规范给出分级问题报告。若发现严重问题（Critical），需修复后重新审查；一般问题可在合并后继续跟进。修复时按建议修改代码并重新运行测试与审查。</li>
+</ul>
+<h2>合并与发布</h2>
+<ul>
+<li><strong>技能/命令：</strong> Finish Branch（合并分支，无显式命令）</li>
+<li><strong>触发条件：</strong> 所有审查问题处理完毕、功能确认无误后执行。</li>
+<li><strong>输入/输出：</strong> 输入为审查完成的分支；输出为合并操作。<strong>产物：</strong> 合并后的主分支代码。</li>
+<li><strong>注意事项：</strong> 默认先验证所有测试再合并；提供合并/PR、保留或删除选项。合并后应清理 Git 工作树（<code>git worktree remove</code>）以释放空间。合并是正式完成标志，可在此阶段部署或发布版本。</li>
+</ul>
+<h2>回顾与总结</h2>
+<ul>
+<li><strong>技能：</strong> 无特定 Superpowers 技能。</li>
+<li><strong>触发条件：</strong> 合并完成后，可选择性地触发。</li>
+<li><strong>产物：</strong> 项目总结文档（项目经验、遗留问题列表）。</li>
+<li><strong>注意事项：</strong> 建议团队或 AI 总结项目成果与问题，作为未来流程改进的参考。</li>
+</ul>
+<h1>案例演示</h1>
+<pre><code class="language-shell">用户: /brainstorming 我要给网站添加用户登录功能
+Claude (Brainstorming 技能触发):
+  好的，在开始之前我需要澄清几个问题：
+  1. 登录方式：邮箱+密码、手机号+验证码，还是第三方登录？
+  2. 是否需要"记住我"功能？
+  3. 登录失败时如何提示用户？
+  ...
+用户: 我们只需要邮箱+密码登录，简单提示错误即可。
+Claude:
+  明白了。需求分析结果如下：用户登录功能需支持邮箱和密码输入，密码加密存储；登录失败时前端显示错误消息；登录成功后返回用户信息。请确认是否继续下一步（/writing-plans）。
+用户: 继续
+Claude: /writing-plans
+Claude（Writing Plans 技能触发）:
+  根据需求，已为「用户登录」功能生成实施计划：
+  - 任务1：在 `src/models/user.js` 创建用户表模型（字段：email, passwordHash）。**先写一个失败测试**，验证新注册用户能登录。
+  - 任务2：在 `src/auth/login.js` 实现登录逻辑（验证密码并生成 JWT）。**先写一个失败测试**，确保给定正确凭证可登录。
+  - 任务3：在前端 `src/components/LoginForm.vue` 添加登录表单（email/password）。**先写一个失败测试**，检查表单提交调用 Login API。
+  请确认计划并开始执行。
+用户: 确认
+Claude:
+  计划已生成，开始执行任务...（执行命令 `/execute-plan`）
+Claude:
+  创建隔离的 Git 工作区...（`git worktree add -b feature/login .claude/branches/feature/login`）
+  开始第1个子代理任务：TDD 循环...
+  先写测试 `test/user.test.js`：验证新注册用户能登录【红灯】...
+  编写实现：`src/models/user.js` 创建模型，新增字段 passwordHash，登录时对比哈希【绿灯】...
+  运行测试...全部通过！
+  提交更改（`git add &#x26;&#x26; git commit`）。
+  开始第2个任务...
+  写测试 `test/auth.test.js`：使用已注册用户验证登录逻辑【红灯】...
+  实现 `src/auth/login.js`：查找用户并验证密码哈希，生成 JWT【绿灯】...
+  测试通过！
+  开始第3个任务...
+  写测试 `test/loginForm.test.js`：模拟登录表单提交并检查调用 Login API【红灯】...
+  实现 `src/components/LoginForm.vue`：添加表单并连接后端接口【绿灯】...
+  测试通过！所有任务完成。
+Claude:
+  所有测试已通过。现在进行代码审查。（/request-code-review）
+Claude（Request Code Review 技能触发）:
+  正在审查任务...
+  * 任务1模块：命名规范符合规范，无问题。
+  * 任务2模块：发现一个潜在问题——密码哈希未设置盐值，建议增加。
+  * 任务3模块：前端提交缺少错误捕捉，建议完善提示逻辑。
+  发现1个重要问题，请修复后重审。
+用户: 好的，我来修复
+Claude:
+  问题已修复，测试全部通过。代码审查通过。
+Claude:
+  准备合并分支（finish-branch）... 合并成功，功能分支关闭。
+</code></pre>
+<p><strong>说明：</strong> 上述案例中，用户依次执行 <code>/brainstorming</code>、<code>/writing-plans</code>、确认并 <code>/execute-plan</code> 触发编码。AI 创建了隔离的 Git 工作区，并通过 TDD 循环完成了三个任务。产出的内容包括需求规格、任务清单、测试结果、代码片段和审查报告。<code>/request-code-review</code> 触发自动审查并反馈问题，修复后完成合并。所有命令（如 <code>/execute-plan</code>、<code>/request-code-review</code>）可直接在 Claude Code 环境中使用。</p>
+<h1>技能总览表</h1>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>Superpowers 技能/命令</th>
+<th>输入/产物</th>
+<th>注意事项与失败策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需求澄清</td>
+<td>Brainstorming（<code>/brainstorming</code>）</td>
+<td><strong>产物：</strong> 需求规格说明（文本）。AI 问答对话，澄清需求。</td>
+<td>提问用户明确边界和用例。若回答模糊，继续追问。确认后方可继续。</td>
+</tr>
+<tr>
+<td>设计/架构</td>
+<td>包含在 Brainstorming 中</td>
+<td><strong>产物：</strong> 系统设计概要。</td>
+<td>评估设计合理性。若设计不合适，回到 Brainstorming 或需求阶段。</td>
+</tr>
+<tr>
+<td>计划拆分</td>
+<td>Writing Plans（<code>/writing-plans</code>）</td>
+<td><strong>产物：</strong> 实施计划文档（任务清单）。</td>
+<td>按 2–5 分钟任务粒度拆分。任务过大则需拆分。遵循 DRY/YAGNI 原则。</td>
+</tr>
+<tr>
+<td>隔离开发</td>
+<td>Using Git Worktrees（自动）</td>
+<td><strong>产物：</strong> 新分支及工作区。</td>
+<td>自动执行 <code>git worktree</code> 创建分支。若失败，可手动创建或继续在主分支（风险增加）。</td>
+</tr>
+<tr>
+<td>实现/编码</td>
+<td>Execute Plans（<code>/execute-plan</code>）</td>
+<td><strong>产物：</strong> 功能代码和测试代码；执行日志。</td>
+<td>严格 TDD 流程，先写测试后编码。测试未通过则停下进入调试。</td>
+</tr>
+<tr>
+<td>TDD</td>
+<td>Test-Driven Development（<code>/superpowers:test-driven-development</code>）</td>
+<td><strong>产物：</strong> 测试用例文件、实现代码文件。</td>
+<td>无先写测试则拒绝生成代码。测试失败时不得通过，需重写测试或调整实现。</td>
+</tr>
+<tr>
+<td>调试</td>
+<td>Systematic Debugging（<code>/superpowers:systematic-debugging</code>）</td>
+<td><strong>产物：</strong> 四阶段调试报告。</td>
+<td>按根因分析→模式识别→假设→修复步骤执行。三次失败则考虑设计返工或人工干预。</td>
+</tr>
+<tr>
+<td>代码审查</td>
+<td>Request Code Review（<code>/request-code-review</code>）</td>
+<td><strong>产物：</strong> 审查反馈报告。</td>
+<td>自动检查编码规范、安全性等问题。关键问题阻塞合并，需修复。</td>
+</tr>
+<tr>
+<td>合并/发布</td>
+<td>Finish Branch（自动）</td>
+<td><strong>产物：</strong> 合并后的主分支代码。</td>
+<td>先运行所有测试验证稳定性。提供合并选项（合并、PR、保留）。完成后清理工作树。</td>
+</tr>
+</tbody>
+</table>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>教程</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Spec Coding (SDD — Spec-Driven Development)]]></title>
+            <link>https://charliefei.github.io/en/blog/spec-coding/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/spec-coding/</guid>
+            <pubDate>Sun, 26 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A study and summary of two popular SDD tools on GitHub: spec-kit and openspec.]]></description>
+            <content:encoded><![CDATA[<h2>spec-kit</h2>
+<ul>
+<li><a href="https://github.com/github/spec-kit">spec-kit Official Repository</a></li>
+<li><a href="https://github.com/github/spec-kit/blob/main/spec-driven.md">SDD — Spec-Driven Development</a></li>
+<li><a href="https://github.com/github/spec-kit#-detailed-process">spec-kit Detailed Process</a></li>
+</ul>
+<h3>Quick Start</h3>
+<h4>Installing spec-kit</h4>
+<pre><code class="language-bash"># Install a specific stable version (recommended — replace vX.Y.Z with the latest tag)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+
+# Or install the latest from the main branch (may include unreleased changes)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Upgrade spec-kit
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+</code></pre>
+<h4>Initializing a Project</h4>
+<pre><code class="language-bash"># Create a new project
+specify init &#x3C;PROJECT_NAME>
+
+# Or initialize in an existing project
+specify init . --ai claude
+
+# Specify AI coding agent and use skills
+specify init . --ai claude --ai-skills
+
+# Or
+specify init --here --ai claude
+
+# Check installed tools
+specify check
+</code></pre>
+<h4>Setting Project Constitution</h4>
+<p>Launch the AI assistant in your project directory. Most agents expose spec-kit as <code>/speckit.*</code> slash commands; Codex CLI uses <code>$speckit-*</code> in skill mode.</p>
+<p>Use the <code>/speckit.constitution</code> command to create project governance principles and development guidelines:</p>
+<pre><code class="language-bash">/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+</code></pre>
+<h4>Creating Specifications</h4>
+<p>Use the <code>/speckit.specify</code> command to describe what you want to build. Focus on <strong>the "what" and "why"</strong>, not the tech stack.</p>
+<pre><code class="language-bash">/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+</code></pre>
+<h4>Creating a Technical Implementation Plan</h4>
+<p>Use the <code>/speckit.plan</code> command to provide tech stack and architectural choices:</p>
+<pre><code class="language-bash">/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+</code></pre>
+<h4>Breaking Down Tasks</h4>
+<p>Use <code>/speckit.tasks</code> to generate an actionable task list based on the implementation plan:</p>
+<pre><code class="language-bash">/speckit.tasks
+</code></pre>
+<h4>Executing Tasks</h4>
+<p>Use <code>/speckit.implement</code> to execute all tasks and build your feature according to the plan:</p>
+<pre><code class="language-bash">/speckit.implement
+</code></pre>
+<h3>Slash Command Reference</h3>
+<p><strong>Core Commands</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Agent Skill</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.constitution</code></td>
+<td>speckit-constitution</td>
+<td>Create or update project governance principles and development guidelines</td>
+</tr>
+<tr>
+<td><code>/speckit.specify</code></td>
+<td>speckit-specify</td>
+<td>Define build goals (requirements and user stories)</td>
+</tr>
+<tr>
+<td><code>/speckit.plan</code></td>
+<td>speckit-plan</td>
+<td>Create implementation plan based on selected tech stack</td>
+</tr>
+<tr>
+<td><code>/speckit.tasks</code></td>
+<td>speckit-tasks</td>
+<td>Generate an actionable task list</td>
+</tr>
+<tr>
+<td><code>/speckit.taskstoissues</code></td>
+<td>speckit-taskstoissues</td>
+<td>Convert task list to GitHub Issues for tracking and execution</td>
+</tr>
+<tr>
+<td><code>/speckit.implement</code></td>
+<td>speckit-implement</td>
+<td>Execute all tasks per the plan to build the feature</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Optional Commands</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Agent Skill</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.clarify</code></td>
+<td>speckit-clarify</td>
+<td>Clarify ambiguous requirements (recommended before <code>/speckit.plan</code>, formerly <code>/quizme</code>)</td>
+</tr>
+<tr>
+<td><code>/speckit.analyze</code></td>
+<td>speckit-analyze</td>
+<td>Cross-artifact completeness and coverage analysis (run after <code>/speckit.tasks</code>, before <code>/speckit.implement</code>)</td>
+</tr>
+<tr>
+<td><code>/speckit.checklist</code></td>
+<td>speckit-checklist</td>
+<td>Generate custom quality checklists to verify requirements completeness, clarity, and consistency</td>
+</tr>
+</tbody>
+</table>
+<h3>spec-kit Command Reference</h3>
+<pre><code class="language-bash"># Basic project initialization
+specify init my-project
+
+# Specify AI assistant
+specify init my-project --ai claude
+
+# Initialize with Cursor support
+specify init my-project --ai cursor-agent
+
+# Initialize with Qoder support
+specify init my-project --ai qodercli
+
+# Initialize with Windsurf support
+specify init my-project --ai windsurf
+
+# Initialize with Kiro CLI support
+specify init my-project --ai kiro-cli
+
+# Initialize with Amp support
+specify init my-project --ai amp
+
+# Initialize with SHAI support
+specify init my-project --ai shai
+
+# Initialize with Mistral Vibe support
+specify init my-project --ai vibe
+
+# Initialize with IBM Bob support
+specify init my-project --ai bob
+
+# Initialize with Pi Coding Agent support
+specify init my-project --ai pi
+
+# Initialize with Codex CLI support
+specify init my-project --ai codex --ai-skills
+
+# Initialize with Antigravity support
+specify init my-project --ai agy --ai-skills
+
+# Initialize with Forge support
+specify init my-project --ai forge
+
+# Initialize with generic support for unsupported agents
+specify init my-project --ai generic --ai-commands-dir .myagent/commands/
+
+# Initialize with PowerShell script support (Windows/cross-platform)
+specify init my-project --ai copilot --script ps
+
+# Initialize in current directory
+specify init . --ai copilot
+# Or use the --here flag
+specify init --here --ai copilot
+
+# Force merge into current (non-empty) directory without confirmation
+specify init . --force --ai copilot
+# Or
+specify init --here --force --ai copilot
+
+# Skip Git initialization
+specify init my-project --ai gemini --no-git
+
+# Enable debug output
+specify init my-project --ai claude --debug
+
+# Use GitHub Token for API requests (suitable for enterprise environments)
+specify init my-project --ai claude --github-token ghp_your_token_here
+
+# By default, Claude Code installs skills in the project
+specify init my-project --ai claude
+
+# Initialize in current directory and use agent skills
+specify init --here --ai gemini --ai-skills
+
+# Use timestamp branch numbering (suitable for distributed teams)
+specify init my-project --ai claude --branch-numbering timestamp
+
+# Check system requirements
+specify check
+</code></pre>
+<h3>Extensions &#x26; Presets</h3>
+<pre><code class="language-plain">.specify/templates/overrides/         # Local project overrides (highest priority), for one-time adjustments without creating a full preset
+.specify/presets/templates/           # Custom extensions and core templates
+.specify/extensions/templates/        # Enhance spec-kit capabilities
+.specify/templates/                   # spec-kit's core built-in templates
+</code></pre>
+<h4>Extensions</h4>
+<p>Use extensions when you need functionality beyond spec-kit's core. Extensions introduce new commands and templates — for example, adding domain-specific workflows not covered by built-in SDD commands, integrating external tools, or adding entirely new development phases. They extend spec-kit's capabilities.</p>
+<p>For example, extensions can add Jira integration, post-implementation code review, V-Model test traceability, or project health diagnostics.</p>
+<p><a href="https://github.com/github/spec-kit#-community-extensions">Community Extensions</a></p>
+<pre><code class="language-bash">specify extension search
+
+# Install an extension
+specify extension add &#x3C;extension-name>
+</code></pre>
+<h4>Presets</h4>
+<p>Use presets when you need to <strong>change how spec-kit works without adding new features</strong>. Presets override templates and commands from the core and installed extensions — for example, enforcing compliance-oriented spec formats, adopting domain-specific terminology, or applying organizational standards to plans and tasks. They customize the artifacts and instructions generated by spec-kit and its extensions.</p>
+<p>For instance, presets can restructure spec templates to require regulatory traceability, adapt workflows to fit adopted methodologies (such as Agile, Kanban, Waterfall, Jobs-to-be-Done, or Domain-Driven Design), add security review gates to plans, enforce test-first task ordering, or localize the entire workflow into different languages. The <a href="https://github.com/mnriem/spec-kit-pirate-speak-preset-demo">pirate-speak demo</a> demonstrates the depth of customization. Multiple presets can be stacked in priority order.</p>
+<ul>
+<li><a href="https://github.com/github/spec-kit?tab=readme-ov-file#-community-presets">Community Presets</a></li>
+<li><a href="https://github.com/github/spec-kit/blob/main/presets/README.md">Preset Documentation</a></li>
+</ul>
+<pre><code class="language-bash">specify preset search
+
+# Install a preset
+specify preset add &#x3C;preset-name>
+</code></pre>
+<h2>open-spec</h2>
+<p>Coming soon…</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Spec Coding（SDD——规格驱动开发）]]></title>
+            <link>https://charliefei.github.io/zh/blog/spec-coding/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/zh/blog/spec-coding/</guid>
+            <pubDate>Sun, 26 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[对 GitHub 上两个热门的 SDD 工具（spec-kit 和 openspec）进行学习和总结。]]></description>
+            <content:encoded><![CDATA[<h2>spec-kit</h2>
+<ul>
+<li><a href="https://github.com/github/spec-kit">spec-kit 官方仓库</a></li>
+<li><a href="https://github.com/github/spec-kit/blob/main/spec-driven.md">SDD——规格驱动开发</a></li>
+<li><a href="https://github.com/github/spec-kit#-detailed-process">spec-kit 详细流程</a></li>
+</ul>
+<h3>快速开始</h3>
+<h4>安装 spec-kit</h4>
+<pre><code class="language-bash"># 安装指定的稳定版本（推荐——将 vX.Y.Z 替换为最新标签）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+
+# 或安装 main 分支的最新版本（可能包含未发布的变更）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# 升级 spec-kit
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+</code></pre>
+<h4>初始化项目</h4>
+<pre><code class="language-bash"># 创建新项目
+specify init &#x3C;PROJECT_NAME>
+
+# 或在现有项目中初始化
+specify init . --ai claude
+
+# 指定 AI 编程代理并使用 skills
+specify init . --ai claude --ai-skills
+
+# 或
+specify init --here --ai claude
+
+# 检查已安装的工具
+specify check
+</code></pre>
+<h4>确定项目原则</h4>
+<p>在项目目录中启动 AI 助手。大多数代理会将 spec-kit 暴露为 <code>/speckit.*</code> 斜杠命令；Codex CLI 在技能模式下使用 <code>$speckit-*</code>。</p>
+<p>使用 <code>/speckit.constitution</code> 命令创建项目的管理原则和开发指南，指导后续开发：</p>
+<pre><code class="language-bash">/speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
+</code></pre>
+<h4>创建规格说明</h4>
+<p>用 <code>/speckit.specify</code> 命令描述你想要构建的内容。关注**「做什么」和「为什么做」**，而不是技术栈。</p>
+<pre><code class="language-bash">/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
+</code></pre>
+<h4>制定技术实施计划</h4>
+<p>用 <code>/speckit.plan</code> 命令提供技术栈和架构选择：</p>
+<pre><code class="language-bash">/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+</code></pre>
+<h4>拆解任务</h4>
+<p>使用 <code>/speckit.tasks</code> 根据实施计划生成可执行的任务列表：</p>
+<pre><code class="language-bash">/speckit.tasks
+</code></pre>
+<h4>执行任务</h4>
+<p>使用 <code>/speckit.implement</code> 执行所有任务，按照计划构建你的功能：</p>
+<pre><code class="language-bash">/speckit.implement
+</code></pre>
+<h3>斜杠命令速查</h3>
+<p><strong>核心命令</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>Agent Skill</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.constitution</code></td>
+<td>speckit-constitution</td>
+<td>创建或更新项目管理原则与开发指南</td>
+</tr>
+<tr>
+<td><code>/speckit.specify</code></td>
+<td>speckit-specify</td>
+<td>定义构建目标（需求与用户故事）</td>
+</tr>
+<tr>
+<td><code>/speckit.plan</code></td>
+<td>speckit-plan</td>
+<td>根据选定的技术栈制定实施计划</td>
+</tr>
+<tr>
+<td><code>/speckit.tasks</code></td>
+<td>speckit-tasks</td>
+<td>生成可执行的任务列表</td>
+</tr>
+<tr>
+<td><code>/speckit.taskstoissues</code></td>
+<td>speckit-taskstoissues</td>
+<td>将任务列表转换为 GitHub Issues 进行追踪与执行</td>
+</tr>
+<tr>
+<td><code>/speckit.implement</code></td>
+<td>speckit-implement</td>
+<td>按计划执行所有任务以构建功能</td>
+</tr>
+</tbody>
+</table>
+<p><strong>可选命令</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>Agent Skill</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/speckit.clarify</code></td>
+<td>speckit-clarify</td>
+<td>澄清未明确的需求领域（建议在 <code>/speckit.plan</code> 之前使用，原名 <code>/quizme</code>）</td>
+</tr>
+<tr>
+<td><code>/speckit.analyze</code></td>
+<td>speckit-analyze</td>
+<td>跨制品的完整性与覆盖度分析（在 <code>/speckit.tasks</code> 之后、<code>/speckit.implement</code> 之前运行）</td>
+</tr>
+<tr>
+<td><code>/speckit.checklist</code></td>
+<td>speckit-checklist</td>
+<td>生成自定义质量检查清单，验证需求的完整性、清晰度与一致性</td>
+</tr>
+</tbody>
+</table>
+<h3>spec-kit 命令参考</h3>
+<pre><code class="language-bash"># 基础项目初始化
+specify init my-project
+
+# 指定 AI 助手
+specify init my-project --ai claude
+
+# 初始化并支持 Cursor
+specify init my-project --ai cursor-agent
+
+# 初始化并支持 Qoder
+specify init my-project --ai qodercli
+
+# 初始化并支持 Windsurf
+specify init my-project --ai windsurf
+
+# 初始化并支持 Kiro CLI
+specify init my-project --ai kiro-cli
+
+# 初始化并支持 Amp
+specify init my-project --ai amp
+
+# 初始化并支持 SHAI
+specify init my-project --ai shai
+
+# 初始化并支持 Mistral Vibe
+specify init my-project --ai vibe
+
+# 初始化并支持 IBM Bob
+specify init my-project --ai bob
+
+# 初始化并支持 Pi Coding Agent
+specify init my-project --ai pi
+
+# 初始化并支持 Codex CLI
+specify init my-project --ai codex --ai-skills
+
+# 初始化并支持 Antigravity
+specify init my-project --ai agy --ai-skills
+
+# 初始化并支持 Forge
+specify init my-project --ai forge
+
+# 初始化并为不支持的代理提供通用支持
+specify init my-project --ai generic --ai-commands-dir .myagent/commands/
+
+# 初始化并支持 PowerShell 脚本（Windows/跨平台）
+specify init my-project --ai copilot --script ps
+
+# 在当前目录初始化
+specify init . --ai copilot
+# 或使用 --here 标志
+specify init --here --ai copilot
+
+# 强制合并到当前（非空）目录，无需确认
+specify init . --force --ai copilot
+# 或
+specify init --here --force --ai copilot
+
+# 跳过 Git 初始化
+specify init my-project --ai gemini --no-git
+
+# 启用调试输出
+specify init my-project --ai claude --debug
+
+# 使用 GitHub Token 进行 API 请求（适用于企业环境）
+specify init my-project --ai claude --github-token ghp_your_token_here
+
+# 默认情况下，Claude Code 会在项目中安装 skills
+specify init my-project --ai claude
+
+# 在当前目录初始化并使用 agent skills
+specify init --here --ai gemini --ai-skills
+
+# 使用时间戳分支编号（适用于分布式团队）
+specify init my-project --ai claude --branch-numbering timestamp
+
+# 检查系统需求
+specify check
+</code></pre>
+<h3>扩展与预设</h3>
+<pre><code class="language-plain">.specify/templates/overrides/         # 本地项目覆盖（优先级最高），无需创建完整预设即可一次性调整当前项目
+.specify/presets/templates/           # 自定义扩展和核心模板
+.specify/extensions/templates/        # 增强 spec-kit 的能力
+.specify/templates/                   # spec-kit 的核心内置模板
+</code></pre>
+<h4>Extensions（扩展）</h4>
+<p>当需要超越 spec-kit 核心的功能时，使用扩展。扩展会引入新的命令和模板——例如，添加内置 SDD 命令未覆盖的领域特定工作流、集成外部工具，或添加全新的开发阶段。它们扩展了 spec-kit 的能力边界。</p>
+<p>例如，扩展可以添加 Jira 集成、实现后的代码审查、V-Model 测试追溯，或项目健康度诊断。</p>
+<p><a href="https://github.com/github/spec-kit#-community-extensions">社区扩展</a></p>
+<pre><code class="language-bash">specify extension search
+
+# 安装扩展
+specify extension add &#x3C;extension-name>
+</code></pre>
+<h4>Presets（预设）</h4>
+<p>当需要<strong>改变 spec-kit 的工作方式但不添加新功能</strong>时，使用预设。预设会覆盖核心及已安装扩展自带的模板和命令——例如，强制使用合规导向的规格格式、采用领域特定术语，或将组织标准应用于计划和任务。它们定制了 spec-kit 及其扩展生成的制品与指令。</p>
+<p>举例来说，预设可以重构规格模板以要求监管追溯、调整工作流以适配采用的方法论（如敏捷、看板、瀑布、Job-to-be-Done 或领域驱动设计）、在计划中增加安全审查关卡、强制测试优先的任务排序，或将整个工作流本地化为不同语言。<a href="https://github.com/mnriem/spec-kit-pirate-speak-preset-demo">pirate-speak 演示</a>展示了自定义的深度。多个预设可以按优先级顺序叠加使用。</p>
+<ul>
+<li><a href="https://github.com/github/spec-kit?tab=readme-ov-file#-community-presets">社区预设</a></li>
+<li><a href="https://github.com/github/spec-kit/blob/main/presets/README.md">预设说明</a></li>
+</ul>
+<pre><code class="language-bash">specify preset search
+
+# 安装预设
+specify preset add &#x3C;preset-name>
+</code></pre>
+<h2>open-spec</h2>
+<p>待更新……</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>教程</category>
+            <category>AICoding</category>
+        </item>
+        <item>
+            <title><![CDATA[Next.js 15: A Complete Guide]]></title>
+            <link>https://charliefei.github.io/en/blog/nextjs-15-guide/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/en/blog/nextjs-15-guide/</guid>
+            <pubDate>Sun, 05 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A comprehensive introduction to building modern web applications with Next.js 15 App Router, covering routing, layouts, data fetching, rendering strategies, and error handling.]]></description>
+            <content:encoded><![CDATA[<h2>Introduction</h2>
+<p>Next.js 15 brings powerful features that make building modern web applications easier than ever. This guide starts with the fundamentals and systematically walks through the complete App Router ecosystem — from the routing system and layout management to data fetching, rendering strategies, and error handling — helping you build a comprehensive knowledge framework.</p>
+<h2>App Router Basics</h2>
+<p>The App Router is the foundation of modern Next.js applications. It uses file-system routing, where the directory structure maps directly to page paths. Here's a simple routing example:</p>
+<pre><code class="language-typescript">// app/page.tsx
+export default function HomePage() {
+  return (
+    &#x3C;main>
+      &#x3C;h1>Welcome to Next.js 15&#x3C;/h1>
+    &#x3C;/main>
+  )
+}
+</code></pre>
+<p>Files created inside the <code>app</code> directory are automatically mapped to corresponding routes:</p>
+<table>
+<thead>
+<tr>
+<th>File Path</th>
+<th>Corresponding Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app/page.tsx</code></td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><code>app/about/page.tsx</code></td>
+<td><code>/about</code></td>
+</tr>
+<tr>
+<td><code>app/blog/[slug]/page.tsx</code></td>
+<td><code>/blog/:slug</code> (dynamic route)</td>
+</tr>
+<tr>
+<td><code>app/blog/[...catchAll]/page.tsx</code></td>
+<td><code>/blog/*</code> (catch-all route)</td>
+</tr>
+</tbody>
+</table>
+<h2>Layout System</h2>
+<p>Layouts are a highlight of the Next.js App Router, making it incredibly easy to share UI across pages.</p>
+<h3>Root Layout</h3>
+<p>Every application must have a root layout (<code>app/layout.tsx</code>), which wraps all pages:</p>
+<pre><code class="language-typescript">// app/layout.tsx
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    &#x3C;html lang="en">
+      &#x3C;body>
+        &#x3C;Header />
+        &#x3C;main>{children}&#x3C;/main>
+        &#x3C;Footer />
+      &#x3C;/body>
+    &#x3C;/html>
+  )
+}
+</code></pre>
+<h3>Nested Layouts</h3>
+<p>You can add <code>layout.tsx</code> at any route segment level, and layouts are automatically nested. Layouts preserve state during navigation and do not re-render:</p>
+<pre><code class="language-typescript">// app/blog/layout.tsx
+// Shared by all /blog/* pages
+export default function BlogLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    &#x3C;div>
+      &#x3C;Sidebar />
+      &#x3C;article>{children}&#x3C;/article>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>Templates</h3>
+<p>Templates (<code>template.tsx</code>) are similar to layouts but re-render on every navigation, making them suitable for scenarios that require state reset (such as page view tracking):</p>
+<pre><code class="language-typescript">// app/blog/template.tsx
+export default function BlogTemplate({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return &#x3C;div className="page-enter-animation">{children}&#x3C;/div>
+}
+</code></pre>
+<h2>Advanced Routing</h2>
+<h3>Route Groups</h3>
+<p>Use <code>(groupName)</code> directory structure to organize routes without affecting the URL path. Useful for grouping routes by module or applying different layouts to different groups:</p>
+<pre><code class="language-typescript">app/
+  (marketing)/
+    page.tsx          // /
+    about/page.tsx    // /about
+  (shop)/
+    products/
+      page.tsx        // /products
+    cart/page.tsx     // /cart
+</code></pre>
+<h3>Parallel Routes</h3>
+<p>Render multiple pages simultaneously within the same layout using named slots (<code>@slotName</code>), ideal for dashboards or multi-section pages:</p>
+<pre><code class="language-typescript">// app/layout.tsx
+export default function Layout({
+  children,
+  team,
+  analytics,
+}: {
+  children: React.ReactNode
+  team: React.ReactNode
+  analytics: React.ReactNode
+}) {
+  return (
+    &#x3C;>
+      {children}
+      &#x3C;div className="grid grid-cols-2">
+        {team}
+        {analytics}
+      &#x3C;/div>
+    &#x3C;/>
+  )
+}
+</code></pre>
+<h2>Loading &#x26; Error Handling</h2>
+<p>Next.js 15 provides built-in loading and error boundaries for each route segment.</p>
+<h3>Loading UI</h3>
+<p>Add <code>loading.tsx</code> to display a skeleton screen or loading animation while the page is loading, providing instant feedback through streaming:</p>
+<pre><code class="language-typescript">// app/blog/loading.tsx
+export default function Loading() {
+  return (
+    &#x3C;div className="space-y-4">
+      &#x3C;Skeleton className="h-8 w-3/4" />
+      &#x3C;Skeleton className="h-4 w-full" />
+      &#x3C;Skeleton className="h-4 w-2/3" />
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>Error Boundaries</h3>
+<p><code>error.tsx</code> wraps route segments and catches rendering exceptions. It must be a client component:</p>
+<pre><code class="language-typescript">// app/blog/error.tsx
+'use client'
+
+export default function ErrorPage({
+  error,
+  reset,
+}: {
+  error: Error &#x26; { digest?: string }
+  reset: () => void
+}) {
+  return (
+    &#x3C;div>
+      &#x3C;h2>Something went wrong&#x3C;/h2>
+      &#x3C;p>{error.message}&#x3C;/p>
+      &#x3C;button onClick={() => reset()}>Try again&#x3C;/button>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>404 Page</h3>
+<p>Customize the Not Found page via <code>not-found.tsx</code>, or trigger it programmatically with <code>notFound()</code>:</p>
+<pre><code class="language-typescript">// app/not-found.tsx
+export default function NotFound() {
+  return (
+    &#x3C;div>
+      &#x3C;h1>404 - Page Not Found&#x3C;/h1>
+      &#x3C;Link href="https://charliefei.github.io/">Back to Home&#x3C;/Link>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>Global Error</h3>
+<p><code>global-error.tsx</code> wraps the entire application and is used only when a critical error occurs in the root layout (must include <code>&#x3C;html></code> and <code>&#x3C;body></code> tags):</p>
+<pre><code class="language-typescript">// app/global-error.tsx
+'use client'
+
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error &#x26; { digest?: string }
+  reset: () => void
+}) {
+  return (
+    &#x3C;html>
+      &#x3C;body>
+        &#x3C;h2>A critical application error occurred&#x3C;/h2>
+        &#x3C;button onClick={() => reset()}>Try again&#x3C;/button>
+      &#x3C;/body>
+    &#x3C;/html>
+  )
+}
+</code></pre>
+<h2>Key Features</h2>
+<ul>
+<li><strong>Server Components</strong>: Rendered on the server by default, reducing client-side JavaScript and improving initial load performance. They can directly access databases and file systems without exposing API endpoints.</li>
+<li><strong>Streaming</strong>: Supports progressive HTML chunk transmission to the client, allowing users to see content faster without waiting for the entire page to generate. Works with <code>loading.tsx</code> for a smooth loading experience.</li>
+<li><strong>Metadata API</strong>: Define page title, description, Open Graph metadata, and more in a type-safe way by exporting <code>metadata</code> objects or <code>generateMetadata</code> function, making SEO optimization easy.</li>
+<li><strong>Server Actions</strong>: Define form submission and data mutation logic directly in server components without manually creating API routes, simplifying front-end/back-end interaction. Supports progressive enhancement (falls back to traditional form submission when JavaScript is unavailable).</li>
+</ul>
+<h2>Data Fetching</h2>
+<p>Next.js 15 offers flexible data fetching approaches. You can use <code>async/await</code> directly in server components:</p>
+<pre><code class="language-typescript">// app/posts/page.tsx
+async function getPosts() {
+  const res = await fetch('https://api.example.com/posts')
+  return res.json()
+}
+
+export default async function PostsPage() {
+  const posts = await getPosts()
+  return (
+    &#x3C;ul>
+      {posts.map(post => (
+        &#x3C;li key={post.id}>{post.title}&#x3C;/li>
+      ))}
+    &#x3C;/ul>
+  )
+}
+</code></pre>
+<p>Thanks to server components, data fetching happens on the server side — no API credentials are exposed, and no additional data request logic needs to be loaded on the client.</p>
+<h3>fetch Caching Strategies</h3>
+<p>The built-in <code>fetch</code> supports fine-grained cache control:</p>
+<pre><code class="language-typescript">// Static data request — default behavior, caches the result
+const staticData = await fetch('https://...')
+
+// Dynamic data request — re-fetches on every request
+const dynamicData = await fetch('https://...', { cache: 'no-store' })
+
+// Time-based incremental revalidation — re-fetches every 10 seconds
+const revalidatedData = await fetch('https://...', {
+  next: { revalidate: 10 },
+})
+</code></pre>
+<h3>Database Queries</h3>
+<p>Server components can query databases directly without writing API routes:</p>
+<pre><code class="language-typescript">export default async function UserProfile({ params }: { params: { id: string } }) {
+  const user = await db.users.findUnique({
+    where: { id: params.id },
+  })
+
+  return &#x3C;div>{user.name}&#x3C;/div>
+}
+</code></pre>
+<h2>Rendering Strategies</h2>
+<p>Next.js 15 offers multiple rendering modes that can be flexibly chosen based on page characteristics.</p>
+<h3>Static Rendering</h3>
+<p>The default rendering mode. Routes are rendered at build time, cached, and can be distributed via CDN. Ideal for content pages, blog posts, and other infrequently changing content.</p>
+<pre><code class="language-typescript">export const dynamic = 'force-static'
+</code></pre>
+<h3>Dynamic Rendering</h3>
+<p>Routes are rendered dynamically on each request. Suitable for personalized content and real-time data:</p>
+<pre><code class="language-typescript">export const dynamic = 'force-dynamic'
+</code></pre>
+<h3>Incremental Static Regeneration (ISR)</h3>
+<p>Combines the benefits of static and dynamic — serve statically, update on demand. Suitable for scenarios where data changes periodically but does not require real-time updates:</p>
+<pre><code class="language-typescript">// Page-level ISR
+export const revalidate = 3600 // Regenerate every hour
+</code></pre>
+<h3>Route Segment Configuration</h3>
+<p>Each route segment can be finely controlled through exported configuration options:</p>
+<pre><code class="language-typescript">export const dynamic = 'auto'           // Auto-select static/dynamic
+export const dynamicParams = true        // Auto-handle ungenerated dynamic params
+export const revalidate = false          // Revalidation interval (seconds)
+export const fetchCache = 'auto'         // fetch cache strategy
+export const runtime = 'nodejs'          // Runtime environment
+export const preferredRegion = 'auto'    // Deployment region
+</code></pre>
+<h2>Middleware</h2>
+<p>Middleware (<code>middleware.ts</code>) executes before a request completes, used for redirects, rewrites, authentication, i18n routing, and more:</p>
+<pre><code class="language-typescript">// middleware.ts
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  // Redirect user based on cookie
+  if (!request.cookies.has('session')) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+}
+
+// Configure matching paths
+export const config = {
+  matcher: ['/dashboard/:path*', '/admin/:path*'],
+}
+</code></pre>
+<h2>Summary</h2>
+<p>Next.js 15 provides a solid and elegant foundation for building high-performance web applications. This article covers the core concepts from routing system, layout management, and data fetching to rendering strategies and error handling. Key takeaways:</p>
+<ul>
+<li><strong>File-system routing</strong> makes page organization intuitive at a glance</li>
+<li><strong>Layouts and loading boundaries</strong> provide elegant UI composition and user experience</li>
+<li><strong>Server components</strong> simplify data fetching and improve performance</li>
+<li><strong>Multiple rendering strategies</strong> let you choose the optimal approach for each scenario</li>
+<li><strong>Built-in error handling</strong> ensures application robustness</li>
+</ul>
+<p>These are just some of Next.js's capabilities. Start with these fundamentals and gradually explore more advanced features in practice.</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>Tutorials</category>
+            <category>Next.js</category>
+            <category>React</category>
+            <category>Web Development</category>
+        </item>
+        <item>
+            <title><![CDATA[Next.js 15 入门指南]]></title>
+            <link>https://charliefei.github.io/zh/blog/nextjs-15-guide/</link>
+            <guid isPermaLink="true">https://charliefei.github.io/zh/blog/nextjs-15-guide/</guid>
+            <pubDate>Sun, 05 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[全面介绍如何使用 Next.js 15 App Router 构建现代 Web 应用，涵盖路由、数据获取和部署等内容。]]></description>
+            <content:encoded><![CDATA[<h2>简介</h2>
+<p>Next.js 15 带来了诸多强大特性，让构建现代 Web 应用变得前所未有的简单。本指南将从基础概念入手，系统性地带你了解 App Router 的完整生态——从路由系统、布局管理，到数据获取、渲染策略和错误处理，帮助你建立全面的知识框架。</p>
+<h2>App Router 基础</h2>
+<p>App Router 是现代 Next.js 应用的基石。它基于文件系统路由，目录结构即对应页面路径。下面是一个简单的路由示例：</p>
+<pre><code class="language-typescript">// app/page.tsx
+export default function HomePage() {
+  return (
+    &#x3C;main>
+      &#x3C;h1>欢迎使用 Next.js 15&#x3C;/h1>
+    &#x3C;/main>
+  )
+}
+</code></pre>
+<p>在 <code>app</code> 目录下创建的文件会自动映射为对应的路由：</p>
+<table>
+<thead>
+<tr>
+<th>文件路径</th>
+<th>对应路由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app/page.tsx</code></td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><code>app/about/page.tsx</code></td>
+<td><code>/about</code></td>
+</tr>
+<tr>
+<td><code>app/blog/[slug]/page.tsx</code></td>
+<td><code>/blog/:slug</code>（动态路由）</td>
+</tr>
+<tr>
+<td><code>app/blog/[...catchAll]/page.tsx</code></td>
+<td><code>/blog/*</code>（通配路由）</td>
+</tr>
+</tbody>
+</table>
+<h2>布局系统</h2>
+<p>布局是 Next.js App Router 的一大亮点，它让页面间的共享 UI 变得异常简单。</p>
+<h3>根布局</h3>
+<p>每个应用都必须有一个根布局（<code>app/layout.tsx</code>），它包裹所有页面：</p>
+<pre><code class="language-typescript">// app/layout.tsx
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    &#x3C;html lang="zh">
+      &#x3C;body>
+        &#x3C;Header />
+        &#x3C;main>{children}&#x3C;/main>
+        &#x3C;Footer />
+      &#x3C;/body>
+    &#x3C;/html>
+  )
+}
+</code></pre>
+<h3>嵌套布局</h3>
+<p>你可以在任意路由层级添加 <code>layout.tsx</code>，布局会自动嵌套。导航时布局保持状态，不会重新渲染：</p>
+<pre><code class="language-typescript">// app/blog/layout.tsx
+// 所有 /blog/* 页面共享此布局
+export default function BlogLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    &#x3C;div>
+      &#x3C;Sidebar />
+      &#x3C;article>{children}&#x3C;/article>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>模板</h3>
+<p>模板（<code>template.tsx</code>）与布局类似，但每次导航都会重新渲染，适合需要重置状态的场景（如页面试点追踪）：</p>
+<pre><code class="language-typescript">// app/blog/template.tsx
+export default function BlogTemplate({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return &#x3C;div className="page-enter-animation">{children}&#x3C;/div>
+}
+</code></pre>
+<h2>路由进阶</h2>
+<h3>路由组</h3>
+<p>使用 <code>(groupName)</code> 目录结构组织路由，不会影响 URL 路径。适用于将不同模块的路由分组，或为不同组使用不同布局：</p>
+<pre><code class="language-typescript">app/
+  (marketing)/
+    page.tsx          // /
+    about/page.tsx    // /about
+  (shop)/
+    products/
+      page.tsx        // /products
+    cart/page.tsx     // /cart
+</code></pre>
+<h3>并行路由</h3>
+<p>通过命名插槽（<code>@slotName</code>）在同一布局中同时渲染多个页面，适合仪表盘或多区域页面：</p>
+<pre><code class="language-typescript">// app/layout.tsx
+export default function Layout({
+  children,
+  team,
+  analytics,
+}: {
+  children: React.ReactNode
+  team: React.ReactNode
+  analytics: React.ReactNode
+}) {
+  return (
+    &#x3C;>
+      {children}
+      &#x3C;div className="grid grid-cols-2">
+        {team}
+        {analytics}
+      &#x3C;/div>
+    &#x3C;/>
+  )
+}
+</code></pre>
+<h2>加载与错误处理</h2>
+<p>Next.js 15 为每个路由段提供了内置的加载和错误边界。</p>
+<h3>加载界面</h3>
+<p>添加 <code>loading.tsx</code> 即可在页面加载时显示骨架屏或加载动画，配合流式渲染实现即时的加载反馈：</p>
+<pre><code class="language-typescript">// app/blog/loading.tsx
+export default function Loading() {
+  return (
+    &#x3C;div className="space-y-4">
+      &#x3C;Skeleton className="h-8 w-3/4" />
+      &#x3C;Skeleton className="h-4 w-full" />
+      &#x3C;Skeleton className="h-4 w-2/3" />
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>错误边界</h3>
+<p><code>error.tsx</code> 会包裹路由段，捕获渲染中的异常。必须是客户端组件：</p>
+<pre><code class="language-typescript">// app/blog/error.tsx
+'use client'
+
+export default function ErrorPage({
+  error,
+  reset,
+}: {
+  error: Error &#x26; { digest?: string }
+  reset: () => void
+}) {
+  return (
+    &#x3C;div>
+      &#x3C;h2>出错了&#x3C;/h2>
+      &#x3C;p>{error.message}&#x3C;/p>
+      &#x3C;button onClick={() => reset()}>重试&#x3C;/button>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>404 页面</h3>
+<p>通过 <code>not-found.tsx</code> 自定义 Not Found 界面，或调用 <code>notFound()</code> 函数主动触发：</p>
+<pre><code class="language-typescript">// app/not-found.tsx
+export default function NotFound() {
+  return (
+    &#x3C;div>
+      &#x3C;h1>404 - 页面未找到&#x3C;/h1>
+      &#x3C;Link href="https://charliefei.github.io/">返回首页&#x3C;/Link>
+    &#x3C;/div>
+  )
+}
+</code></pre>
+<h3>全局错误</h3>
+<p><code>global-error.tsx</code> 包裹整个应用，仅在根布局出现严重错误时使用（需包含 <code>&#x3C;html></code> 和 <code>&#x3C;body></code> 标签）：</p>
+<pre><code class="language-typescript">// app/global-error.tsx
+'use client'
+
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error &#x26; { digest?: string }
+  reset: () => void
+}) {
+  return (
+    &#x3C;html>
+      &#x3C;body>
+        &#x3C;h2>应用发生严重错误&#x3C;/h2>
+        &#x3C;button onClick={() => reset()}>重试&#x3C;/button>
+      &#x3C;/body>
+    &#x3C;/html>
+  )
+}
+</code></pre>
+<h2>核心特性</h2>
+<ul>
+<li><strong>服务端组件</strong>：默认在服务器端渲染，减少客户端 JavaScript 体积，提升首屏加载性能。可直接访问数据库和文件系统，无需暴露 API 端点。</li>
+<li><strong>流式渲染</strong>：支持将 HTML 分块渐进式传输到客户端，用户可以更快看到页面内容，无需等待整个页面完全生成。配合 <code>loading.tsx</code> 实现流畅的加载体验。</li>
+<li><strong>Metadata API</strong>：通过导出 <code>metadata</code> 对象或 <code>generateMetadata</code> 函数，以类型安全的方式定义页面标题、描述、Open Graph 等元数据，轻松优化 SEO。</li>
+<li><strong>Server Actions</strong>：在服务端组件中直接定义表单提交和数据变更逻辑，无需手动创建 API 路由，简化前后端交互。支持渐进增强（JavaScript 不可用时退化为传统表单提交）。</li>
+</ul>
+<h2>数据获取</h2>
+<p>Next.js 15 提供了灵活的数据获取方式，你可以在服务端组件中直接使用 <code>async/await</code>：</p>
+<pre><code class="language-typescript">// app/posts/page.tsx
+async function getPosts() {
+  const res = await fetch('https://api.example.com/posts')
+  return res.json()
+}
+
+export default async function PostsPage() {
+  const posts = await getPosts()
+  return (
+    &#x3C;ul>
+      {posts.map(post => (
+        &#x3C;li key={post.id}>{post.title}&#x3C;/li>
+      ))}
+    &#x3C;/ul>
+  )
+}
+</code></pre>
+<p>得益于服务端组件的特性，数据获取在服务器端完成，不会暴露 API 凭据，也无需客户端加载额外数据请求逻辑。</p>
+<h3>fetch 缓存策略</h3>
+<p>内置的 <code>fetch</code> 支持细粒度的缓存控制：</p>
+<pre><code class="language-typescript">// 静态数据请求——默认行为，缓存结果
+const staticData = await fetch('https://...')
+
+// 动态数据请求——每次请求重新获取
+const dynamicData = await fetch('https://...', { cache: 'no-store' })
+
+// 基于时间的增量再验证——每 10 秒重新获取一次
+const revalidatedData = await fetch('https://...', {
+  next: { revalidate: 10 },
+})
+</code></pre>
+<h3>数据库查询</h3>
+<p>服务端组件可以直接查询数据库，无需编写 API 路由：</p>
+<pre><code class="language-typescript">export default async function UserProfile({ params }: { params: { id: string } }) {
+  const user = await db.users.findUnique({
+    where: { id: params.id },
+  })
+
+  return &#x3C;div>{user.name}&#x3C;/div>
+}
+</code></pre>
+<h2>渲染策略</h2>
+<p>Next.js 15 提供多种渲染模式，可根据页面特性灵活选择。</p>
+<h3>静态渲染（Static Rendering）</h3>
+<p>默认渲染方式。路由在构建时渲染，结果被缓存并可被 CDN 分发。适合内容页面、博客文章等不频繁变化的内容。</p>
+<pre><code class="language-typescript">export const dynamic = 'force-static'
+</code></pre>
+<h3>动态渲染（Dynamic Rendering）</h3>
+<p>路由在每次请求时动态渲染。适合个性化内容、实时数据等场景：</p>
+<pre><code class="language-typescript">export const dynamic = 'force-dynamic'
+</code></pre>
+<h3>增量静态再生成（ISR）</h3>
+<p>结合静态与动态的优势——静态提供，按需更新。适合数据定期变化但不要求实时的场景：</p>
+<pre><code class="language-typescript">// 页面级别 ISR
+export const revalidate = 3600 // 每 1 小时重新生成
+</code></pre>
+<h3>路由段配置</h3>
+<p>每个路由段可以通过导出的配置项精细控制行为：</p>
+<pre><code class="language-typescript">export const dynamic = 'auto'           // 静态/动态自动选择
+export const dynamicParams = true        // 未生成的动态参数是否自动处理
+export const revalidate = false          // 重新验证间隔（秒）
+export const fetchCache = 'auto'         // fetch 缓存策略
+export const runtime = 'nodejs'          // 运行时环境
+export const preferredRegion = 'auto'    // 部署区域
+</code></pre>
+<h2>中间件</h2>
+<p>中间件（<code>middleware.ts</code>）在请求完成之前执行，可用于重定向、重写、鉴权、国际化路由等场景：</p>
+<pre><code class="language-typescript">// middleware.ts
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  // 基于 Cookie 重定向用户
+  if (!request.cookies.has('session')) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+}
+
+// 配置匹配路径
+export const config = {
+  matcher: ['/dashboard/:path*', '/admin/:path*'],
+}
+</code></pre>
+<h2>总结</h2>
+<p>Next.js 15 为构建高性能 Web 应用提供了坚实而优雅的基础。本文涵盖了从路由系统、布局管理、数据获取，到渲染策略和错误处理的核心概念。关键要点回顾：</p>
+<ul>
+<li><strong>文件系统路由</strong>让页面组织结构一目了然</li>
+<li><strong>布局与加载边界</strong>提供了优雅的 UI 组合与用户体验</li>
+<li><strong>服务端组件</strong>简化了数据获取并提升了性能</li>
+<li><strong>多样的渲染策略</strong>让你在不同场景下选择最优方案</li>
+<li><strong>内置错误处理</strong>确保应用的健壮性</li>
+</ul>
+<p>以上只是 Next.js 能力的一部分，建议从这些基础入手，在实践中逐步探索更多高级特性。</p>]]></content:encoded>
+            <dc:creator>Charlie Fei</dc:creator>
+            <author>charliefei839@qq.com (Charlie Fei)</author>
+            <category>教程</category>
+            <category>Next.js</category>
+            <category>React</category>
+            <category>Web开发</category>
+        </item>
+    </channel>
+</rss>
